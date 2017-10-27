@@ -1,17 +1,10 @@
 #include <iostream>
 
+#include "Document.h"
 
-#define LOG(msg) std::cout << msg << std::endl;
+using namespace collab;
 
 int main(int argc, char** argv) {
-
-#ifdef _DEBUG
-    LOG("_DEBUG")
-#endif
-
-#ifdef NDEBUG
-    LOG("NDEBUG")
-#endif
-
+    Document doc;
     return 0;
 }
