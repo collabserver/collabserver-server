@@ -3,8 +3,7 @@ project(collab-server)
 
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
     message(FATAL_ERROR "in-source build not allowed. Use another directory.")
-    exit()
 endif()
 
-include(cmake/AddCompilerFlags.cmake)
+include(CMake/CompilerFlags.cmake)
 add_subdirectory(src)
