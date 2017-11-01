@@ -1,10 +1,9 @@
-#include <iostream>
-
 #include "Document.h"
-
-using namespace collab;
+#include "collabobject_impl/MDEModel.h"
 
 int main(int argc, char** argv) {
-    Document doc;
+    collab::Document testDoc;
+    collab::collabobject::MDEModel testList;
     return 0;
 }
+
