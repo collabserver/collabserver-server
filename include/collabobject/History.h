@@ -14,11 +14,10 @@ namespace collabobject {
 
 class History {
     private:
-        CollabObject const& m_dataObject;
-        //std::stack<collab::collabobject::Mutation> m_mutations;
+        std::stack<collab::collabobject::Mutation> m_mutations;
 
     public:
-        History(CollabObject const& obj);
+        History();
         ~History() = default;
 
     public:

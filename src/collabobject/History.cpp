@@ -4,8 +4,7 @@
 using namespace collab::collabobject;
 
 
-History::History(CollabObject const& obj) {
-    this->m_dataObject = obj;
+History::History() {
 }
 
 void History::clear() {

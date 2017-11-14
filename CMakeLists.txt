@@ -11,7 +11,8 @@ include(CMake/CompilerFlags.cmake)
 
 
 # Create executable
+file(GLOB_RECURSE srcFiles src/*.cpp)
 include_directories("${CMAKE_SOURCE_DIR}/include")
-add_executable(collab-server src/main.cpp)
+add_executable(collab-server ${srcFiles})
 add_custom_target(run collab-server)
 
