@@ -14,7 +14,7 @@ import signal
 import sys
 
 # Warning: if value is changed, must be changed in CMake as well
-env_dependencies='DEPENDENCIES_DEVEL'
+env_dependencies='COLLABSERVER_DEPENDENCIES'
 
 
 def promptCreateEnvVar(var_name):
