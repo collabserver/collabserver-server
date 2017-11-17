@@ -8,6 +8,7 @@ add_executable(collab-server ${srcFiles})
 
 target_link_libraries(collab-server
     ${CJSON_LIBRARY}
+    ${ELEPHANT_LIBRARY}
     "-lzmq")
 
 add_custom_target(run collab-server)
