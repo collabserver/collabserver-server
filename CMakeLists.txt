@@ -8,5 +8,5 @@ endif()
 
 
 include(CMake/CompilerFlags.cmake)
-include(CMake/Executables.cmake)
 include(CMake/Dependencies.cmake)
+include(CMake/Executables.cmake)
