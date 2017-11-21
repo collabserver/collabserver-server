@@ -1,7 +1,8 @@
 #include "network/Server.h"
 
+#include <logger/ElephantLogger.h>
+
 #include <zmq.hpp>
-#include <iostream>
 
 using namespace collab;
 
@@ -22,10 +23,16 @@ void Server::start() {
         socket.bind("tcp://*:5555");
 
         while(this->isRunning) {
-            zmq::message_t messageReceived;
-            socket.recv(&messageReceived);
-            std::cout << "Message received" << std::endl;
-            // TODO
+            LOG_DEBUG(0, "Wait for message...");
+            zmq::message_t request;
+            socket.recv(&request);
+            std::string msg(static_cast<char*>(request.data()), request.size());
+            LOG_DEBUG(0, "Message message received");
+            LOG_DEBUG(0, msg.c_str());
+            //TODO
+            zmq::message_t reply(11);
+            memcpy(reply.data(), "Acknowledge", 11);
+            socket.send(reply);
         }
     }
 }
