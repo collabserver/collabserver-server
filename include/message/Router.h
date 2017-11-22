@@ -5,8 +5,8 @@ namespace collab {
 
 
 class Router {
-    private:
-        JsonSerializer serializer;
+    ///public:
+        //explicit Router(AbsMessageFactory factory);
 
     public:
         void receiveMessage(char* msg);
