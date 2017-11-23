@@ -1,15 +1,18 @@
 #pragma once
 
+#include "Event.h"
+
 
 namespace collab {
 
 
-template<class E>
 class Route {
+    public:
+        Route() = delete;
+        //Route(Event & event) : m_eventHandler(event) {}
+
     private:
-        int messageType;
-        AbsMessageFactory factory;
-        E* eventHandler;
+        //Event* m_eventHandler;
 };
 
 

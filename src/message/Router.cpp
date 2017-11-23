@@ -1,10 +1,19 @@
 #include "message/Router.h"
 #include "message/MessageTestFactory.h"
+#include "message/Route.h"
+#include "message/EventTestCreate.h"
 
 
 #include <logger/ElephantLogger.h>
 
 using namespace collab;
+
+
+Router::Router() {
+    static EventTestCreate eventTestCreate;
+    //static Route routeMsgCreate(&eventTestCreate);
+    //this->m_lookupRoutes
+}
 
 
 void Router::processMessage(const char* msg, const size_t size) const {
