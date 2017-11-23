@@ -1,7 +1,6 @@
 #include "network/Server.h"
 
-#include <logger/ElephantLogger.h>
-
+#include <logger/elephant.h>
 #include <zmq.hpp>
 
 using namespace collab;

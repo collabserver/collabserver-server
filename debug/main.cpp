@@ -1,13 +1,10 @@
-#include <logger/ElephantLogger.h>
+#include <logger/elephant.h>
 
 #include <zmq.hpp>
 #include <iostream>
-#include <string>
+#include <stdio.h>  // getchar, fgets
+#include <string.h> // strchr
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
 #include <unistd.h>
 
 
@@ -35,9 +32,10 @@ void stdinInput(char* buffer, const int size) {
     }
 }
 
+
 int main(int argc, char** argv) {
     bool isRunning = true;
-    ElephantLogger::init();
+    elephant::init();
     std::cout << "----- Start Message Spawner Debugger -----" << std::endl;
 
     zmq::context_t context(1);

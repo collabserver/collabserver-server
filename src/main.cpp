@@ -1,10 +1,11 @@
 #include "network/Server.h"
 
 #include <cjson/cJSON.h>
-#include <logger/ElephantLogger.h>
+#include <logger/elephant.h>
 
 int main(int argc, char** argv) {
-    ElephantLogger::init();
+    elephant::init();
+
     LOG_TRACE(0, "Start Collab Server");
 
     collab::Server server;

@@ -4,7 +4,7 @@
 #include "message/EventTestCreate.h"
 
 
-#include <logger/ElephantLogger.h>
+#include <logger/elephant.h>
 
 using namespace collab;
 
