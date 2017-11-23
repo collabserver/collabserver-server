@@ -1,15 +1,17 @@
 #pragma once
 
+#include <unordered_map>
+#include <cstring> // size_t
 
 namespace collab {
 
 
 class Router {
-    ///public:
-        //explicit Router(AbsMessageFactory factory);
+    private:
+        std::unordered_map<int, int> m_lookupRoutes;
 
     public:
-        void receiveMessage(char* msg);
+        void processMessage(const char* msg, const size_t size) const;
 };
 
 

@@ -26,9 +26,13 @@ void Server::start() {
             LOG_DEBUG(0, "Wait for message...");
             zmq::message_t request;
             socket.recv(&request);
-            std::string msg(static_cast<char*>(request.data()), request.size());
-            LOG_DEBUG(0, "Message message received");
-            LOG_DEBUG(0, msg.c_str());
+            //LOG_DEBUG(0, "Message message received:");
+            //std::string msg(static_cast<char*>(request.data()), request.size());
+            //LOG_DEBUG(0, msg.c_str());
+            //LOG_DEBUG(0, static_cast<char*>(request.data()));
+
+            this->router.processMessage(static_cast<char*>(request.data()), request.size());
+
             //TODO
             zmq::message_t reply(11);
             memcpy(reply.data(), "Acknowledge", 11);

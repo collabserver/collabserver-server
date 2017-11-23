@@ -5,6 +5,7 @@
 #include <string>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <strings.h>
 #include <unistd.h>
@@ -17,14 +18,15 @@ void clearBuffer() {
     while((tmp = getchar()) != EOF && tmp != '\n');
 }
 
+// Buffer's size must be at least size + 2
 void stdinInput(char* buffer, const int size) {
-    if(fgets(buffer, size-1, stdin) != NULL) {
+    if(fgets(buffer, size+1, stdin) != NULL) {
         char *end = strchr(buffer, '\n');
         if(end != NULL) {
             *end = '\0';
         }
         else {
-            buffer[size-1] = '\0';
+            buffer[size] = '\0';
             clearBuffer();
         }
     }
@@ -46,11 +48,20 @@ int main(int argc, char** argv) {
 
     char msg[MSG_BUFF_SIZE];
     while(isRunning) {
-        std::cout << "Message to send: ";
         bzero(msg, MSG_BUFF_SIZE);
-        stdinInput(msg, MSG_BUFF_SIZE);
 
-        if(memcmp(msg, "stop", 4) == 0) {
+        std::cout << "Send a message" << std::endl;
+        std::cout << "Type (A number): ";
+
+        stdinInput(msg, 2); // Max type is 99
+        int coco = atoi(msg);
+        char c = (char)coco;
+        sprintf(msg, "%c", c);
+
+        std::cout << "Content: ";
+        stdinInput((msg + 1), MSG_BUFF_SIZE-3); //-3 cuz type byte + 2 for stdinInput doc
+
+        if(memcmp((msg + 1), "stop", 4) == 0) {
             std::cout << "See you" << std::endl;
             isRunning = false; // But useless atm
             break;
