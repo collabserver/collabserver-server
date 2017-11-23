@@ -7,12 +7,12 @@
 namespace collab {
 
 
-class EventTestCreate : public Event<MessageTestCreate> {
+class EventTestCreate : public Event {
     public:
         EventTestCreate() = default;
 
     public:
-        void run(MessageTestCreate& message) override;
+        void run(Message& message) const override;
 };
 
 

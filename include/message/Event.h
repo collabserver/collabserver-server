@@ -6,7 +6,6 @@
 namespace collab {
 
 
-template<class M>
 class Event {
     protected:
         Event() = default;
@@ -14,8 +13,8 @@ class Event {
         virtual ~Event() = default;
 
     public:
-        virtual void run(M& message) = 0;
+        virtual void run(Message& message) const = 0;
 };
 
 
-}
+} // End namespace

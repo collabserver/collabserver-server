@@ -6,6 +6,7 @@
 using namespace collab;
 
 
-void EventTestCreate::run(MessageTestCreate& message) {
+void EventTestCreate::run(Message& message) const {
+    message = static_cast<MessageTestCreate&>(message);
     LOG_DEBUG(0, "EventTestCreate");
 }
