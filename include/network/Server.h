@@ -1,9 +1,11 @@
 #pragma once
 
-#include "message/Router.h"
+#include "messaging/MessageRouter.h"
 
 
 namespace collab {
+
+//class MessageRouter;
 
 
 /**
@@ -13,8 +15,8 @@ namespace collab {
  */
 class Server {
     private:
-        bool isRunning;
-        Router router;
+        bool m_isRunning;
+        MessageRouter m_messageRouter;
 
     public:
         Server();

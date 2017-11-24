@@ -1,32 +1,33 @@
-#include "message/Router.h"
-#include "message/MessageTestFactory.h"
-#include "message/Route.h"
-#include "message/EventTestCreate.h"
+#include "messaging/MessageRouter.h"
+#include "messaging/MessageRoute.h"
+#include "messaging/Message.h"
 
+#include "event/debug/EventDebugCreate.h"
+#include "message/debug/MessageDebugFactory.h"
 
 #include <logger/elephant.h>
 
 using namespace collab;
 
 
-Router::Router() {
+MessageRouter::MessageRouter() {
     //TODO Temp for test
-    static EventTestCreate eventTestCreate;
-    this->addRoute(3, &eventTestCreate);
+    static EventDebugCreate eventDebugCreate;
+    this->addRoute(3, &eventDebugCreate);
 }
 
-void Router::addRoute(const int messageType, const Event* event) {
-    static Route route(messageType, event);
+void MessageRouter::addRoute(const int messageType, const MessageEvent* event) {
+    static MessageRoute route(messageType, event);
     this->m_lookupRoutes.emplace(messageType, route);
 }
 
 
-void Router::processMessage(const char* msg, const size_t size) const {
+void MessageRouter::processMessage(const char* msg, const size_t size) const {
     LOG_DEBUG(0, "Router process message. Raw message (size %d): %s", size, msg);
 
     int messageType = static_cast<int>(msg[0]);
     LOG_DEBUG(0, "Recovered type: %d", messageType);
-    const Route* route = nullptr;
+    const MessageRoute* route = nullptr;
 
     try {
         route = &this->m_lookupRoutes.at(messageType);
@@ -39,12 +40,12 @@ void Router::processMessage(const char* msg, const size_t size) const {
     LOG_DEBUG(0, "Route found for message type %d", messageType);
 
     //TODO Recover actual message representation (Message*)
-    MessageTestFactory factory;
+    MessageDebugFactory factory;
     Message *m = factory.newMessage(messageType);
     //m->deserialize(); // TODO
 
     //TODO Call handler
-    const Event* e = route->getEvent();
+    const MessageEvent* e = route->getMessageEvent();
     e->run(*m);
     delete m; // Important since newMessage allocate with new
 }

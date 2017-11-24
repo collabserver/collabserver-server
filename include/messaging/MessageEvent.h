@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Message.h"
-
 
 namespace collab {
 
+class Message;
 
-class Event {
+
+class MessageEvent {
     protected:
-        Event() = default;
+        MessageEvent() = default;
     public:
-        virtual ~Event() = default;
+        virtual ~MessageEvent() = default;
 
     public:
         virtual void run(Message& message) const = 0;

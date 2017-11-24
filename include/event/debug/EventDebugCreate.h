@@ -1,15 +1,16 @@
 #pragma once
 
-#include "Event.h"
-#include "MessageTestCreate.h"
+#include "messaging/MessageEvent.h"
 
 
 namespace collab {
 
+class Message;
 
-class EventTestCreate : public Event {
+
+class EventDebugCreate : public MessageEvent {
     public:
-        EventTestCreate() = default;
+        EventDebugCreate() = default;
 
     public:
         void run(Message& message) const override;

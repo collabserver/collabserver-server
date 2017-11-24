@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Message.h"
-
 
 namespace collab {
 
+class Message;
 
-class AbsMessageFactory {
+
+class MessageAbsFactory {
     protected:
-        AbsMessageFactory() = default;
-        virtual ~AbsMessageFactory() = default;
+        MessageAbsFactory() = default;
+        virtual ~MessageAbsFactory() = default;
 
     public:
         virtual Message* newMessage(const int type) const = 0;
