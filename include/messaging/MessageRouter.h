@@ -1,17 +1,22 @@
 #pragma once
 
 #include "messaging/MessageRoute.h"
-#include "messaging/MessageEvent.h"
 
 #include <unordered_map>
 #include <cstring> // size_t
 
 namespace collab {
 
+class MessageAbsFactory;
+class MessageEvent;
+
 
 class MessageRouter {
+    private:
+        MessageAbsFactory& m_messageFactory;
+
     public:
-        MessageRouter();
+        MessageRouter(MessageAbsFactory& factory);
         ~MessageRouter() = default;
 
     private:

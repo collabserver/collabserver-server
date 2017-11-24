@@ -1,11 +1,6 @@
 #include "collabobject/History.h"
 
-
-using namespace collab::collabobject;
-
-
-History::History() {
-}
+using namespace collab;
 
 void History::clear() {
     while(this->m_mutations.empty()) {

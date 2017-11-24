@@ -1,20 +1,18 @@
 #include "messaging/MessageRouter.h"
 #include "messaging/MessageRoute.h"
+#include "messaging/MessageAbsFactory.h"
 #include "messaging/Message.h"
-
-#include "event/debug/EventDebugCreate.h"
-#include "message/debug/MessageDebugFactory.h"
+#include "messaging/MessageEvent.h"
 
 #include <logger/elephant.h>
 
 using namespace collab;
 
 
-MessageRouter::MessageRouter() {
-    //TODO Temp for test
-    static EventDebugCreate eventDebugCreate;
-    this->addRoute(3, &eventDebugCreate);
+MessageRouter::MessageRouter(MessageAbsFactory& factory)
+    : m_messageFactory(factory) {
 }
+
 
 void MessageRouter::addRoute(const int messageType, const MessageEvent* event) {
     static MessageRoute route(messageType, event);
@@ -39,14 +37,12 @@ void MessageRouter::processMessage(const char* msg, const size_t size) const {
     }
     LOG_DEBUG(0, "Route found for message type %d", messageType);
 
-    //TODO Recover actual message representation (Message*)
-    MessageDebugFactory factory;
-    Message *m = factory.newMessage(messageType);
+    Message *m = this->m_messageFactory.newMessage(messageType);
     //m->deserialize(); // TODO
 
-    //TODO Call handler
     const MessageEvent* e = route->getMessageEvent();
     e->run(*m);
+
     delete m; // Important since newMessage allocate with new
 }
 

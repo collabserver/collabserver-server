@@ -2,7 +2,6 @@
 
 
 namespace collab {
-namespace collabobject {
 
 
 class Mutation {
@@ -12,5 +11,4 @@ class Mutation {
 };
 
 
-} // End namespace
 } // End namespace

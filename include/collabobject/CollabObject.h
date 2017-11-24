@@ -1,11 +1,9 @@
 #pragma once
 
-//class History;
 #include "History.h"
 
 
 namespace collab {
-namespace collabobject {
 
 
 class CollabObject {
@@ -18,5 +16,4 @@ class CollabObject {
 };
 
 
-} // End namepsace
 } // End namespace
