@@ -1,7 +1,7 @@
 #include "core/CollabServer.h"
 
-#include "messaging/MessageRouter.h"
 #include "network/MessageReceiver.h"
+#include "messaging/MessageRouter.h"
 
 // Debug messaging
 #include "event/debug/EventDebugCreate.h"
@@ -33,10 +33,10 @@ static MessageReceiver* initAtompmMessaging() {
     static EventAtompmRead       eventRead;
     static EventAtompmUpdate     eventUpdate;
 
-    router.addRoute(static_cast<int>(MessageAtompmTypes::Create), &eventCreate);
-    router.addRoute(static_cast<int>(MessageAtompmTypes::Delete), &eventDelete);
-    router.addRoute(static_cast<int>(MessageAtompmTypes::Read), &eventRead);
-    router.addRoute(static_cast<int>(MessageAtompmTypes::Update), &eventUpdate);
+    router.addRoute(static_cast<int>(MessageAtompmTypes::Create),   &eventCreate);
+    router.addRoute(static_cast<int>(MessageAtompmTypes::Delete),   &eventDelete);
+    router.addRoute(static_cast<int>(MessageAtompmTypes::Read),     &eventRead);
+    router.addRoute(static_cast<int>(MessageAtompmTypes::Update),   &eventUpdate);
 
     return &receiver;
 }
@@ -53,10 +53,10 @@ static MessageReceiver* initDebugMessaging() {
     static EventDebugRead       eventRead;
     static EventDebugUpdate     eventUpdate;
 
-    router.addRoute(static_cast<int>(MessageDebugTypes::Create), &eventCreate);
-    router.addRoute(static_cast<int>(MessageDebugTypes::Delete), &eventDelete);
-    router.addRoute(static_cast<int>(MessageDebugTypes::Read), &eventRead);
-    router.addRoute(static_cast<int>(MessageDebugTypes::Update), &eventUpdate);
+    router.addRoute(static_cast<int>(MessageDebugTypes::Create),    &eventCreate);
+    router.addRoute(static_cast<int>(MessageDebugTypes::Delete),    &eventDelete);
+    router.addRoute(static_cast<int>(MessageDebugTypes::Read),      &eventRead);
+    router.addRoute(static_cast<int>(MessageDebugTypes::Update),    &eventUpdate);
 
     return &receiver;
 }

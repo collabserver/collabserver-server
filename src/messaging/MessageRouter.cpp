@@ -5,6 +5,7 @@
 #include "messaging/MessageEvent.h"
 
 #include <elephant.h>
+#include <utility>
 
 using namespace collab;
 
@@ -15,9 +16,8 @@ MessageRouter::MessageRouter(MessageAbsFactory& factory)
 
 
 void MessageRouter::addRoute(const int messageType, const MessageEvent* event) {
-    static MessageRoute route(messageType, event);
-    LOG_DEBUG(0, "Add route for message type %d with event %a", messageType, event);
-    this->m_lookupRoutes.emplace(messageType, route);
+    MessageRoute route(messageType, event);
+    this->m_lookupRoutes.emplace(std::make_pair(messageType, route));
 }
 
 

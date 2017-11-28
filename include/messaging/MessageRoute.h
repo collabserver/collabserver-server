@@ -1,5 +1,7 @@
 #pragma once
 
+#include <elephant.h>
+
 
 namespace collab {
 
@@ -14,9 +16,9 @@ class MessageRoute {
     public:
         MessageRoute() = delete;
 
-        MessageRoute(const int messageType, const MessageEvent* MessageEvent)
-            : m_messageType(messageType),
-              m_messageEvent(MessageEvent) {
+        MessageRoute(const int type, const MessageEvent* event)
+            : m_messageType(type),
+              m_messageEvent(event) {
         }
 
     public:
