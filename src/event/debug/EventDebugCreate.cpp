@@ -1,7 +1,7 @@
 #include "event/debug/EventDebugCreate.h"
 #include "message/debug/MessageDebugCreate.h"
 
-#include <logger/elephant.h>
+#include <elephant.h>
 
 
 using namespace collab;

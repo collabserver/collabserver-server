@@ -1,4 +1,4 @@
-#include <logger/elephant.h>
+#include <elephant.h>
 
 #include <zmq.hpp>
 #include <iostream>

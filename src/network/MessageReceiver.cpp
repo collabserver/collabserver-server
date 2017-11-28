@@ -1,7 +1,7 @@
 #include "network/MessageReceiver.h"
 #include "messaging/MessageRouter.h"
 
-#include <logger/elephant.h>
+#include <elephant.h>
 #include <zmq.hpp>
 
 using namespace collab;

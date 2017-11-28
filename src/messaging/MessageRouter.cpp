@@ -4,7 +4,7 @@
 #include "messaging/Message.h"
 #include "messaging/MessageEvent.h"
 
-#include <logger/elephant.h>
+#include <elephant.h>
 
 using namespace collab;
 

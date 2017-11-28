@@ -1,6 +1,6 @@
 #include "core/CollabServer.h"
 
-#include <logger/elephant.h>
+#include <elephant.h>
 
 #include <exception>
 
