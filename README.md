@@ -2,12 +2,11 @@
 Server for realtime collaboration.
 
 > Work in progress...
-
 > Exact documentation not available yet.
 
 
 # Dependencies
-- Elephant Logger [Link](https://github.com/GeekyMoose/elephant-logger-realtime)
+- [Elephant Logger](https://github.com/GeekyMoose/elephant-logger-realtime)
 
 > Exact informations to set dependencies coming later.
 
@@ -25,7 +24,6 @@ make -j4
 
 
 # Execute on GNU/Linux (CMake)
-- Set CMake option "EXAMPLE" to ON (Already ON by default)
 
 ```
 mkdir build
