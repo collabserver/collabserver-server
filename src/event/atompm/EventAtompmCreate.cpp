@@ -7,7 +7,7 @@
 using namespace collab;
 
 
-void EventAtompmCreate::run(Message& message) const {
+void EventAtompmCreate::run(IMessage& message) const {
     message = static_cast<MessageAtompmCreate&>(message);
-    LOG_DEBUG(0, "EventAtompmCreate");
+    LOG_DEBUG(0, "EventCreate (AtomPM)");
 }

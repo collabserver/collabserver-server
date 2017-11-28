@@ -1,15 +1,29 @@
 #pragma once
 
-#include "messaging/Message.h"
+#include "messaging/IMessage.h"
+#include "messaging/MessageTypes.h"
+#include "event/atompm/EventAtompmUpdate.h"
 
 
 namespace collab {
 
 
-class MessageAtompmUpdate : public Message {
+class MessageAtompmUpdate : public IMessage {
     public:
-        MessageAtompmUpdate() = default;
+        MessageAtompmUpdate() {
+            this->m_event = new EventAtompmUpdate();
+        }
+
         ~MessageAtompmUpdate() = default;
+
+    public:
+        void apply() override {
+            this->m_event->run(*this);
+        }
+
+        int getID() const override {
+            return static_cast<int>(MessageTypes::Create);
+        }
 };
 
 

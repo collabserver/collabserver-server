@@ -1,15 +1,29 @@
 #pragma once
 
-#include "messaging/Message.h"
+#include "messaging/IMessage.h"
+#include "messaging/MessageTypes.h"
+#include "event/debug/EventDebugRead.h"
 
 
 namespace collab {
 
 
-class MessageDebugRead : public Message {
+class MessageDebugRead : public IMessage {
     public:
-        MessageDebugRead() = default;
+        MessageDebugRead() {
+            this->m_event = new EventDebugRead();
+        }
+
         ~MessageDebugRead() = default;
+
+    public:
+        void apply() override {
+            this->m_event->run(*this);
+        }
+
+        int getID() const override {
+            return static_cast<int>(MessageTypes::Create);
+        }
 };
 
 

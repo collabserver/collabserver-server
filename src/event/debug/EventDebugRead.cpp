@@ -7,8 +7,8 @@
 using namespace collab;
 
 
-void EventDebugRead::run(Message& message) const {
+void EventDebugRead::run(IMessage& message) const {
     message = static_cast<MessageDebugRead&>(message);
-    LOG_DEBUG(0, "EventDebugRead");
+    LOG_DEBUG(0, "EventRead (Debug)");
 }
 

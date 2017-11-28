@@ -7,8 +7,8 @@
 using namespace collab;
 
 
-void EventAtompmRead::run(Message& message) const {
+void EventAtompmRead::run(IMessage& message) const {
     message = static_cast<MessageAtompmRead&>(message);
-    LOG_DEBUG(0, "EventAtompmRead");
+    LOG_DEBUG(0, "EventRead (AtomPM)");
 }
 

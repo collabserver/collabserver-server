@@ -11,7 +11,6 @@ int main(int argc, char** argv) {
         LOG_TRACE(0, "Start Collab Server");
 
         collab::CollabServer& server = collab::CollabServer::getInstance();
-        server.init();
         server.start();
 
         LOG_TRACE(0, "Start Collab Server");

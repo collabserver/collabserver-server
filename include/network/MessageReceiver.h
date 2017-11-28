@@ -1,9 +1,11 @@
 #pragma once
 
+#include <cstring> // size_t
+
 
 namespace collab {
 
-class MessageRouter;
+class MessageAbsFactory;
 
 
 /**
@@ -12,14 +14,15 @@ class MessageRouter;
  *
  * \author  Constantin Masson
  * \date    Nov 2017
+ * \since   0.1.0
  */
 class MessageReceiver {
     private:
         bool m_isRunning;
-        MessageRouter& m_messageRouter;
+        MessageAbsFactory* m_messageFactory;
 
     public:
-        MessageReceiver(MessageRouter& messageRouter);
+        MessageReceiver();
         ~MessageReceiver();
 
     public:
@@ -36,6 +39,15 @@ class MessageReceiver {
          * Stop listening.
          */
         void stop();
+
+        /**
+         * Process the raw message.
+         * If is a valid message, execute it.
+         *
+         * \param msg   The message in its raw format.
+         * \param size  Size of the message.
+         */
+        void processMessage(const char* msg, const size_t size) const;
 };
 
 

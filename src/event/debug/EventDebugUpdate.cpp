@@ -7,8 +7,8 @@
 using namespace collab;
 
 
-void EventDebugUpdate::run(Message& message) const {
+void EventDebugUpdate::run(IMessage& message) const {
     message = static_cast<MessageDebugUpdate&>(message);
-    LOG_DEBUG(0, "EventDebugUpdate");
+    LOG_DEBUG(0, "EventUpdate (Debug)");
 }
 

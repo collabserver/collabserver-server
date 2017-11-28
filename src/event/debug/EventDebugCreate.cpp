@@ -7,7 +7,7 @@
 using namespace collab;
 
 
-void EventDebugCreate::run(Message& message) const {
+void EventDebugCreate::run(IMessage& message) const {
     message = static_cast<MessageDebugCreate&>(message);
-    LOG_DEBUG(0, "EventDebugCreate");
+    LOG_DEBUG(0, "EventCreate (Debug)");
 }

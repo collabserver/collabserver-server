@@ -1,23 +1,23 @@
 #pragma once
 
 #include "util/Singleton.h"
+#include "network/MessageReceiver.h"
 
 
 namespace collab {
 
-class MessageReceiver;
-
 
 /**
  * Main component.
- * The collab server itself.
+ * The collab Server itself.
  *
  * \author  Constantin Masson
  * \date    Nov 2017
+ * \since   0.1.0
  */
 class CollabServer : private Singleton<CollabServer> {
     private:
-        MessageReceiver* m_messageReceiver = nullptr;
+        MessageReceiver m_messageReceiver;
 
     private:
         friend Singleton<CollabServer>;
@@ -28,7 +28,6 @@ class CollabServer : private Singleton<CollabServer> {
         using Singleton<CollabServer>::getInstance;
 
     public:
-        void init();
         void start();
         void stop();
 };

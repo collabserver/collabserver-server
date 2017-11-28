@@ -1,19 +1,20 @@
 #pragma once
 
-#include "messaging/MessageEvent.h"
+#include "messaging/IMessageEvent.h"
 
 
 namespace collab {
 
-class Message;
+class IMessage;
 
 
-class EventDebugCreate : public MessageEvent {
+class EventDebugCreate : public IMessageEvent {
     public:
         EventDebugCreate() = default;
+        ~EventDebugCreate() = default;
 
     public:
-        void run(Message& message) const override;
+        void run(IMessage& message) const override;
 };
 
 

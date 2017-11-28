@@ -1,4 +1,5 @@
 #include "message/debug/MessageDebugFactory.h"
+#include "messaging/MessageTypes.h"
 
 #include "message/debug/MessageDebugCreate.h"
 #include "message/debug/MessageDebugDelete.h"
@@ -8,25 +9,22 @@
 using namespace collab;
 
 
-Message* MessageDebugFactory::newMessage(const int type) const {
+IMessage* MessageDebugFactory::newMessage(const int type) const {
+    // Switch-case is actually flexible and fast for this use-case.
     switch(type) {
-        case static_cast<int>(MessageDebugTypes::Create):
+        case static_cast<int>(MessageTypes::Create):
             return new MessageDebugCreate();
 
-        case static_cast<int>(MessageDebugTypes::Delete):
+        case static_cast<int>(MessageTypes::Delete):
             return new MessageDebugDelete();
 
-        case static_cast<int>(MessageDebugTypes::Read):
+        case static_cast<int>(MessageTypes::Read):
             return new MessageDebugRead();
 
-        case static_cast<int>(MessageDebugTypes::Update):
+        case static_cast<int>(MessageTypes::Update):
             return new MessageDebugUpdate();
 
         default:
             return nullptr;
     }
-}
-
-int MessageDebugFactory::getMessageTypeCounter() const {
-    return static_cast<int>(MessageDebugTypes::CounterTypes);
 }

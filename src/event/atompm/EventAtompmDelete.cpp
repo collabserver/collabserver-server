@@ -7,8 +7,8 @@
 using namespace collab;
 
 
-void EventAtompmDelete::run(Message& message) const {
+void EventAtompmDelete::run(IMessage& message) const {
     message = static_cast<MessageAtompmDelete&>(message);
-    LOG_DEBUG(0, "EventAtompmDelete");
+    LOG_DEBUG(0, "EventDelete (AtomPM)");
 }
 

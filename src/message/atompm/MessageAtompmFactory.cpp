@@ -1,4 +1,5 @@
 #include "message/atompm/MessageAtompmFactory.h"
+#include "messaging/MessageTypes.h"
 
 #include "message/atompm/MessageAtompmCreate.h"
 #include "message/atompm/MessageAtompmDelete.h"
@@ -8,26 +9,22 @@
 using namespace collab;
 
 
-Message* MessageAtompmFactory::newMessage(const int type) const {
+IMessage* MessageAtompmFactory::newMessage(const int type) const {
+    // Switch-case is actually flexible and fast for this use-case.
     switch(type) {
-        case static_cast<int>(MessageAtompmTypes::Create):
+        case static_cast<int>(MessageTypes::Create):
             return new MessageAtompmCreate();
 
-        case static_cast<int>(MessageAtompmTypes::Delete):
+        case static_cast<int>(MessageTypes::Delete):
             return new MessageAtompmDelete();
 
-        case static_cast<int>(MessageAtompmTypes::Read):
+        case static_cast<int>(MessageTypes::Read):
             return new MessageAtompmRead();
 
-        case static_cast<int>(MessageAtompmTypes::Update):
+        case static_cast<int>(MessageTypes::Update):
             return new MessageAtompmUpdate();
 
         default:
             return nullptr;
     }
 }
-
-int MessageAtompmFactory::getMessageTypeCounter() const {
-    return static_cast<int>(MessageAtompmTypes::CounterTypes);
-}
-
