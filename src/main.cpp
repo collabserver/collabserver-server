@@ -17,15 +17,15 @@ int main(int argc, char** argv) {
         LOG_TRACE(0, "Start Collab Server");
     }
     catch(const std::exception& exception) {
-        elephant::Logger::get().saveAllLogFiles();
         LOG_ERROR(0, "Crashed with exception: %s", exception.what());
         LOG_ERROR(3, "Crashed with exception: %s", exception.what());
+        elephant::saveLogs();
         return -99;
     }
     catch(...) {
-        elephant::Logger::get().saveAllLogFiles();
         LOG_ERROR(0, "Crashed with unknown exception");
         LOG_ERROR(3, "Crashed with unknown exception");
+        elephant::saveLogs();
         return -100;
     }
 
