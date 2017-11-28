@@ -16,6 +16,7 @@ MessageRouter::MessageRouter(MessageAbsFactory& factory)
 
 void MessageRouter::addRoute(const int messageType, const MessageEvent* event) {
     static MessageRoute route(messageType, event);
+    LOG_DEBUG(0, "Add route for message type %d with event %a", messageType, event);
     this->m_lookupRoutes.emplace(messageType, route);
 }
 

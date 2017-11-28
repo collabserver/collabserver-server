@@ -9,11 +9,11 @@ class Message;
 
 
 /**
- * List all posible message for Debug message communication protocol.
+ * List all posible message for Atompm message communication protocol.
  *
  * \date Nov 2017
  */
-enum class MessageDebugTypes : int {
+enum class MessageAtompmTypes : int {
     Create = 1,
     Delete,
     Read,
@@ -25,10 +25,10 @@ enum class MessageDebugTypes : int {
 };
 
 
-class MessageDebugFactory : public MessageAbsFactory {
+class MessageAtompmFactory : public MessageAbsFactory {
     public:
-        MessageDebugFactory() = default;
-        ~MessageDebugFactory() = default;
+        MessageAtompmFactory() = default;
+        ~MessageAtompmFactory() = default;
 
     public:
         Message* newMessage(const int type) const override;
