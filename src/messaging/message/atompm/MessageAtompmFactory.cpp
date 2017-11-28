@@ -1,10 +1,11 @@
-#include "message/atompm/MessageAtompmFactory.h"
+#include "messaging/messages/atompm/MessageAtompmFactory.h"
 #include "messaging/MessageTypes.h"
 
-#include "message/atompm/MessageAtompmCreate.h"
-#include "message/atompm/MessageAtompmDelete.h"
-#include "message/atompm/MessageAtompmRead.h"
-#include "message/atompm/MessageAtompmUpdate.h"
+#include "messaging/messages/atompm/MessageAtompmCreate.h"
+#include "messaging/messages/atompm/MessageAtompmDelete.h"
+#include "messaging/messages/atompm/MessageAtompmRead.h"
+#include "messaging/messages/atompm/MessageAtompmUpdate.h"
+
 
 using namespace collab;
 

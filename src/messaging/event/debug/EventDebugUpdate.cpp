@@ -1,5 +1,5 @@
-#include "event/debug/EventDebugUpdate.h"
-#include "message/debug/MessageDebugUpdate.h"
+#include "messaging/event/debug/EventDebugUpdate.h"
+#include "messaging/messages/debug/MessageDebugUpdate.h"
 
 #include <elephant.h>
 

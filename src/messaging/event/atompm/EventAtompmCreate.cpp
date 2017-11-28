@@ -1,5 +1,5 @@
-#include "event/atompm/EventAtompmCreate.h"
-#include "message/atompm/MessageAtompmCreate.h"
+#include "messaging/event/atompm/EventAtompmCreate.h"
+#include "messaging/messages/atompm/MessageAtompmCreate.h"
 
 #include <elephant.h>
 

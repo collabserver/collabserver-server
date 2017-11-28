@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace collab {
 
 class IMessageEvent;
@@ -29,13 +30,6 @@ class IMessage {
          * Apply the event registered for this message.
          */
         virtual void apply() = 0;
-
-        /**
-         * Get the ID of this specific message.
-         *
-         * \return Message's ID.
-         */
-        virtual int getID() const = 0;
 };
 
 

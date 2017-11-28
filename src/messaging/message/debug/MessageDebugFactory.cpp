@@ -1,10 +1,10 @@
-#include "message/debug/MessageDebugFactory.h"
+#include "messaging/messages/debug/MessageDebugFactory.h"
 #include "messaging/MessageTypes.h"
 
-#include "message/debug/MessageDebugCreate.h"
-#include "message/debug/MessageDebugDelete.h"
-#include "message/debug/MessageDebugRead.h"
-#include "message/debug/MessageDebugUpdate.h"
+#include "messaging/messages/debug/MessageDebugCreate.h"
+#include "messaging/messages/debug/MessageDebugDelete.h"
+#include "messaging/messages/debug/MessageDebugRead.h"
+#include "messaging/messages/debug/MessageDebugUpdate.h"
 
 using namespace collab;
 

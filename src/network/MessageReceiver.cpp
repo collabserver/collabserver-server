@@ -1,7 +1,8 @@
 #include "network/MessageReceiver.h"
+
 #include "messaging/IMessage.h"
 #include "messaging/MessageAbsFactory.h"
-#include "message/debug/MessageDebugFactory.h"
+#include "messaging/messages/debug/MessageDebugFactory.h"
 
 #include <elephant.h>
 #include <zmq.hpp>

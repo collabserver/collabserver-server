@@ -1,8 +1,7 @@
 #pragma once
 
 #include "messaging/IMessage.h"
-#include "messaging/MessageTypes.h"
-#include "event/debug/EventDebugCreate.h"
+#include "messaging/event/debug/EventDebugCreate.h"
 
 
 namespace collab {
@@ -23,10 +22,6 @@ class MessageDebugCreate : public IMessage {
     public:
         void apply() override {
             this->m_event->run(*this);
-        }
-
-        int getID() const override {
-            return static_cast<int>(MessageTypes::Create);
         }
 };
 
