@@ -11,3 +11,9 @@ include_directories("${cjsonDir}/include")
 set(elephantDir "$ENV{COLLABSERVER_DEPENDENCIES}/ElephantLogger")
 set(ELEPHANT_LIBRARY "${elephantDir}/lib/libelephantlogger.a")
 include_directories("${elephantDir}/include")
+
+
+# MessagePack C/C++
+set(msgpackcDir "$ENV{COLLABSERVER_DEPENDENCIES}/msgpack-c")
+set(MSGPACK_C_LIBRARY "${msgpackcDir}/lib/libmsgpackc.a")
+include_directories("${msgpackcDir}/include")

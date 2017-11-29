@@ -7,6 +7,7 @@ add_executable(collab-server ${srcFiles})
 target_link_libraries(collab-server
     ${CJSON_LIBRARY}
     ${ELEPHANT_LIBRARY}
+    ${MSGPACK_C_LIBRARY}
     "pthread"
     "stdc++fs"
     "zmq")

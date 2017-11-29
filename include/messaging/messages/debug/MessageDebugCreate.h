@@ -3,6 +3,8 @@
 #include "messaging/IMessage.h"
 #include "messaging/event/debug/EventDebugCreate.h"
 
+#include <msgpack.h>
+
 
 namespace collab {
 
@@ -17,8 +19,10 @@ class MessageDebugCreate : public IMessage {
         ~MessageDebugCreate() = default;
 
     private:
-        char* m_location;
         char* m_name;
+        int a;
+        int b;
+        int c;
 
     public:
         void apply() override {
