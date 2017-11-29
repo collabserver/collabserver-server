@@ -5,16 +5,15 @@
 
 namespace collab {
 
-class IMessage;
+class MessageAtompmUpdate;
 
-
-class EventAtompmUpdate : public IMessageEvent {
+class EventAtompmUpdate : public IMessageEvent<MessageAtompmUpdate> {
     public:
         EventAtompmUpdate() = default;
         ~EventAtompmUpdate() = default;
 
     public:
-        void run(IMessage& message) const override;
+        void receive(MessageAtompmUpdate & message) const override;
 };
 
 

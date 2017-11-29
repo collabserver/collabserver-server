@@ -5,16 +5,16 @@
 
 namespace collab {
 
-class IMessage;
+class MessageDebugCreate;
 
 
-class EventDebugCreate : public IMessageEvent {
+class EventDebugCreate : public IMessageEvent<MessageDebugCreate> {
     public:
         EventDebugCreate() = default;
         ~EventDebugCreate() = default;
 
     public:
-        void run(IMessage& message) const override;
+        void receive(MessageDebugCreate & message) const override;
 };
 
 

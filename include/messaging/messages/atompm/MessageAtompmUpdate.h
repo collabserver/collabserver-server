@@ -8,16 +8,17 @@ namespace collab {
 
 
 class MessageAtompmUpdate : public IMessage {
-    public:
-        MessageAtompmUpdate() {
-            this->m_event = new EventAtompmUpdate();
-        }
+    private:
+        /** Event that process this message. */
+        EventAtompmUpdate m_event;
 
+    public:
+        MessageAtompmUpdate() = default;
         ~MessageAtompmUpdate() = default;
 
     public:
         void apply() override {
-            this->m_event->run(*this);
+            this->m_event.receive(*this);
         }
 };
 

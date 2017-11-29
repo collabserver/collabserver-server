@@ -3,17 +3,19 @@
 
 namespace collab {
 
-class IMessage;
-
 
 /**
  * Interface for message handling.
  * Template for each concret message
  *
+ * \tparam <M> The message this event is working with.
+ *
+ *
  * \author  Constantin Masson
  * \date    Nov 2017
  * \since   0.1.0
  */
+template<class M>
 class IMessageEvent {
     protected:
         IMessageEvent() = default;
@@ -22,12 +24,11 @@ class IMessageEvent {
 
     public:
         /**
-         * Execute this event for the given message.
-         * This applies event logic.
+         * Execute message logic for received message.
          *
          * \param message The message to use for the event.
          */
-        virtual void run(IMessage & message) const = 0;
+        virtual void receive(M & message) const = 0;
 };
 
 

@@ -3,8 +3,6 @@
 
 namespace collab {
 
-class IMessageEvent;
-
 
 /**
  * Interface for Messages.
@@ -15,17 +13,12 @@ class IMessageEvent;
  */
 class IMessage {
     protected:
-        /** Event that process this message. */
-        IMessageEvent* m_event;
-
-    protected:
         IMessage() = default;
 
     public:
         virtual ~IMessage() = default;
 
     public:
-
         /**
          * Apply the event registered for this message.
          */

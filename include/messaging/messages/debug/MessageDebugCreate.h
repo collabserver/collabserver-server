@@ -8,11 +8,12 @@ namespace collab {
 
 
 class MessageDebugCreate : public IMessage {
-    public:
-        MessageDebugCreate() {
-            this->m_event = new EventDebugCreate();
-        }
+    private:
+        /** Event that process this message. */
+        EventDebugCreate m_event;
 
+    public:
+        MessageDebugCreate() = default;
         ~MessageDebugCreate() = default;
 
     private:
@@ -21,7 +22,7 @@ class MessageDebugCreate : public IMessage {
 
     public:
         void apply() override {
-            this->m_event->run(*this);
+            this->m_event.receive(*this);
         }
 };
 
