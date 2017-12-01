@@ -1,29 +1,49 @@
 #include <elephant.h>
 
 #include <zmq.hpp>
+
+#include <string>
 #include <iostream>
+#include <sstream>
+
 #include <stdio.h>  // getchar, fgets
 #include <string.h> // strchr
 
 #include <unistd.h>
+#include <msgpack.hpp>
 
 
-#define MSG_BUFF_SIZE 512
-
+// -----------------------------------------------------------------------------
+// Utils
+// -----------------------------------------------------------------------------
 void clearBuffer() {
     int tmp;
     while((tmp = getchar()) != EOF && tmp != '\n');
 }
 
-// Buffer's size must be at least size + 2
-void stdinInput(char* buffer, const int size) {
-    if(fgets(buffer, size+1, stdin) != NULL) {
-        char *end = strchr(buffer, '\n');
+/**
+ * Read from stream and place in buffer.
+ * Read up to 'size' elements.
+ *
+ * \warning
+ * Buffer must end with '\0'.
+ * The given size should take '\0\ into accound and be at max bufferSize -1.
+ *
+ * \note
+ * No buffer overflow if size < bufferSize, stream buffer is cleared.
+ * If size >= bufferSize, risk of overflow!
+ *
+ * \param stream Where to read from.
+ * \param buffer Where to write.
+ * \param size Max number of char to write in buffer.
+ */
+void readFromStream(FILE* stream, char* buffer, const int size) {
+    if(fgets(buffer, size + 1, stream) != NULL) { // +1 cuz \n count as one
+        char* end = strchr(buffer, '\n');
         if(end != NULL) {
             *end = '\0';
         }
         else {
-            buffer[size] = '\0';
             clearBuffer();
         }
     }
@@ -33,47 +53,64 @@ void stdinInput(char* buffer, const int size) {
 }
 
 
+// -----------------------------------------------------------------------------
+// 
+// -----------------------------------------------------------------------------
+char promptMessageType() {
+    std::cout << "Message Type (A number): ";
+    char buffer[4];
+    readFromStream(stdin, buffer, 3);
+    int coco = atoi(buffer);
+    return (coco >= 0 && coco <= 255) ? coco : 0;
+}
+
+void promptMessageRawContent(std::stringstream& buffer) {
+    std::cout << "Message content: " << std::endl;
+    std::string inputStr;
+    std::getline(std::cin, inputStr);
+    msgpack::pack(buffer, inputStr);
+    msgpack::pack(buffer, true);
+}
+
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 int main(int argc, char** argv) {
     bool isRunning = true;
     elephant::init();
     std::cout << "----- Start Message Spawner Debugger -----" << std::endl;
-
+    std::cout << "Enter 'stop' in message content to quit" << std::endl;
     zmq::context_t context(1);
     zmq::socket_t socket(context, ZMQ_REQ);
 
     std::cout << "Connecting to server..." << std::endl;
     socket.connect ("tcp://localhost:5555");
 
-    char msg[MSG_BUFF_SIZE];
     while(isRunning) {
-        bzero(msg, MSG_BUFF_SIZE);
+        std::cout << " ----- Send new message ----- " << std::endl;
 
-        std::cout << "Send a message" << std::endl;
-        std::cout << "Type (A number): ";
+        char msgType = promptMessageType();
+        std::stringstream msgContent;
+        promptMessageRawContent(msgContent);
+        msgContent.seekg(0, std::ios::end);
+        size_t contentSize = msgContent.tellg();
+        msgContent.seekg(0);
 
-        stdinInput(msg, 2); // Max type is 99
-        int coco = atoi(msg);
-        char c = (char)coco;
-        sprintf(msg, "%c", c);
+        zmq::message_t request(contentSize + 1);
+        std::cout << "content: " << msgContent.str().c_str() << std::endl;
+        std::cout << "size: " << contentSize << std::endl;
 
-        std::cout << "Content: ";
-        stdinInput((msg + 1), MSG_BUFF_SIZE-3); //-3 cuz type byte + 2 for stdinInput doc
-
-        if(memcmp((msg + 1), "stop", 4) == 0) {
-            std::cout << "See you" << std::endl;
-            isRunning = false; // But useless atm
-            break;
-        }
-
-        size_t msgSize = strlen(msg);
-        zmq::message_t request(msgSize);
-        memcpy(request.data(), msg, msgSize);
+        memcpy(request.data(), &msgType, 1);
+        memcpy(request.data()+1, msgContent.str().c_str(), contentSize); 
 
         socket.send(request);
 
         zmq::message_t reply;
         socket.recv(&reply);
         std::cout << "Receive acknowledgement" << std::endl;
+
+        std::cout << std::endl;
     }
 
     std::cout << "----- End Message Spawner Debugger -----" << std::endl;

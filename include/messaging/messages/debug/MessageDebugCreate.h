@@ -3,7 +3,7 @@
 #include "messaging/IMessage.h"
 #include "messaging/event/debug/EventDebugCreate.h"
 
-#include <msgpack.h>
+#include <msgpack.hpp>
 
 
 namespace collab {
@@ -27,6 +27,12 @@ class MessageDebugCreate : public IMessage {
     public:
         void apply() override {
             this->m_event.receive(*this);
+        }
+
+        void serialize(char* stream) {
+        }
+
+        void deserialize(const char* stream) {
         }
 };
 
