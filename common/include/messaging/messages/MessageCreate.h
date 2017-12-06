@@ -9,6 +9,13 @@
 namespace collab {
 
 
+/**
+ * Implements IMessage for Create operation.
+ *
+ * \author  Constantin Masson
+ * \date    Nov 2017
+ * \since   0.1.0
+ */
 class MessageCreate : public IMessage {
     private:
         /** Event that process this message. */
@@ -25,13 +32,11 @@ class MessageCreate : public IMessage {
         int c;
 
     public:
-        void apply() override {
-            this->m_event.receive(*this);
-        }
+        void apply() override;
 
+        // TODO
         void serialize(char* stream) {
         }
-
         void deserialize(const char* stream) {
         }
 };

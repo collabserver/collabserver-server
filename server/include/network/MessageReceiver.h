@@ -19,7 +19,7 @@ class MessageFactory;
 class MessageReceiver {
     private:
         bool m_isRunning;
-        MessageFactory* m_messageFactory;
+        MessageFactory& m_messageFactory;
 
     public:
         MessageReceiver();

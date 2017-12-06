@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils/Singleton.h"
+
 
 namespace collab {
 
@@ -15,10 +17,16 @@ class IMessage;
  * \date    Nov 2017
  * \since   0.1.0
  */
-class MessageFactory {
+class MessageFactory : private Singleton<MessageFactory> {
+    private:
+        friend Singleton<MessageFactory>;
     public:
+        using Singleton<MessageFactory>::getInstance;
+
+    protected:
         MessageFactory() = default;
         ~MessageFactory() = default;
+
 
     public:
         /**

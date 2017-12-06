@@ -7,6 +7,13 @@
 namespace collab {
 
 
+/**
+ * Implements IMessage for Read operation.
+ *
+ * \author  Constantin Masson
+ * \date    Nov 2017
+ * \since   0.1.0
+ */
 class MessageRead : public IMessage {
     private:
         /** Event that process this message. */
@@ -17,9 +24,7 @@ class MessageRead : public IMessage {
         ~MessageRead() = default;
 
     public:
-        void apply() override {
-            this->m_event.receive(*this);
-        }
+        void apply() override;
 };
 
 

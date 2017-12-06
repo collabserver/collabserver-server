@@ -9,14 +9,13 @@
 using namespace collab;
 
 
-MessageReceiver::MessageReceiver() {
-    this->m_isRunning = false;
-    this->m_messageFactory = new MessageFactory();
+MessageReceiver::MessageReceiver() :
+    m_isRunning(false),
+    m_messageFactory(MessageFactory::getInstance()) {
 }
 
 MessageReceiver::~MessageReceiver() {
     this->m_isRunning = false;
-    delete this->m_messageFactory;
 }
 
 void MessageReceiver::start() {
@@ -53,7 +52,7 @@ void MessageReceiver::processMessage(const char* msg, const size_t size) const {
     int msgType = static_cast<int>(msg[0]);
     LOG_DEBUG(0, "Recovered type: %d", msgType);
 
-    IMessage *m = this->m_messageFactory->newMessage(msgType);
+    IMessage *m = this->m_messageFactory.newMessage(msgType);
     if(m == nullptr) {
         LOG_DEBUG(0, "Unknown message type %d", msgType);
         return;
