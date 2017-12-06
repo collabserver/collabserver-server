@@ -1,6 +1,6 @@
 #include "messaging/events/EventRead.h"
 
-#include <elephant.h>
+#include <elephantlogger/log.h>
 
 
 using namespace collab;

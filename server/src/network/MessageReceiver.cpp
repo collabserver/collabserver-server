@@ -3,7 +3,7 @@
 #include "messaging/MessageFactory.h"
 #include "messaging/IMessage.h"
 
-#include <elephant.h>
+#include <elephantlogger/log.h>
 #include <zmq.hpp>
 
 using namespace collab;

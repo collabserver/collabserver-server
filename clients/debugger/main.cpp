@@ -1,4 +1,4 @@
-#include <elephant.h>
+#include <elephantlogger/log.h>
 
 #include <zmq.hpp>
 
@@ -78,7 +78,9 @@ void promptMessageRawContent(std::stringstream& buffer) {
 // -----------------------------------------------------------------------------
 int main(int argc, char** argv) {
     bool isRunning = true;
-    elephant::init();
+    elephantlogger::init();
+    elephantlogger::setDefaultChannels();
+
     std::cout << "----- Start Message Spawner Debugger -----" << std::endl;
     std::cout << "Enter 'stop' in message content to quit" << std::endl;
     zmq::context_t context(1);

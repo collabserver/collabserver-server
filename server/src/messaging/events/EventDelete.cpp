@@ -1,6 +1,6 @@
 #include "messaging/events/EventDelete.h"
 
-#include <elephant.h>
+#include <elephantlogger/log.h>
 
 
 using namespace collab;
