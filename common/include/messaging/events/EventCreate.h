@@ -9,7 +9,7 @@ class MessageCreate;
 
 
 /**
- * Defines an event for MessageCreate type.
+ * Implements IMessageEvent for Create Message reception.
  *
  * \author  Constantin Masson
  * \date    Nov 2017

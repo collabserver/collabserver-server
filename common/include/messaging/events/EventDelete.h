@@ -9,7 +9,7 @@ class MessageDelete;
 
 
 /**
- * Defines an event for MessageDelete type.
+ * Implements IMessageEvent for Delete Message reception.
  *
  * \author  Constantin Masson
  * \date    Nov 2017

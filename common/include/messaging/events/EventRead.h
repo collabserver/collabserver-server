@@ -9,7 +9,7 @@ class MessageRead;
 
 
 /**
- * Defines an event for MessageRead type.
+ * Implements IMessageEvent for Read Message reception.
  *
  * \author  Constantin Masson
  * \date    Nov 2017

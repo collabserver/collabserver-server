@@ -9,7 +9,7 @@ class MessageUpdate;
 
 
 /**
- * Defines an event for MessageUpdate type.
+ * Implements IMessageEvent for Update Message reception.
  *
  * \author  Constantin Masson
  * \date    Nov 2017

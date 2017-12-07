@@ -26,19 +26,15 @@ class MessageCreate : public IMessage {
         ~MessageCreate() = default;
 
     private:
-        char* m_name;
+        // TODO Some dummy data for now
         int a;
         int b;
-        int c;
+        bool c;
 
     public:
         void apply() override;
-
-        // TODO
-        void serialize(char* stream) {
-        }
-        void deserialize(const char* stream) {
-        }
+        template<class Stream> bool serialize(Stream & buffer) const;
+        template<class Stream> bool unserialize(Stream & buffer) const;
 };
 
 
