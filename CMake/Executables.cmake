@@ -19,9 +19,12 @@ add_custom_target(run collab-server)
 
 # Debug client (Msg Spawner)
 file(GLOB_RECURSE srcDebugger clients/debugger/*.cpp)
-add_executable(debugger ${srcDebugger})
+file(GLOB_RECURSE srcCommonFiles common/src/*.cpp)
+add_executable(debugger ${srcCommonFiles} ${srcDebugger})
 target_link_libraries(debugger
+    ${CJSON_LIBRARY}
     ${ELEPHANT_LIBRARY}
+    ${MSGPACK_C_LIBRARY}
     "pthread"
     "stdc++fs"
     "zmq")
