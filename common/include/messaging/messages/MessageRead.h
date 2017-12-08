@@ -25,8 +25,8 @@ class MessageRead : public IMessage {
 
     public:
         void apply() override;
-        template<class Stream> bool serialize(Stream & buffer) const;
-        template<class Stream> bool unserialize(Stream & buffer) const;
+        bool serialize(std::stringstream & buffer) const override;
+        bool unserialize(std::stringstream & buffer) const override;
 };
 
 

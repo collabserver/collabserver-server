@@ -7,14 +7,12 @@ void MessageDelete::apply() {
     this->m_event.receive(*this);
 }
 
-template<class Stream>
-bool MessageDelete::serialize(Stream & buffer) const {
+bool MessageDelete::serialize(std::stringstream & buffer) const {
     // TODO
     return true;
 }
 
-template<class Stream>
-bool MessageDelete::unserialize(Stream & stream) const {
+bool MessageDelete::unserialize(std::stringstream & stream) const {
     // TODO
     return true;
 }

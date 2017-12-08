@@ -71,7 +71,7 @@ bool sendDummyMessage(const int type) {
     // TODO fill message according to type.
 
     std::stringstream buffer;
-    //msg->serialize(buffer);
+    msg->serialize(buffer);
     size_t msgSize = getStreamSize(buffer);
 
     // ZMQ Message

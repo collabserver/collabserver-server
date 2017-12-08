@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sstream>
+
 
 namespace collab {
 
@@ -14,7 +16,6 @@ namespace collab {
 class IMessage {
     protected:
         IMessage() = default;
-
     public:
         virtual ~IMessage() = default;
 
@@ -30,8 +31,7 @@ class IMessage {
          * \param buffer Where to place serialized data.
          * \return True if successfully serialized, otherwise, return false.
          */
-        template<class Stream>
-        bool serialize(Stream & buffer) const;
+        virtual bool serialize(std::stringstream & buffer) const = 0;
 
         /**
          *
@@ -40,8 +40,7 @@ class IMessage {
          * \param buffer Where to place unserialized data.
          * \return True if successfully unserialized, otherwise, return false.
          */
-        template<class Stream>
-        bool unserialize(Stream & buffer) const;
+        virtual bool unserialize(std::stringstream & buffer) const = 0;
 };
 
 

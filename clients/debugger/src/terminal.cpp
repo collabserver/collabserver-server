@@ -19,7 +19,7 @@ void listAllMessages() {
     const int nbMessages = static_cast<int>(collab::MessageTypes::Counter);
 
     writeLine("All possible messages: ");
-    for(int k = 0; k < nbMessages; ++k) {
+    for(int k = 1; k < nbMessages+1; ++k) {
         writeLine(" - Message %d", k);
     }
 }

@@ -7,14 +7,12 @@ void MessageRead::apply() {
     this->m_event.receive(*this);
 }
 
-template<class Stream>
-bool MessageRead::serialize(Stream & buffer) const {
+bool MessageRead::serialize(std::stringstream & buffer) const {
     // TODO
     return true;
 }
 
-template<class Stream>
-bool MessageRead::unserialize(Stream & stream) const {
+bool MessageRead::unserialize(std::stringstream & stream) const {
     // TODO
     return true;
 }

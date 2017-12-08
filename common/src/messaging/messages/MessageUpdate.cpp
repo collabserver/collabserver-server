@@ -7,14 +7,12 @@ void MessageUpdate::apply() {
     this->m_event.receive(*this);
 }
 
-template<class Stream>
-bool MessageUpdate::serialize(Stream & buffer) const {
+bool MessageUpdate::serialize(std::stringstream & buffer) const {
     // TODO
     return true;
 }
 
-template<class Stream>
-bool MessageUpdate::unserialize(Stream & stream) const {
+bool MessageUpdate::unserialize(std::stringstream & stream) const {
     // TODO
     return true;
 }
