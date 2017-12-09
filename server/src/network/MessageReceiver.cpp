@@ -47,10 +47,11 @@ void MessageReceiver::stop() {
 }
 
 void MessageReceiver::processMessage(const char* msg, const size_t size) const {
-    LOG_DEBUG(0, "Message received! Raw message (size %d): %s", size, msg);
+    const int msgType = static_cast<int>(msg[0]);
+    const char* msgData = msg+1;
+    const size_t msgSize = size-1;
 
-    int msgType = static_cast<int>(msg[0]);
-    LOG_DEBUG(0, "Recovered type: %d", msgType);
+    LOG_DEBUG(0, "Message received! Type: %d, Size: %d, Raw content: %s", msgType, msgSize, msgData);
 
     IMessage *m = this->m_messageFactory.newMessage(msgType);
     if(m == nullptr) {
@@ -58,7 +59,9 @@ void MessageReceiver::processMessage(const char* msg, const size_t size) const {
         return;
     }
 
-    //m->deserialize(); // TODO
+    std::stringstream stream;
+    stream.str(std::string(msgData, msgSize));
+    m->unserialize(stream);
     m->apply();
     delete m; // Important since newMessage allocate with new
 }

@@ -27,14 +27,14 @@ class MessageCreate : public IMessage {
 
     private:
         // TODO Some dummy data for now
-        int a;
-        int b;
-        bool c;
+        int m_a = 10;
+        int m_b = 20;
+        bool m_c = true;
 
     public:
         void apply() override;
         bool serialize(std::stringstream & buffer) const override;
-        bool unserialize(std::stringstream & buffer) const override;
+        bool unserialize(std::stringstream & buffer) override;
 };
 
 

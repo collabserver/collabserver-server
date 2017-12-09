@@ -26,7 +26,7 @@ class MessageRead : public IMessage {
     public:
         void apply() override;
         bool serialize(std::stringstream & buffer) const override;
-        bool unserialize(std::stringstream & buffer) const override;
+        bool unserialize(std::stringstream & buffer) override;
 };
 
 

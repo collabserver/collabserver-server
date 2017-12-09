@@ -12,7 +12,7 @@ bool MessageUpdate::serialize(std::stringstream & buffer) const {
     return true;
 }
 
-bool MessageUpdate::unserialize(std::stringstream & stream) const {
+bool MessageUpdate::unserialize(std::stringstream & stream) {
     // TODO
     return true;
 }
