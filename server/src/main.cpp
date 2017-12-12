@@ -7,8 +7,7 @@
 
 int main(int argc, char** argv) {
     try {
-        elephantlogger::init();
-        elephantlogger::setDefaultChannels();
+        elephantlogger::initDefault();
 
         LOG_TRACE(0, "Start Collab Server");
 
@@ -20,13 +19,13 @@ int main(int argc, char** argv) {
     catch(const std::exception& exception) {
         LOG_ERROR(0, "Crashed with exception: %s", exception.what());
         LOG_ERROR(3, "Crashed with exception: %s", exception.what());
-        elephantlogger::saveLogs();
+        elephantlogger::saveLogs("./");
         return -99;
     }
     catch(...) {
         LOG_ERROR(0, "Crashed with unknown exception");
         LOG_ERROR(3, "Crashed with unknown exception");
-        elephantlogger::saveLogs();
+        elephantlogger::saveLogs("./");
         return -100;
     }
 

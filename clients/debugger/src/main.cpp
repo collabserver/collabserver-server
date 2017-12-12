@@ -4,8 +4,7 @@
 
 
 int main(int argc, char** argv) {
-    elephantlogger::init();
-    elephantlogger::setDefaultChannels();
+    elephantlogger::initDefault();
 
     runSpawner();
     return 0;
