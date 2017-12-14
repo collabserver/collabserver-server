@@ -1,0 +1,38 @@
+* Work Schedule (Components overview)
+** Network component [1/3]
+  - [X] Basic network architecture
+  - [ ] ZMQ socket pattern
+  - [ ] Network configuration (JSON, command line)
+
+** Messaging [3/5]
+  - [X] Basic message system / factory
+  - [X] Message event system
+  - [X] Message serialization
+  - [ ] Define all possible messages with their content
+  - [ ] Define all response messages
+
+** Collaboration and conflict resolution [0/4]
+  - [ ] Internal data structure (Ex. modelController)
+  - [ ] View implementation
+  - [ ] Log history of messages
+  - [ ] Structural validator (Simple validator)
+  - [ ] Database proxy component
+  - [ ] Logic for ACK from database (Valid and not valid messages)
+  - [ ] Conflict resolution algorithm (for not valid messages)
+
+** Proxy / End user client [0/3]
+  - [ ] Implements C++ Proxy
+  - [ ] Implements Python proxy wrapper
+  - [ ] Implements Javascript proxy wrapper
+
+** Concrete implementation [0/4]
+  - [ ] Mvk validator
+  - [ ] AToMPM client
+  - [ ] CDO validator
+  - [ ] CDO client
+
+** Debug / test [1/4]
+  - [X] Message spawner to test messages
+  - [ ] Server control console
+  - [ ] Integration tests / Speed tests
+  - [ ] Unit tests
