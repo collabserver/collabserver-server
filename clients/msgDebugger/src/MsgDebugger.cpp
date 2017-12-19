@@ -3,6 +3,8 @@
 #include "terminal.h"
 #include "inputHelper.h"
 #include "network/MessageHelper.h"
+#include "messaging/MessageFactory.h"
+#include "messaging/MessageTypes.h"
 
 #include <string>
 #include <iostream>
@@ -10,6 +12,7 @@
 
 
 using namespace collab;
+class IMessage;
 
 
 void MsgDebugger::run() {
@@ -18,26 +21,47 @@ void MsgDebugger::run() {
     ui::writeLine("----- Start Message Spawner Debugger -----");
     ui::writeLine("Enter 'stop' in message content to quit");
 
-    //ui::writeLine("Connecting to server...");
+    ui::writeLine("Connecting to server...");
+    this->m_proxy.connect("localhost", 5555);
 
     while(this->m_isRunning) {
         ui::writeLine(" ---------- Send new message ---------- ");
         ui::listAllMessages();
 
         ui::writeLine("Enter message type:");
-        int coco = readInt(stdin, 4);
-        char msgType = (coco >= 0 && coco <= 255) ? coco : 0;
-
-        /*
-        if(sendDummyMessage(msgType) == true){
-            zmq::message_t reply;
-            socket.recv(&reply);
-            ui::writeLine("Acknowledgement received");
-        }
-        */
+        int msgType = readInt(stdin, 4);
+        sendDummyMessage(msgType);
     }
+
+    ui::writeLine("Disconnecting from server...");
+    this->m_proxy.disconnect();
 }
 
 void MsgDebugger::stop() {
     this->m_isRunning = false;
 }
+
+void MsgDebugger::sendDummyMessage(const int type) const {
+    const MessageTypes msgType = static_cast<MessageTypes>(type);
+    const int eltID = 1;
+
+    switch(msgType) {
+        case MessageTypes::Create:
+            this->m_proxy.createElt(eltID, "Dummy create");
+            break;
+        case MessageTypes::Read:
+            this->m_proxy.readElt(eltID, "Dummy read");
+            break;
+        case MessageTypes::Update:
+            this->m_proxy.updateElt(eltID, "Dummy update");
+            break;
+        case MessageTypes::Delete:
+            this->m_proxy.deleteElt(eltID);
+            break;
+        default:
+            ui::writeLine("Unable to send message: invalid type");
+            break;
+    }
+}
+
+

@@ -8,7 +8,7 @@ include_directories("${cjsonDir}/include")
 
 
 # Elephant Logger
-set(elephantDir "$ENV{COLLABSERVER_DEPENDENCIES}/ElephantLogger")
+set(elephantDir "$ENV{COLLABSERVER_DEPENDENCIES}/elephant-logger")
 set(ELEPHANT_LIBRARY "${elephantDir}/lib/libelephantlogger.a")
 include_directories("${elephantDir}/include")
 

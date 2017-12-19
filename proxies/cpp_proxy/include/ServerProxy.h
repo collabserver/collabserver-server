@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <zmq.hpp>
 
 
@@ -20,21 +19,21 @@ class ServerProxy {
         zmq::socket_t* m_socketSend = nullptr;
         std::string m_ip            = "localhost";
         int m_port                  = 0;
-        bool m_isRunning            = false;
+        bool m_isConnected          = false;
 
     public:
-        ServerProxy(const char* ip, const int port);
+        ServerProxy() = default;
         ~ServerProxy();
 
     public:
-        void startup();
-        void shutdown();
+        bool connect(const char* ip, const int port);
+        bool disconnect();
 
     public:
-        void createElt(const int id, const std::string & content);
-        void readElt(const int id, const std::string & content);
-        void updateElt(const int id, const std::string & content);
-        void deleteElt(const int id);
+        void createElt(const int id, const char* content) const;
+        void readElt(const int id, const char* content) const;
+        void updateElt(const int id, const char* content) const;
+        void deleteElt(const int id) const;
 };
 
 

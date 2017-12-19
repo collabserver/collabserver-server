@@ -10,7 +10,7 @@ namespace collab {
 class MsgDebugger {
     private:
         bool m_isRunning        = false;
-        ServerProxy m_proxy     = {"localhost", 5555};
+        ServerProxy m_proxy;
 
     public:
         MsgDebugger() = default;
@@ -19,6 +19,9 @@ class MsgDebugger {
     public:
         void run();
         void stop();
+
+    private:
+        void sendDummyMessage(const int type) const;
 };
 
 
