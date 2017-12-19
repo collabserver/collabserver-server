@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MessageTypes.h"
 #include "utils/Singleton.h"
 
 
@@ -38,7 +39,7 @@ class MessageFactory : private Singleton<MessageFactory> {
          *
          * \return New concrete message created. (Or null if invalid type).
          */
-        IMessage* newMessage(const int type) const;
+        IMessage* newMessage(const MessageTypes type) const;
 };
 
 

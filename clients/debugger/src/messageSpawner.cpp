@@ -3,6 +3,7 @@
 #include "inputHelper.h"
 
 #include "messaging/IMessage.h"
+#include "messaging/MessageTypes.h"
 #include "messaging/MessageFactory.h"
 
 #include <stdlib.h> // atoi
@@ -62,7 +63,7 @@ void runSpawner() {
 }
 
 bool sendDummyMessage(const int type) {
-    collab::IMessage* msg = collab::MessageFactory::getInstance().newMessage(type);
+    collab::IMessage* msg = collab::MessageFactory::getInstance().newMessage(static_cast<collab::MessageTypes>(type));
     if(msg == nullptr) {
         ui::writeLine("Message type (%d) doesn't exists", type);
         return false;
@@ -81,6 +82,7 @@ bool sendDummyMessage(const int type) {
     memcpy(request.data(), &type, 1);
     memcpy(ptrStart, buffer.str().c_str(), msgSize); 
     socket.send(request);
+    delete msg;
     return true;
 }
 

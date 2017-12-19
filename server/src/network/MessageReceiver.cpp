@@ -2,6 +2,7 @@
 
 #include "messaging/MessageFactory.h"
 #include "messaging/IMessage.h"
+#include "messaging/MessageTypes.h"
 
 #include <elephantlogger/log.h>
 #include <zmq.hpp>
@@ -53,7 +54,7 @@ void MessageReceiver::processMessage(const char* msg, const size_t size) const {
 
     LOG_DEBUG(0, "Message received! Type: %d, Size: %d, Raw content: %s", msgType, msgSize, msgData);
 
-    IMessage *m = this->m_messageFactory.newMessage(msgType);
+    IMessage *m = this->m_messageFactory.newMessage(static_cast<MessageTypes>(msgType));
     if(m == nullptr) {
         LOG_DEBUG(0, "Unknown message type %d", msgType);
         return;

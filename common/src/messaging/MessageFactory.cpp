@@ -10,19 +10,19 @@
 using namespace collab;
 
 
-IMessage* MessageFactory::newMessage(const int type) const {
+IMessage* MessageFactory::newMessage(const MessageTypes type) const {
     // Switch-case is actually flexible and fast for this use-case.
     switch(type) {
-        case static_cast<int>(MessageTypes::Create):
+        case MessageTypes::Create:
             return new MessageCreate();
 
-        case static_cast<int>(MessageTypes::Delete):
+        case MessageTypes::Delete:
             return new MessageDelete();
 
-        case static_cast<int>(MessageTypes::Read):
+        case MessageTypes::Read:
             return new MessageRead();
 
-        case static_cast<int>(MessageTypes::Update):
+        case MessageTypes::Update:
             return new MessageUpdate();
 
         default:

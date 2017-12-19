@@ -21,7 +21,14 @@ class MessageHelper {
         ~MessageHelper() = default;
 
     public:
-        static void sendMessage(zmq::socket_t socket, const IMessage & msg);
+        /**
+         * Send the given message on the socket.
+         * This doesn't block.
+         *
+         * \param socket Socket where to send message.
+         * \param msg The message to send.
+         */
+        static void sendMessage(zmq::socket_t & socket, const IMessage & msg);
 };
 
 
