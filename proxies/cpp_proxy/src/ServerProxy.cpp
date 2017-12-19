@@ -1,4 +1,4 @@
-#include "ServerProxy.h"
+#include "collabserver/ServerProxy.h"
 
 #include "messaging/IMessage.h"
 #include "messaging/MessageTypes.h"

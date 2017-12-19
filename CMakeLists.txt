@@ -7,6 +7,7 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 endif()
 
 
-include(CMake/CompilerFlags.cmake)
-include(CMake/Dependencies.cmake)
-include(CMake/Executables.cmake)
+include(CMake/AddCompilerFlags.cmake)
+include(CMake/AddDependencies.cmake)
+include(CMake/CreateLibraries.cmake)
+include(CMake/CreateExecutables.cmake)

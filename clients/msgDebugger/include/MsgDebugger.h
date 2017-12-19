@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "ServerProxy.h"
+#include "collabserver/proxy.h"
 
 
 namespace collab {
