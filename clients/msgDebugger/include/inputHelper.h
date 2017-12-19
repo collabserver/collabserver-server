@@ -26,3 +26,13 @@ void clearBuffer();
  * \param size Max number of char to write in buffer.
  */
 void readFromStream(FILE* stream, char* buffer, const int size);
+
+
+/**
+ * Read an int from the given stream.
+ * Read up to size element and convert to int.
+ *
+ * \param stream Where to read from.
+ * \param size Max number of char to read.
+ */
+int readInt(FILE* stream, const int size);

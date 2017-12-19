@@ -18,10 +18,10 @@
 using namespace collab;
 
 
-ServerProxy::ServerProxy(const std::string & ip, const int port) 
+ServerProxy::ServerProxy(const char* ip, const int port) 
     : m_ip(ip),
       m_port(port) {
-    LOG_CONFIG(0, "Create Server Proxy (IP = %s / port = %d)", ip.c_str(), port);
+    LOG_CONFIG(0, "Create Server Proxy (IP = %s / port = %d)", ip, port);
 
     static zmq::socket_t zmqSocket(this->m_context, ZMQ_REQ); // TODO Change to SUB?
     this->m_socketSend = &zmqSocket;

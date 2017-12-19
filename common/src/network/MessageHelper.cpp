@@ -18,7 +18,7 @@ static size_t internal_calculStreamSize(std::stringstream & stream) {
     return size;
 }
 
-static void sendMessage(zmq::socket_t & socket, const IMessage & msg) {
+void MessageHelper::sendMessage(zmq::socket_t & socket, const IMessage & msg) {
     std::stringstream buffer;
     msg.serialize(buffer);
 

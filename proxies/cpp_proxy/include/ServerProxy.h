@@ -23,7 +23,7 @@ class ServerProxy {
         bool m_isRunning            = false;
 
     public:
-        ServerProxy(const std::string & ip, const int port);
+        ServerProxy(const char* ip, const int port);
         ~ServerProxy();
 
     public:
