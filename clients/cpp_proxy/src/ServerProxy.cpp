@@ -1,5 +1,9 @@
 #include "ServerProxy.h"
 
+#include "messaging/IMessage.h"
+#include "messaging/MessageTypes.h"
+#include "messaging/MessageFactory.h"
+
 #include <cassert>
 #include <zmq.hpp>
 #include <elephantlogger/log.h>
@@ -32,6 +36,14 @@ void ServerProxy::shutdown() {
 
 void ServerProxy::createElt(const int id, const std::string & content) {
     LOG_DEBUG(0, "Proxy send 'create' message");
+    if(this->m_isRunning) {
+        IMessage* msg = MessageFactory::getInstance().newMessage(static_cast<int>(MessageTypes::Create));
+        assert(msg != nullptr);
+        if(msg == nullptr) {
+            LOG_WTF(0, "MessageFactory returned null msg for type 'Create'");
+            return;
+        }
+    }
 }
 
 void ServerProxy::readElt(const int id, const std::string & content) {

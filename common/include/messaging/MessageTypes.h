@@ -12,7 +12,7 @@ namespace collab {
  * \since   0.1.0
  */
 enum class MessageTypes : int {
-    Create = 1,
+    Create = 1, // Starting from 0 was doing some weird bugs.
     Delete,
     Read,
     Update,

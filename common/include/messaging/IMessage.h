@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MessageTypes.h"
+
 #include <sstream>
 
 
@@ -41,6 +43,13 @@ class IMessage {
          * \return True if successfully unserialized, otherwise, return false.
          */
         virtual bool unserialize(std::stringstream & buffer) = 0;
+
+        /**
+         * Get the message type ID. (From enum).
+         *
+         * \return Type of the message.
+         */
+        virtual MessageTypes getType() const = 0;
 };
 
 

@@ -16,3 +16,7 @@ bool MessageDelete::unserialize(std::stringstream & stream) {
     // TODO
     return true;
 }
+
+MessageTypes MessageDelete::getType() const {
+    return MessageTypes::Delete;
+}

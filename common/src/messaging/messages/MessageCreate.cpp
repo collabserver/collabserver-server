@@ -39,3 +39,7 @@ bool MessageCreate::unserialize(std::stringstream & buffer) {
     LOG_DEBUG(0, "VALUE: %d", this->m_c);
     return true;
 }
+
+MessageTypes MessageCreate::getType() const {
+    return MessageTypes::Create;
+}

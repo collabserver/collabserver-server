@@ -27,6 +27,7 @@ class MessageRead : public IMessage {
         void apply() override;
         bool serialize(std::stringstream & buffer) const override;
         bool unserialize(std::stringstream & buffer) override;
+        MessageTypes getType() const override;
 };
 
 

@@ -16,3 +16,7 @@ bool MessageRead::unserialize(std::stringstream & stream) {
     // TODO
     return true;
 }
+
+MessageTypes MessageRead::getType() const {
+    return MessageTypes::Read;
+}
