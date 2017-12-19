@@ -4,6 +4,8 @@
 #include "messaging/MessageFactory.h"
 
 #include <sstream>  // std::stringstream
+#include <cassert>
+#include <elephantlogger/log.h>
 
 
 using namespace collab;
@@ -23,14 +25,37 @@ void MessageHelper::sendMessage(zmq::socket_t & socket, const IMessage & msg) {
     msg.serialize(buffer);
 
     const size_t msgSize = internal_calculStreamSize(buffer);
-    const int type = static_cast<int>(msg.getType());
+    const int    msgType = static_cast<int>(msg.getType());
 
     zmq::message_t request(msgSize + 1); // +1 for the msg type byte
 
     char* ptrBufferStart = static_cast<char*>(request.data()) + 1;
 
-    memcpy(request.data(), &type, 1);
+    memcpy(request.data(), &msgType, 1);
     memcpy(ptrBufferStart, buffer.str().c_str(), msgSize); 
 
     socket.send(request);
 }
+
+void MessageHelper::processMessage(const char* msg, const size_t size) {
+    const int       msgType = static_cast<int>(msg[0]);
+    const char*     msgData = msg + 1;
+    const size_t    msgSize = size - 1;
+
+    LOG_DEBUG(0, "Message received! Type: %d, Size: %d, Raw content: %s", msgType, msgSize, msgData);
+
+    IMessage *m = MessageFactory::getInstance().newMessage(static_cast<MessageTypes>(msgType));
+    assert(m != nullptr);
+    if(m == nullptr) {
+        LOG_DEBUG(0, "Unknown message type %d", msgType);
+        return;
+    }
+
+    std::stringstream stream;
+    stream.str(std::string(msgData, msgSize));
+    m->unserialize(stream);
+    m->apply();
+    delete m; // Important since newMessage allocate with new
+}
+
+

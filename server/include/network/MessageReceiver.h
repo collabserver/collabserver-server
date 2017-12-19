@@ -39,15 +39,6 @@ class MessageReceiver {
          * Stop listening.
          */
         void stop();
-
-        /**
-         * Process the raw message.
-         * If is a valid message, execute it.
-         *
-         * \param msg   The message in its raw format.
-         * \param size  Size of the message.
-         */
-        void processMessage(const char* msg, const size_t size) const;
 };
 
 

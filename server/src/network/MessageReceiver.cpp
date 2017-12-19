@@ -3,6 +3,7 @@
 #include "messaging/MessageFactory.h"
 #include "messaging/IMessage.h"
 #include "messaging/MessageTypes.h"
+#include "network/MessageHelper.h"
 
 #include <elephantlogger/log.h>
 #include <zmq.hpp>
@@ -33,7 +34,7 @@ void MessageReceiver::start() {
             zmq::message_t request;
             socket.recv(&request);
 
-            this->processMessage(static_cast<char*>(request.data()), request.size());
+            MessageHelper::processMessage(static_cast<char*>(request.data()), request.size());
 
             //TODO To update, for now, required by ZMQ_REP pattern.
             zmq::message_t reply(11);
@@ -45,24 +46,4 @@ void MessageReceiver::start() {
 
 void MessageReceiver::stop() {
     this->m_isRunning = false;
-}
-
-void MessageReceiver::processMessage(const char* msg, const size_t size) const {
-    const int msgType = static_cast<int>(msg[0]);
-    const char* msgData = msg+1;
-    const size_t msgSize = size-1;
-
-    LOG_DEBUG(0, "Message received! Type: %d, Size: %d, Raw content: %s", msgType, msgSize, msgData);
-
-    IMessage *m = this->m_messageFactory.newMessage(static_cast<MessageTypes>(msgType));
-    if(m == nullptr) {
-        LOG_DEBUG(0, "Unknown message type %d", msgType);
-        return;
-    }
-
-    std::stringstream stream;
-    stream.str(std::string(msgData, msgSize));
-    m->unserialize(stream);
-    m->apply();
-    delete m; // Important since newMessage allocate with new
 }

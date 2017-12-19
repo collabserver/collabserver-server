@@ -68,6 +68,8 @@ void ServerProxy::createElt(const int id, const char* content) const {
     if(this->m_isConnected) {
         MessageCreate msg;
         MessageHelper::sendMessage(*this->m_socketSend, msg);
+        zmq::message_t request;
+        this->m_socketSend->recv(&request);
     }
 }
 
@@ -76,6 +78,8 @@ void ServerProxy::readElt(const int id, const char* content) const {
     if(this->m_isConnected) {
         MessageRead msg;
         MessageHelper::sendMessage(*this->m_socketSend, msg);
+        zmq::message_t request;
+        this->m_socketSend->recv(&request);
     }
 }
 
@@ -84,6 +88,8 @@ void ServerProxy::updateElt(const int id, const char* content) const {
     if(this->m_isConnected) {
         MessageUpdate msg;
         MessageHelper::sendMessage(*this->m_socketSend, msg);
+        zmq::message_t request;
+        this->m_socketSend->recv(&request);
     }
 }
 
@@ -92,5 +98,7 @@ void ServerProxy::deleteElt(const int id) const {
     if(this->m_isConnected) {
         MessageDelete msg;
         MessageHelper::sendMessage(*this->m_socketSend, msg);
+        zmq::message_t request;
+        this->m_socketSend->recv(&request);
     }
 }
