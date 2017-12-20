@@ -23,6 +23,7 @@ ServerProxy::~ServerProxy() {
 }
 
 bool ServerProxy::connect(const char* ip, const int port) {
+    assert(this->m_isConnected == false);
     if(this->m_isConnected) {
         LOG_TRACE(0, "Proxy already connected.");
         return false;

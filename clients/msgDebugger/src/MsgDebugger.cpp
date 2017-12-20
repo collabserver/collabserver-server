@@ -17,6 +17,10 @@ class IMessage;
 
 
 void MsgDebugger::run() {
+    assert(this->m_isRunning == false);
+    if(this->m_isRunning) {
+        return;
+    }
     this->m_isRunning = true;
 
     ui::writeLine("----- Start Message Spawner Debugger -----");
