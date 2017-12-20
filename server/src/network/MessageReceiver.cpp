@@ -3,7 +3,7 @@
 #include "messaging/MessageFactory.h"
 #include "messaging/IMessage.h"
 #include "messaging/MessageTypes.h"
-#include "network/MessageHelper.h"
+#include "network/NetHelper.h"
 
 #include <elephantlogger/log.h>
 #include <zmq.hpp>
@@ -34,7 +34,7 @@ void MessageReceiver::start() {
             zmq::message_t request;
             socket.recv(&request);
 
-            MessageHelper::processMessage(static_cast<char*>(request.data()), request.size());
+            NetHelper::processMessage(static_cast<char*>(request.data()), request.size());
 
             //TODO To update, for now, required by ZMQ_REP pattern.
             zmq::message_t reply(11);

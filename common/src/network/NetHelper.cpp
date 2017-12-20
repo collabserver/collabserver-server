@@ -1,4 +1,4 @@
-#include "network/MessageHelper.h"
+#include "network/NetHelper.h"
 
 #include "messaging/IMessage.h"
 #include "messaging/MessageFactory.h"
@@ -20,7 +20,7 @@ static size_t internal_calculStreamSize(std::stringstream & stream) {
     return size;
 }
 
-void MessageHelper::sendMessage(zmq::socket_t & socket, const IMessage & msg) {
+void NetHelper::sendMessage(zmq::socket_t & socket, const IMessage & msg) {
     std::stringstream buffer;
     msg.serialize(buffer);
 
@@ -37,7 +37,7 @@ void MessageHelper::sendMessage(zmq::socket_t & socket, const IMessage & msg) {
     socket.send(request);
 }
 
-void MessageHelper::processMessage(const char* msg, const size_t size) {
+void NetHelper::processMessage(const char* msg, const size_t size) {
     const int       msgType = static_cast<int>(msg[0]);
     const char*     msgData = msg + 1;
     const size_t    msgSize = size - 1;

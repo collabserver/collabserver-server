@@ -15,10 +15,10 @@ class IMessage;
  * \author  Constantin Masson
  * \since   0.1.0
  */
-class MessageHelper {
+class NetHelper {
     private:
-        MessageHelper() = delete;
-        ~MessageHelper() = delete;
+        NetHelper() = delete;
+        ~NetHelper() = delete;
 
     public:
         /**

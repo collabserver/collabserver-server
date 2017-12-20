@@ -3,7 +3,6 @@
 #include "terminal.h"
 #include "inputHelper.h"
 
-#include "network/MessageHelper.h"
 #include "messaging/MessageFactory.h"
 #include "messaging/MessageTypes.h"
 
