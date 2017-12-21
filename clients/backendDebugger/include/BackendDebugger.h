@@ -7,7 +7,7 @@
 namespace collab {
 
 
-class DatabaseDebugger {
+class BackendDebugger {
     private:
         bool m_isRunning = false;
         ServerProxy m_proxy;

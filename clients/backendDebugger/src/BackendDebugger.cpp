@@ -1,7 +1,7 @@
-#include "DatabaseDebugger.h"
+#include "BackendDebugger.h"
 
 
-void DatabaseDebugger::run() {
+void BackendDebugger::run() {
     assert(this->m_isRunning == false);
     if(this->m_isRunning) {
         return;
@@ -11,6 +11,6 @@ void DatabaseDebugger::run() {
     this->m_proxy.connect("localhost", 5556);
 }
 
-void DatabaseDebugger::stop() {
+void BackendDebugger::stop() {
     this->m_isRunning = false;
 }
