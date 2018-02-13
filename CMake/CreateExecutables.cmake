@@ -1,7 +1,14 @@
-# Main server
+#
+# Create the executables
+# Author: Constantin Masson
+#
+
+
+# ------------------------------------------------------------------------------
+# Server executable
+# ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/common/include")
 include_directories("${CMAKE_SOURCE_DIR}/server/include")
-
 file(GLOB_RECURSE srcServer ${CMAKE_SOURCE_DIR}/server/src/*.cpp)
 
 add_executable(collab-server ${srcServer})
@@ -16,9 +23,11 @@ target_link_libraries(collab-server
 add_custom_target(run collab-server)
 
 
+#-------------------------------------------------------------------------------
 # Message Debugger
+#-------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/common/include")
-include_directories("${CMAKE_SOURCE_DIR}/proxies/cpp_proxy/include")
+include_directories("${CMAKE_SOURCE_DIR}/proxie/include")
 include_directories("${CMAKE_SOURCE_DIR}/clients/msgDebugger/include")
 
 file(GLOB_RECURSE srcDebugger ${CMAKE_SOURCE_DIR}/clients/msgDebugger/src/*.cpp)

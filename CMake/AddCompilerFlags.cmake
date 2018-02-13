@@ -1,16 +1,29 @@
+#
+# Setup all compiler flags depending on current build type (Debug, Release etc...)
+# Author: Constantin Masson
+#
+
 message(STATUS "Detected Operating System: ${CMAKE_SYSTEM_NAME}")
 
 
+# ------------------------------------------------------------------------------
+# WINDOWS (32, 64)
+# ------------------------------------------------------------------------------
 if(WIN32)
-    # Windows (32, 64)
     message(FATAL_ERROR "Windows System not supported, use Visual Studio instead")
 
+
+# ------------------------------------------------------------------------------
+# MAC
+# ------------------------------------------------------------------------------
 elseif("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
-    # MAC OS
     message(FATAL_ERROR "Apple System not supported")
 
+
+# ------------------------------------------------------------------------------
+# LINUX
+# ------------------------------------------------------------------------------
 elseif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-    # Linux
     message(STATUS "Set flags and variables for Build '${CMAKE_BUILD_TYPE}'")
 
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -41,6 +54,10 @@ elseif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
     endif()
 
+
+# ------------------------------------------------------------------------------
+# UNKNOWN
+# ------------------------------------------------------------------------------
 else()
     # Unknown OS
     message(FATAL_ERROR "Unsupported operating system")
