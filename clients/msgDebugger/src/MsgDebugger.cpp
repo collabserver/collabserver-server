@@ -3,8 +3,6 @@
 #include "terminal.h"
 #include "inputHelper.h"
 
-#include <collabserver/proxy.h>
-
 #include <string>
 #include <iostream>
 #include <cassert>

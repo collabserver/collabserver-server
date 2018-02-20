@@ -4,7 +4,6 @@
 
 
 namespace collab {
-
 class MessageViewLoadById;
 
 

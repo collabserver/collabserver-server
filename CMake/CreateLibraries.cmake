@@ -27,18 +27,9 @@ set(COMMON_LIBRARY common)
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/common/include")
 include_directories("${CMAKE_SOURCE_DIR}/proxy/include")
-file(GLOB_RECURSE srcCppProxy ${CMAKE_SOURCE_DIR}/proxy/*.cpp)
+file(GLOB_RECURSE srcCppProxy ${CMAKE_SOURCE_DIR}/proxy/src/*.cpp)
 
-add_library(cpp_proxy STATIC ${srcCppProxy})
-
-target_link_libraries(cpp_proxy
-    ${COMMON_LIBRARY}
-    ${MSGPACK_C_LIBRARY}
-    ${CJSON_LIBRARY}
-    ${ELEPHANT_LIBRARY}
-    "pthread"
-    "stdc++fs"
-    "zmq")
+add_library(cpp_proxy STATIC ${srcCppProxy} ${srcCommon})
 set(PROXY_CPP_LIBRARY cpp_proxy)
 
 

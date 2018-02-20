@@ -1,5 +1,8 @@
 #include "terminal.h"
 
+#include "messaging/MessageTypes.h"
+
+
 namespace ui {
 
 

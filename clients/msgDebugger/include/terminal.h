@@ -1,7 +1,5 @@
 #pragma once
 
-#include "messaging/MessageTypes.h"
-
 #include <stdio.h>
 #include <stdarg.h>
 
