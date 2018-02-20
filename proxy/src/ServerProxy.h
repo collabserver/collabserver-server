@@ -1,9 +1,12 @@
 #pragma once
 
+#include "utils/Singleton.h"
+
 #include <zmq.hpp>
 
 
 namespace collab {
+class IMessage;
 
 
 /**
@@ -13,7 +16,17 @@ namespace collab {
  * \date    Dec 2017
  * \since   0.1.0
  */
-class ServerProxy {
+class ServerProxy : private Singleton<ServerProxy> {
+
+    // Singleton elements
+    private:
+        friend Singleton<ServerProxy>;
+        ServerProxy() = default;
+        ~ServerProxy() = default;
+    public:
+        using Singleton<ServerProxy>::getInstance;
+
+
     private:
         zmq::context_t m_context;
         zmq::socket_t* m_socketSend = nullptr;
@@ -22,12 +35,12 @@ class ServerProxy {
         bool m_isConnected          = false;
 
     public:
-        ServerProxy() = default;
-        ~ServerProxy();
+        bool connect(const char* ip, const int port, const float timeout = 0.0f);
+        bool disconnect();
+        void sendMessage(const IMessage & msg);
 
     public:
-        bool connect(const char* ip, const int port);
-        bool disconnect();
+        bool isConnected() const;
 };
 
 

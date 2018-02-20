@@ -6,7 +6,7 @@ namespace collab {
 
 /*
  * This is the main (And only) end user class.
- * Gives all end user functions relative to remote collab server.
+ * Gives all end-user functions to use the collaborative server.
  *
  * author:  Constantin Masson
  * date:    Feb 208
@@ -14,18 +14,19 @@ namespace collab {
 class Proxy {
     public:
         Proxy() = default;
-        ~Proxy() = default;
+        ~Proxy();
 
     public:
         /**
          * Try to open connection with the remote server.
+         * Connection tentative may be timed out if timeout is set.
          *
          * \param ip IP of the remove server.
          * \param port Port of the remove server.
-         * \param timeout Fails to connect if longer than timeout (No timeout if <=0)
+         * \param timeout Connection timeout in seconds.
          * \return True if successfully connected, otherwise, return false
          */
-        bool connect(const char* ip, const int port, const int timeout = 0);
+        bool connect(const char* ip, const int port, const float timeout = 0.0f);
 
         /**
          * Stop connection with remove server.
@@ -36,7 +37,7 @@ class Proxy {
 
         /**
          * Load the requested view from the server.
-         * This function is asynchrone and won't wait for answer.
+         * This function is asynchrony and won't wait for answer.
          *
          * \param viewID ID of the view to load.
          */
