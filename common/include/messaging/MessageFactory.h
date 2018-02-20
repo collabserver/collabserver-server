@@ -3,6 +3,8 @@
 #include "MessageTypes.h"
 #include "utils/Singleton.h"
 
+#include <memory> // std::unique_ptr
+
 
 namespace collab {
 
@@ -19,11 +21,14 @@ class IMessage;
  * \since   0.1.0
  */
 class MessageFactory : private Singleton<MessageFactory> {
+    // Use for singleton
     private:
         friend Singleton<MessageFactory>;
     public:
         using Singleton<MessageFactory>::getInstance;
 
+
+    // Abstract class factory
     protected:
         MessageFactory() = default;
         ~MessageFactory() = default;
@@ -32,14 +37,11 @@ class MessageFactory : private Singleton<MessageFactory> {
     public:
         /**
          * Create a new concrete message from its ID.
+         * If ID is not valid, nullptr is returned.
          *
-         * \warning
-         * Message is allocated on the head (Using C++ new operator).
-         * This message must be free manually!
-         *
-         * \return New concrete message created. (Or null if invalid type).
+         * \return Smart pointer to the new created Message.
          */
-        IMessage* newMessage(const MessageTypes type) const;
+        std::unique_ptr<IMessage> newMessage(const MessageTypes type) const;
 };
 
 

@@ -5,6 +5,7 @@
 
 #include <sstream>  // std::stringstream
 #include <cassert>
+#include <memory> // std::unique_ptr
 #include <elephantlogger/log.h>
 
 
@@ -44,7 +45,7 @@ void NetHelper::processMessage(const char* msg, const size_t size) {
 
     LOG_DEBUG(0, "Message received! Type: %d, Size: %d, Raw content: %s", msgType, msgSize, msgData);
 
-    IMessage *m = MessageFactory::getInstance().newMessage(static_cast<MessageTypes>(msgType));
+    std::unique_ptr<IMessage> m = MessageFactory::getInstance().newMessage(static_cast<MessageTypes>(msgType));
     assert(m != nullptr);
     if(m == nullptr) {
         LOG_DEBUG(0, "Unknown message type %d", msgType);
@@ -55,7 +56,6 @@ void NetHelper::processMessage(const char* msg, const size_t size) {
     stream.str(std::string(msgData, msgSize));
     m->unserialize(stream);
     m->apply();
-    delete m; // Important since newMessage allocate with new
 }
 
 
