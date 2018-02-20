@@ -1,16 +1,12 @@
 #pragma once
 
-
-#include "collabserver/proxy.h"
-
-
-namespace collab {
+#include <collabserver/proxy.h>
 
 
 class MsgDebugger {
     private:
         bool m_isRunning        = false;
-        ServerProxy m_proxy;
+        collab::Proxy m_proxy;
 
     public:
         MsgDebugger() = default;
@@ -23,6 +19,3 @@ class MsgDebugger {
     private:
         void sendDummyMessage(const int type) const;
 };
-
-
-} // End namespace

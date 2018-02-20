@@ -1,27 +1,27 @@
 #pragma once
 
 #include "messaging/IMessage.h"
-#include "messaging/events/EventUpdate.h"
+#include "messaging/events/EventViewLoadById.h"
 
 
 namespace collab {
 
 
 /**
- * Implements IMessage for Update operation.
+ * Implements IMessage for Read operation.
  *
  * \author  Constantin Masson
  * \date    Nov 2017
  * \since   0.1.0
  */
-class MessageUpdate : public IMessage {
+class MessageViewLoadById : public IMessage {
     private:
         /** Event that process this message. */
-        EventUpdate m_event;
+        EventViewLoadById m_event;
 
     public:
-        MessageUpdate() = default;
-        ~MessageUpdate() = default;
+        MessageViewLoadById() = default;
+        ~MessageViewLoadById() = default;
 
     public:
         void apply() override;

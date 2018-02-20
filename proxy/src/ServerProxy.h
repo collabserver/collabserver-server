@@ -7,7 +7,7 @@ namespace collab {
 
 
 /**
- * C++ proxy.
+ * C++ network proxy connection.
  *
  * \author  Constantin
  * \date    Dec 2017
@@ -28,12 +28,6 @@ class ServerProxy {
     public:
         bool connect(const char* ip, const int port);
         bool disconnect();
-
-    public:
-        void createElt(const int id, const char* content) const;
-        void readElt(const int id, const char* content) const;
-        void updateElt(const int id, const char* content) const;
-        void deleteElt(const int id) const;
 };
 
 

@@ -5,7 +5,7 @@
 
 namespace collab {
 
-class MessageRead;
+class MessageViewLoadById;
 
 
 /**
@@ -15,13 +15,13 @@ class MessageRead;
  * \date    Nov 2017
  * \since   0.1.0
  */
-class EventRead : public IMessageEvent<MessageRead> {
+class EventViewLoadById : public IMessageEvent<MessageViewLoadById> {
     public:
-        EventRead() = default;
-        ~EventRead() = default;
+        EventViewLoadById() = default;
+        ~EventViewLoadById() = default;
 
     public:
-        void receive(MessageRead & message) const override;
+        void receive(MessageViewLoadById & message) const override;
 };
 
 

@@ -7,8 +7,8 @@
 # ------------------------------------------------------------------------------
 # Server executable
 # ------------------------------------------------------------------------------
-include_directories("${CMAKE_SOURCE_DIR}/common/include")
 include_directories("${CMAKE_SOURCE_DIR}/server/include")
+include_directories("${CMAKE_SOURCE_DIR}/common/include")
 file(GLOB_RECURSE srcServer ${CMAKE_SOURCE_DIR}/server/src/*.cpp)
 
 add_executable(collab-server ${srcServer})
@@ -26,9 +26,9 @@ add_custom_target(run collab-server)
 #-------------------------------------------------------------------------------
 # Message Debugger
 #-------------------------------------------------------------------------------
-include_directories("${CMAKE_SOURCE_DIR}/common/include")
-include_directories("${CMAKE_SOURCE_DIR}/proxie/include")
 include_directories("${CMAKE_SOURCE_DIR}/clients/msgDebugger/include")
+include_directories("${CMAKE_SOURCE_DIR}/common/include")
+include_directories("${CMAKE_SOURCE_DIR}/proxy/include")
 
 file(GLOB_RECURSE srcDebugger ${CMAKE_SOURCE_DIR}/clients/msgDebugger/src/*.cpp)
 

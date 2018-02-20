@@ -3,8 +3,7 @@
 #include "terminal.h"
 #include "inputHelper.h"
 
-#include "messaging/MessageFactory.h"
-#include "messaging/MessageTypes.h"
+#include <collabserver/proxy.h>
 
 #include <string>
 #include <iostream>
@@ -46,26 +45,19 @@ void MsgDebugger::stop() {
 }
 
 void MsgDebugger::sendDummyMessage(const int type) const {
+    /*
     const MessageTypes msgType = static_cast<MessageTypes>(type);
     const int eltID = 1;
 
     switch(msgType) {
-        case MessageTypes::Create:
+        case MessageTypes::VIEW_LOAD_BY_ID:
             this->m_proxy.createElt(eltID, "Dummy create");
-            break;
-        case MessageTypes::Read:
-            this->m_proxy.readElt(eltID, "Dummy read");
-            break;
-        case MessageTypes::Update:
-            this->m_proxy.updateElt(eltID, "Dummy update");
-            break;
-        case MessageTypes::Delete:
-            this->m_proxy.deleteElt(eltID);
             break;
         default:
             ui::writeLine("Unable to send message: invalid type");
             break;
     }
+    */
 }
 
 

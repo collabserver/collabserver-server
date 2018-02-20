@@ -1,18 +1,11 @@
-#include "collabserver/ServerProxy.h"
+#include "ServerProxy.h"
 
-#include "messaging/IMessage.h"
-#include "messaging/MessageTypes.h"
-#include "messaging/MessageFactory.h"
-#include "messaging/messages/MessageCreate.h"
-#include "messaging/messages/MessageRead.h"
-#include "messaging/messages/MessageUpdate.h"
-#include "messaging/messages/MessageDelete.h"
 #include "network/NetHelper.h"
 
 #include <cassert>
 #include <zmq.hpp>
-#include <elephantlogger/log.h>
 #include <stdio.h>
+#include <elephantlogger/log.h>
 
 
 using namespace collab;
@@ -64,16 +57,8 @@ bool ServerProxy::disconnect() {
 // Core methods (Send to server)
 // -----------------------------------------------------------------------------
 
-void ServerProxy::createElt(const int id, const char* content) const {
-    LOG_DEBUG(0, "Proxy sends 'create' message");
-    if(this->m_isConnected) {
-        MessageCreate msg;
-        NetHelper::sendMessage(*this->m_socketSend, msg);
-        zmq::message_t request;
-        this->m_socketSend->recv(&request);
-    }
-}
 
+/*
 void ServerProxy::readElt(const int id, const char* content) const {
     LOG_DEBUG(0, "Proxy sends 'read' message");
     if(this->m_isConnected) {
@@ -83,23 +68,4 @@ void ServerProxy::readElt(const int id, const char* content) const {
         this->m_socketSend->recv(&request);
     }
 }
-
-void ServerProxy::updateElt(const int id, const char* content) const {
-    LOG_DEBUG(0, "Proxy sends 'update' message");
-    if(this->m_isConnected) {
-        MessageUpdate msg;
-        NetHelper::sendMessage(*this->m_socketSend, msg);
-        zmq::message_t request;
-        this->m_socketSend->recv(&request);
-    }
-}
-
-void ServerProxy::deleteElt(const int id) const {
-    LOG_DEBUG(0, "Proxy sends 'delete' message");
-    if(this->m_isConnected) {
-        MessageDelete msg;
-        NetHelper::sendMessage(*this->m_socketSend, msg);
-        zmq::message_t request;
-        this->m_socketSend->recv(&request);
-    }
-}
+*/

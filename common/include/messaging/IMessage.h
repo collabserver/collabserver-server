@@ -9,7 +9,7 @@ namespace collab {
 
 
 /**
- * Interface for Messages.
+ * Interface for network Messages.
  *
  * \author  Constantin Masson
  * \date    Nov 2017
@@ -36,7 +36,6 @@ class IMessage {
         virtual bool serialize(std::stringstream & buffer) const = 0;
 
         /**
-         *
          * Unserialize the message from its internal packed format.
          *
          * \param buffer Where to place unserialized data.

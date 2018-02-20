@@ -16,7 +16,7 @@ void writeLine(const char* format, ...) {
 }
 
 void listAllMessages() {
-    const int nbMessages = static_cast<int>(collab::MessageTypes::Counter);
+    const int nbMessages = static_cast<int>(collab::MessageTypes::COUNTER);
 
     writeLine("All possible messages: ");
     for(int k = 1; k < nbMessages+1; ++k) {

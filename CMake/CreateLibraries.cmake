@@ -26,8 +26,8 @@ set(COMMON_LIBRARY common)
 # Proxy (End user front end proxy)
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/common/include")
-include_directories("${CMAKE_SOURCE_DIR}/proxie/include")
-file(GLOB_RECURSE srcCppProxy ${CMAKE_SOURCE_DIR}/proxie/*.cpp)
+include_directories("${CMAKE_SOURCE_DIR}/proxy/include")
+file(GLOB_RECURSE srcCppProxy ${CMAKE_SOURCE_DIR}/proxy/*.cpp)
 
 add_library(cpp_proxy STATIC ${srcCppProxy})
 
