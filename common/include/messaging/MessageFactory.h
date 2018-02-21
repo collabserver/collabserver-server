@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MessageTypes.h"
-#include "utils/Singleton.h"
+#include "util/Singleton.h"
 
 #include <memory> // std::unique_ptr
 

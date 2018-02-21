@@ -27,11 +27,11 @@ add_custom_target(run collab-server)
 #-------------------------------------------------------------------------------
 # Message Debugger
 #-------------------------------------------------------------------------------
-include_directories("${CMAKE_SOURCE_DIR}/clients/msgDebugger/include")
+include_directories("${CMAKE_SOURCE_DIR}/client/msgDebugger/include")
 include_directories("${CMAKE_SOURCE_DIR}/common/include")
 include_directories("${CMAKE_SOURCE_DIR}/proxy/include")
 
-file(GLOB_RECURSE srcDebugger ${CMAKE_SOURCE_DIR}/clients/msgDebugger/src/*.cpp)
+file(GLOB_RECURSE srcDebugger ${CMAKE_SOURCE_DIR}/client/msgDebugger/src/*.cpp)
 add_executable(debugger ${srcDebugger})
 
 target_link_libraries(debugger

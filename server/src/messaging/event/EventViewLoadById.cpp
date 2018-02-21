@@ -1,4 +1,4 @@
-#include "messaging/events/EventViewLoadById.h"
+#include "messaging/event/EventViewLoadById.h"
 
 #include <elephantlogger/log.h>
 

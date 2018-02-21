@@ -1,7 +1,7 @@
 #include "messaging/MessageFactory.h"
 #include "messaging/MessageTypes.h"
 
-#include "messaging/messages/MessageViewLoadById.h"
+#include "messaging/message/MessageViewLoadById.h"
 
 
 using namespace collab;

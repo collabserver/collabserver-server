@@ -1,4 +1,4 @@
-#include "messaging/messages/MessageViewLoadById.h"
+#include "messaging/message/MessageViewLoadById.h"
 
 #include <msgpack.hpp>
 

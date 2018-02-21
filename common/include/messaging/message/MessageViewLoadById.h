@@ -1,7 +1,7 @@
 #pragma once
 
 #include "messaging/IMessage.h"
-#include "messaging/events/EventViewLoadById.h"
+#include "messaging/event/EventViewLoadById.h"
 
 
 namespace collab {
