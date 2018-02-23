@@ -5,7 +5,7 @@
 using namespace collab;
 
 void MessageViewLoadById::apply() {
-    this->m_event.receive(*this);
+    //this->m_event->receive(*this); TODO
 }
 
 bool MessageViewLoadById::serialize(std::stringstream & buffer) const {

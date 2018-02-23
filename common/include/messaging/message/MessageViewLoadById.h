@@ -1,7 +1,7 @@
 #pragma once
 
 #include "messaging/IMessage.h"
-#include "messaging/event/EventViewLoadById.h"
+#include "messaging/IMessageEvent.h"
 
 
 namespace collab {
@@ -17,7 +17,7 @@ namespace collab {
 class MessageViewLoadById : public IMessage {
     private:
         /** Event that process this message. */
-        EventViewLoadById m_event;
+        IMessageEvent<MessageViewLoadById> *m_event = nullptr;
 
     public:
         MessageViewLoadById() = default;

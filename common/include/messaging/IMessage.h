@@ -23,11 +23,6 @@ class IMessage {
 
     public:
         /**
-         * Apply the event registered for this message.
-         */
-        virtual void apply() = 0;
-
-        /**
          * Serialize the message in internal packed format.
          *
          * \param buffer Where to place serialized data.
@@ -42,6 +37,12 @@ class IMessage {
          * \return True if successfully unserialized, otherwise, return false.
          */
         virtual bool unserialize(std::stringstream & buffer) = 0;
+
+        /**
+         * Apply the event registered for this message.
+         * This is usually the function to call whenever message is received.
+         */
+        virtual void apply() = 0;
 
         /**
          * Get the message type ID. (From enum).

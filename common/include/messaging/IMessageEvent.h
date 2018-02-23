@@ -6,10 +6,10 @@ namespace collab {
 
 /**
  * Interface for message handling.
- * Template for each concret message
+ * Incoming message may start a callback function in order to process it.
+ * Message may register the MessageEvent handler that is in charge to do this.
  *
  * \tparam <M> The message this event is working with.
- *
  *
  * \author  Constantin Masson
  * \date    Nov 2017
@@ -24,7 +24,7 @@ class IMessageEvent {
 
     public:
         /**
-         * Execute message logic for received message.
+         * Execute message logic for the newly received message.
          *
          * \param message The message to use for the event.
          */
