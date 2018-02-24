@@ -25,7 +25,7 @@ class LoadById : public IMessage {
         const IMessageEvent<LoadById> * const m_event = nullptr;
 
     public:
-        LoadById(const IMessageEvent<LoadById> *event) : m_event(event) {}
+        LoadById(const IMessageEvent<LoadById> * event) : m_event(event) {}
         ~LoadById() = default;
 
     public:

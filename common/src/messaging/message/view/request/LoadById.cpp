@@ -8,8 +8,9 @@ namespace msg = messaging::message::view::request;
 
 
 void msg::LoadById::apply() {
-    // TODO
-    //this->m_event->receive(*this);
+    if(this->m_event != nullptr) {
+        this->m_event->receive(*this);
+    }
 }
 
 bool msg::LoadById::serialize(std::stringstream & buffer) const {

@@ -29,7 +29,7 @@ std::unique_ptr<IMessage> MessageFactory::newMessage(const MessageTypes type) co
             return std::unique_ptr<IMessage>(new view_msg::request::LoadById(nullptr));
 
         case MessageTypes::VIEW_RESPONSE_LOAD_BY_ID:
-            return std::unique_ptr<IMessage>(new view_msg::response::LoadById());
+            return std::unique_ptr<IMessage>(new view_msg::response::LoadById(nullptr));
 
 
         // ---------------------------------------------------------------------
