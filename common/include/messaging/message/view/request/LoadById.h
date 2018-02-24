@@ -21,10 +21,10 @@ namespace request {
 class LoadById : public IMessage {
     private:
         /** Event that process this message. */
-        IMessageEvent<LoadById> *m_event = nullptr;
+        const IMessageEvent<LoadById> * const m_event = nullptr;
 
     public:
-        LoadById() = default;
+        LoadById(const IMessageEvent<LoadById> *event) : m_event(event) {}
         ~LoadById() = default;
 
     public:
