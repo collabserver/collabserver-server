@@ -5,23 +5,27 @@
 
 
 namespace collab {
+namespace message {
+namespace view {
+namespace response {
 
 
 /**
  * Implements IMessage for Read operation.
+ * Load a specific view by its ID.
  *
  * \author  Constantin Masson
- * \date    Nov 2017
+ * \date    Feb 2018
  * \since   0.1.0
  */
-class MessageViewLoadById : public IMessage {
+class LoadById : public IMessage {
     private:
         /** Event that process this message. */
-        IMessageEvent<MessageViewLoadById> *m_event = nullptr;
+        IMessageEvent<LoadById> *m_event = nullptr;
 
     public:
-        MessageViewLoadById() = default;
-        ~MessageViewLoadById() = default;
+        LoadById() = default;
+        ~LoadById() = default;
 
     public:
         void apply() override;
@@ -31,4 +35,5 @@ class MessageViewLoadById : public IMessage {
 };
 
 
-} // End namespace
+}}}} // End namespace
+

@@ -1,7 +1,7 @@
 #include "messaging/MessageFactory.h"
-#include "messaging/MessageTypes.h"
 
-#include "messaging/message/MessageViewLoadById.h"
+#include "messaging/message/view/request/LoadById.h"
+#include "messaging/message/view/response/LoadById.h"
 
 
 using namespace collab;
@@ -12,9 +12,22 @@ std::unique_ptr<IMessage> MessageFactory::newMessage(const MessageTypes type) co
     // DevNote: Switch-case is actually flexible enough and fast for this use-case.
 
     switch(type) {
-        case MessageTypes::VIEW_LOAD_BY_ID:
-            return std::unique_ptr<IMessage>(new MessageViewLoadById());
 
+        // ---------------------------------------------------------------------
+        // View Messages
+        // ---------------------------------------------------------------------
+        namespace view = message::view;
+
+        case MessageTypes::VIEW_REQUEST_LOAD_BY_ID:
+            return std::unique_ptr<IMessage>(new view::request::LoadById());
+
+        case MessageTypes::VIEW_RESPONSE_LOAD_BY_ID:
+            return std::unique_ptr<IMessage>(new view::response::LoadById());
+
+
+        // ---------------------------------------------------------------------
+        // Miscellaneous Messages
+        // ---------------------------------------------------------------------
         default:
             return nullptr;
     }

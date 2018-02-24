@@ -12,7 +12,11 @@ namespace collab {
  * \since   0.1.0
  */
 enum class MessageTypes : int {
-    VIEW_LOAD_BY_ID = 1, // Starting from 0 was doing some weird bugs.
+    // Start at 1 because 0 was doing weird behavior with bit-backing types.
+
+    // View Messages
+    VIEW_REQUEST_LOAD_BY_ID = 1,
+    VIEW_RESPONSE_LOAD_BY_ID,
 
 
     // Internal use (TO KEEP LAST)
