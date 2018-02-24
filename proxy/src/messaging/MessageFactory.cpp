@@ -12,6 +12,9 @@
 
 using namespace collab;
 
+// Namespace alias
+namespace view_msg = messaging::message::view;
+
 
 std::unique_ptr<IMessage> MessageFactory::newMessage(const MessageTypes type) const {
     // DevNote: if pass to C++14, may use std::make_unique instead
@@ -22,13 +25,11 @@ std::unique_ptr<IMessage> MessageFactory::newMessage(const MessageTypes type) co
         // ---------------------------------------------------------------------
         // View Messages
         // ---------------------------------------------------------------------
-        namespace view = message::view;
-
         case MessageTypes::VIEW_REQUEST_LOAD_BY_ID:
-            return std::unique_ptr<IMessage>(new view::request::LoadById(nullptr));
+            return std::unique_ptr<IMessage>(new view_msg::request::LoadById(nullptr));
 
         case MessageTypes::VIEW_RESPONSE_LOAD_BY_ID:
-            return std::unique_ptr<IMessage>(new view::response::LoadById());
+            return std::unique_ptr<IMessage>(new view_msg::response::LoadById());
 
 
         // ---------------------------------------------------------------------

@@ -5,6 +5,7 @@
 
 
 namespace collab {
+namespace messaging {
 namespace message {
 namespace view {
 namespace request {
@@ -35,5 +36,5 @@ class LoadById : public IMessage {
 };
 
 
-}}}} // End namespace
+}}}}} // End namespace
 

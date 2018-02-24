@@ -4,7 +4,7 @@
 
 
 using namespace collab;
-namespace msg = message::view::request;
+namespace msg = messaging::message::view::request;
 
 
 void msg::LoadById::apply() {

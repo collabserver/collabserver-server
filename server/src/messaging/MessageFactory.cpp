@@ -14,8 +14,8 @@
 using namespace collab;
 
 // Namespace alias
-namespace view_msg = message::view;
-namespace view_event = event::view;
+namespace view_msg = messaging::message::view;
+namespace view_event = messaging::event::view;
 
 
 // -----------------------------------------------------------------------------

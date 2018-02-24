@@ -4,9 +4,10 @@
 #include "messaging/message/view/request/LoadById.h"
 
 
-namespace msg = collab::message::view::request;
+namespace msg = collab::messaging::message::view::request;
 
 namespace collab {
+namespace messaging {
 namespace event {
 namespace view {
 namespace request {
@@ -22,4 +23,4 @@ class LoadById : public IMessageEvent<msg::LoadById> {
 };
 
 
-}}}} // End namespace
+}}}}} // End namespace

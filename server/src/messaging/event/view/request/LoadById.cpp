@@ -4,8 +4,9 @@
 
 
 using namespace collab;
-namespace msg = message::view::request;
-namespace handler = event::view::request;
+namespace msg = messaging::message::view::request;
+namespace handler = messaging::event::view::request;
+
 
 void handler::LoadById::receive(msg::LoadById & message) const {
     LOG_DEBUG(0, "Receive VIEW_REQUEST_LOAD_BY_ID");
