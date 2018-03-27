@@ -17,10 +17,18 @@ void example_CvRDT_GIntVector()
     CvRDT_GIntVector_update(&counter_process1, 1);
     CvRDT_GIntVector_update(&counter_process1, 1);
 
-
+    // Merge
     CvRDT_GIntVector_merge(&counter_process0, &counter_process1);
     CvRDT_GIntVector_merge(&counter_process1, &counter_process0);
 
+    // Because idempotent, these calls won't do anything
+    CvRDT_GIntVector_merge(&counter_process0, &counter_process1);
+    CvRDT_GIntVector_merge(&counter_process1, &counter_process0);
+    CvRDT_GIntVector_merge(&counter_process0, &counter_process1);
+    CvRDT_GIntVector_merge(&counter_process0, &counter_process1);
+    CvRDT_GIntVector_merge(&counter_process1, &counter_process0);
+
+    // Print result (Should be [3,2])
     CvRDT_GIntVector_print(&counter_process0);
     CvRDT_GIntVector_print(&counter_process1);
 }

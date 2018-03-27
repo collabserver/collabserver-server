@@ -1,11 +1,8 @@
 /*
- * Grow Only Integer Vector.
+ * Grow Only Integer Vector
+ * CvRDT (State based object)
  *
- *
- * CRDT Example of implementation. (For educational purpose only)
- * Based on the article:
- * https://pages.lip6.fr/Marc.Shapiro/papers/CRDTs_SSS-2011.pdf
- *
+ * Uses a fixed number of process.
  *
  * Author:  Constantin Masson
  * Date:    March 2018
@@ -21,21 +18,6 @@
 
 #define NB_PROCESS 2
 
-
-// -----------------------------------------------------------------------------
-// CvRDT_GIntVector (STATE BASED CRDT)
-// -----------------------------------------------------------------------------
-
-/*
- * CvRDT Integer vector (Increment only)
- *
- * State CvRDT is defined by (S s0 q u m)
- *  S   -> State
- *  s0  -> State at beginning
- *  q   -> Query method
- *  u   -> Update method
- *  m   -> Merge method
- */
 struct CvRDT_GIntVector
 {
     size_t _size;
@@ -80,17 +62,12 @@ void CvRDT_GIntVector_merge(struct CvRDT_GIntVector* ours,
 void CvRDT_GIntVector_print(const struct CvRDT_GIntVector* data)
 {
     assert(data != NULL);
+    assert(data->_size > 0);
 
-    fprintf(stdout, "CvRDT integer increment only vector (size %d): ", (int)data->_size);
-    if(data->_size > 0) {
-        fprintf(stdout, "[%d", data->_m[0]);
-        for(int k = 1; k < (int)data->_size; ++k) {
-            fprintf(stdout, ", %d", (int)data->_m[k]);
-        }
-        fprintf(stdout, "]\n");
+    fprintf(stdout, "CvRDT GIntVector [%d", data->_m[0]);
+    for(int k = 1; k < (int)data->_size; ++k)
+    {
+        fprintf(stdout, ", %d", (int)data->_m[k]);
     }
-    else {
-        fprintf(stdout, "[empty]\n");
-    }
-
+    fprintf(stdout, "] (Size: %d) \n", (int)data->_size);
 }

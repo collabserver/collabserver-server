@@ -12,5 +12,6 @@ $(TARGET) : main.c
 .PHONY: clean
 clean:
 	-rm -f $(TARGET)
-run:
+
+run: $(TARGET)
 	./$(TARGET)
