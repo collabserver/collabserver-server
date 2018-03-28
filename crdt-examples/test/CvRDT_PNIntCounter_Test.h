@@ -3,7 +3,6 @@
 #include "CvRDT_PNIntCounter.h"
 
 
-
 void example_CvRDT_PNIntCounter()
 {
     struct CvRDT_PNIntCounter counter_process0 = CvRDT_PNIntCounter_init();

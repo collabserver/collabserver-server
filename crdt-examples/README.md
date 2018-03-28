@@ -6,6 +6,7 @@ Examples of CRDTs implementations in C. (For educational purpose only).
 - CvRDT_GIntCounter: Grow-only Integer Counter (State-based)
 - CvRDT_GIntVector: Grow-only Integer Vector (State-based)
 - CvRDT_PNIntCounter: Increment / Decrement Integer Counter (State-based)
+- CvRDT_PNIntVector: Increment / Decrement Integer Vector (State-based)
 
 
 # State-based object (CvRDT)

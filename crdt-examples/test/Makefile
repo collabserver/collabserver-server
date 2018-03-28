@@ -1,6 +1,6 @@
 CC=gcc
 FLAGS=-g -Wall
-TARGET=test_CRDT
+TARGET=test_CRDT.out
 
 
 all: $(TARGET)

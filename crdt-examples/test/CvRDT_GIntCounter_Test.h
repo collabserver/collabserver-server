@@ -3,7 +3,6 @@
 #include "CvRDT_GIntCounter.h"
 
 
-
 void example_CvRDT_GIntCounter()
 {
     struct CvRDT_GIntCounter counter_process0 = CvRDT_GIntCounter_init();
