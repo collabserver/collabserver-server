@@ -1,5 +1,5 @@
 # CRDT Examples
-Examples of CRDTs implementations in C. (For educational purpose only).
+Examples of CRDTs implementations in C++ (For educational purpose only).
 
 
 # Features

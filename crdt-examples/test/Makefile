@@ -1,11 +1,11 @@
-CC=gcc
+CC=g++
 FLAGS=-g -Wall
 TARGET=test_CRDT.out
 
 
 all: $(TARGET)
 
-$(TARGET) : main.c
+$(TARGET) : main.cpp
 	$(CC) $(FLAGS) -I../include/ -o $@ $^
 
 
