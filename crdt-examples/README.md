@@ -1,8 +1,14 @@
 # CRDT Examples
-Examples of CRDTs implementations. (For educational purpose only).
+Examples of CRDTs implementations in C. (For educational purpose only).
 
 
-# State CvRDT
+# Features
+- CvRDT_GIntCounter: Grow-only Integer Counter (State-based)
+- CvRDT_GIntVector: Grow-only Integer Vector (State-based)
+- CvRDT_PNIntCounter: Increment / Decrement Integer Counter (State-based)
+
+
+# State-based object (CvRDT)
     State CvRDT is defined by (S s0 q u m)
         S   -> Global State
         s0  -> State at beginning

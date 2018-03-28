@@ -2,7 +2,7 @@
  * Grow Only Integer Vector
  * CvRDT (State based object)
  *
- * Uses a fixed number of process.
+ * Uses a fixed number of process
  *
  * Author:  Constantin Masson
  * Date:    March 2018
@@ -15,8 +15,8 @@
 #include <assert.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
-
 #define NB_PROCESS 2
+
 
 struct CvRDT_GIntVector
 {
