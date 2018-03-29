@@ -2,6 +2,7 @@
 #include "CvRDT/GVectorInt_Test.h"
 #include "CvRDT/PNCounterInt_Test.h"
 #include "CvRDT/PNVectorInt_Test.h"
+#include "CvRDT/GSetInt_Test.h"
 
 using namespace CRDT;
 
@@ -11,6 +12,8 @@ int main(int argc, char** argv) {
 
     CvRDT::PNCounterInt_example();
     CvRDT::PNVectorInt_example();
+
+    CvRDT::GSetInt_example();
 
     return 0;
 }
