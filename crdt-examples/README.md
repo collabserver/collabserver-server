@@ -3,10 +3,12 @@ Examples of CRDTs implementations in C++ (For educational purpose only).
 
 
 # Features
-- CvRDT_GIntCounter: Grow-only Integer Counter (State-based)
-- CvRDT_GIntVector: Grow-only Integer Vector (State-based)
-- CvRDT_PNIntCounter: Increment / Decrement Integer Counter (State-based)
-- CvRDT_PNIntVector: Increment / Decrement Integer Vector (State-based)
+- CvRDT_GCounterInt: Grow-only Integer Counter (State-based)
+- CvRDT_GVectorInt: Grow-only Integer Vector (State-based)
+- CvRDT_PNCounterInt: Increment / Decrement Integer Counter (State-based)
+- CvRDT_PNVectorInt: Increment / Decrement Integer Vector (State-based)
+- CvRDT_GSetInt: Grow-only Integer set (State-based)
+- CvRDT_USetInt: Grow-only Integet 2P-Set (State-based)
 
 
 # State-based object (CvRDT)

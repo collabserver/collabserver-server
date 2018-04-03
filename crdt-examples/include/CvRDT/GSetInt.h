@@ -5,8 +5,6 @@
 #include <cassert>
 #include <stdio.h>
 
-#define NB_PROCESS 2 // TODO: Nb process is hardcoded
-
 
 namespace CRDT {
 namespace CvRDT {
@@ -16,13 +14,20 @@ namespace CvRDT {
 // Data
 // -----------------------------------------------------------------------------
 
+/**
+ * Grow Only (add-only) Set Integer.
+ * CvRDT (State-based object).
+ *
+ * \author  Constantin Masson
+ * \date    March 2018
+ */
 struct GSetInt {
     std::set<int> _m;
 };
 
 
 // -----------------------------------------------------------------------------
-// Method to work on Data (GSetInt)
+// Data Methods
 // -----------------------------------------------------------------------------
 
 
@@ -45,7 +50,6 @@ void GSetInt_merge(GSetInt& ours, const GSetInt& theirs) {
 
 void GSetInt_print(const GSetInt& data) {
     std::set<int>::const_iterator it = data._m.begin();
-    //auto it = data._m.begin(); (Better, but for learning purpose, the other)
 
     if(data._m.empty()) {
         fprintf(stdout, "GSetInt: [empty]\n");
