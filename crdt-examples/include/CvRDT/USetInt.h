@@ -68,7 +68,7 @@ void USetInt_merge(USetInt& ours, const USetInt& theirs) {
 
 void USetInt_print(const USetInt& data) {
     char separator = ' ';
-    fprintf(stdout, "USetInt: [");
+    fprintf(stdout, "CvRDT USetInt: [");
 
     for(auto it = data._mAdd.begin(); it != data._mAdd.end(); ++it) {
         bool contains = (data._mDel.find(*it) != data._mDel.end());

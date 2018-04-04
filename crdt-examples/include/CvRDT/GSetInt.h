@@ -51,10 +51,10 @@ void GSetInt_print(const GSetInt& data) {
     std::set<int>::const_iterator it = data._m.begin();
 
     if(data._m.empty()) {
-        fprintf(stdout, "GSetInt: [empty]\n");
+        fprintf(stdout, "CvRDT GSetInt: [empty]\n");
     }
     else {
-        fprintf(stdout, "GSetInt: [%d", *it);
+        fprintf(stdout, "CvRDT GSetInt: [%d", *it);
         for(++it; it != data._m.end(); ++it) {
             fprintf(stdout, ",%d", *it);
         }

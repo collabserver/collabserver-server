@@ -24,6 +24,8 @@ int main(int argc, char** argv) {
     CvRDT::GSetInt_example();
     CvRDT::USetInt_example();
 
+    CvRDT::LWWRegister_example();
+
     // CmRDT (Operation-based)
 
     return 0;

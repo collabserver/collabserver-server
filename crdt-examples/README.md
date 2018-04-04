@@ -1,5 +1,8 @@
 # CRDT Examples
-Examples of CRDTs implementations in C++ (For educational purpose only).
+Examples of CRDTs implementations in C++.
+These are for educational purpose only and are not designed to work in real world.
+(Ex: use fixed number of process, fake timestamp).
+They may be however use as a starting point or reference.
 
 
 # Features
@@ -41,4 +44,4 @@ Examples of CRDTs implementations in C++ (For educational purpose only).
 
 # Papers and resources
 - Conflict-free Replicated Data Types (https://pages.lip6.fr/Marc.Shapiro/papers/CRDTs_SSS-2011.pdf)
-- A comprehensive study of Convergent and Commutative Replicated Data Types
+- A comprehensive study of Convergent and Commutative Replicated Data Types (https://pages.lip6.fr/Marc.Shapiro/papers/Comprehensive-CRDTs-RR7506-2011-01.pdf)
