@@ -5,7 +5,6 @@
 #include <cassert>
 #include <stdio.h>
 
-
 namespace CRDT {
 namespace CvRDT {
 
@@ -33,7 +32,7 @@ struct USetInt {
 // Data Methods
 // -----------------------------------------------------------------------------
 
-int USetInt_find(USetInt& data, const int value) {
+int USetInt_find(const USetInt& data, const int value) {
     auto itAdd = data._mAdd.find(value);
     auto itDel = data._mDel.find(value);
 

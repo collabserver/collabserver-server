@@ -4,7 +4,7 @@
 #include <cassert>
 #include <stdio.h>
 
-#define NB_PROCESS 2 // TODO: Nb process is hardcoded
+#define NB_PROCESS 2
 
 namespace CRDT {
 namespace CvRDT {
@@ -17,6 +17,9 @@ namespace CvRDT {
 /**
  * Increment / Decrement Integer Counter
  * CvRDT (State based object)
+ *
+ * \note (Assumptions)
+ * Nb process (Replicas) is well known and invariant.
  *
  * \author  Constantin Masson
  * \date    March 2018
