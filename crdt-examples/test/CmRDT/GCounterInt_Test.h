@@ -6,9 +6,9 @@ namespace CRDT {
 namespace CmRDT {
 
 
-void CmRDT::GCounterInt_example() {
-    GCounterInt data0;
-    GCounterInt data1;
+void GCounterInt_example() {
+    //GCounterInt data0;
+    //GCounterInt data1;
     // TODO
 }
 

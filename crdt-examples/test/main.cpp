@@ -1,10 +1,11 @@
 
 // CvRDT (State-based)
 #include "CvRDT/GCounterInt_Test.h"
+#include "CvRDT/GSetInt_Test.h"
 #include "CvRDT/GVectorInt_Test.h"
+#include "CvRDT/LWWRegister_Test.h"
 #include "CvRDT/PNCounterInt_Test.h"
 #include "CvRDT/PNVectorInt_Test.h"
-#include "CvRDT/GSetInt_Test.h"
 #include "CvRDT/USetInt_Test.h"
 
 // CmRDT (Operation-based)
