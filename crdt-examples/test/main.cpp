@@ -6,7 +6,7 @@
 #include "CvRDT/LWWRegister_Test.h"
 #include "CvRDT/PNCounterInt_Test.h"
 #include "CvRDT/PNVectorInt_Test.h"
-#include "CvRDT/USetInt_Test.h"
+#include "CvRDT/2PSet_Test.h"
 
 // CmRDT (Operation-based)
 #include "CmRDT/GCounterInt_Test.h"
@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     CvRDT::PNVectorInt_example();
 
     CvRDT::GSetInt_example();
-    CvRDT::USetInt_example();
+    CvRDT::TwoPSet_example();
 
     CvRDT::LWWRegister_example();
 
