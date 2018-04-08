@@ -16,9 +16,11 @@ namespace CvRDT {
  * Once removed, an element cannot be added again.
  * Removing an element is allowed only if already in the 'add' set.
  *
- * \tparam T Type of element.
+ * \note
+ * 2P-Set gives precedences to remove operation.
+ * (OR-Set however, gives precedences to add).
  *
- * \todo Create iterator for TwoPSet.
+ * \tparam T Type of element.
  *
  * \author  Constantin Masson
  * \date    March 2018
@@ -29,6 +31,10 @@ class TwoPSet {
         std::set<T> _add; // Set of added elt
         std::set<T> _rem; // Set of removed elt (tombstone)
 
+
+    // -------------------------------------------------------------------------
+    // Lookup
+    // -------------------------------------------------------------------------
     public:
 
         /**
@@ -63,6 +69,12 @@ class TwoPSet {
             return (_rem.count(key) == 0) ? true : false;
         }
 
+
+    // -------------------------------------------------------------------------
+    // Modifiers
+    // -------------------------------------------------------------------------
+    public:
+
         /**
          * Insert a value.
          * Set has no duplicat. Do nothing if already in the set.
@@ -91,6 +103,10 @@ class TwoPSet {
             }
         }
 
+
+    // -------------------------------------------------------------------------
+    // Operators overloard
+    // -------------------------------------------------------------------------
         friend std::ostream& operator<<(std::ostream& os, const TwoPSet& obj) {
             os << "2PSet: a(";
             for(auto it = obj._add.begin(); it != obj._add.end(); ++it) {
@@ -103,9 +119,60 @@ class TwoPSet {
             os << ")";
             return os;
         }
+
+
+    // -------------------------------------------------------------------------
+    // Iterators
+    // -------------------------------------------------------------------------
+    public:
+
+        /**
+         * Iterator for CRDT Two-Phases Set.
+         */
+        class iterator : public std::iterator<std::input_iterator_tag, T> {
+            public: // TODO: TMP, to change to private
+                TwoPSet& _data;
+                typename std::set<T>::iterator _it;
+
+            public:
+                explicit iterator(TwoPSet<T>& m, typename std::set<T>::iterator it)
+                    : _data(m), _it(it) {
+                }
+
+                iterator& operator++() {
+                    ++_it;
+                    const T& key = *_it;
+                    while(_it != _data._add.end() && !_data.contains(key)) {
+                        ++_it;
+                    }
+                    return *this;
+                }
+
+                bool operator==(const iterator& other) const {
+                    return *_it == *(other._it);
+                }
+
+                bool operator!=(const iterator& other) const {
+                    return !(*this == other);
+                }
+
+                const T& operator*() const {
+                    const T& key = *_it;
+                    return key;
+                }
+        };
+
+    public:
+        iterator begin() {
+            return iterator(*this, _add.begin());
+        }
+
+        iterator end() {
+            return iterator(*this, _add.end());
+        }
 };
 
 
-
 }} // End namespace
+
 
