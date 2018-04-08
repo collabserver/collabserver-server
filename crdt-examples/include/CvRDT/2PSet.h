@@ -20,6 +20,10 @@ namespace CvRDT {
  * 2P-Set gives precedences to remove operation.
  * (OR-Set however, gives precedences to add).
  *
+ * \note
+ * Internally, uses two std::set (Add set and Remove set).
+ *
+ *
  * \tparam T Type of element.
  *
  * \author  Constantin Masson
@@ -28,8 +32,38 @@ namespace CvRDT {
 template<typename T>
 class TwoPSet {
     private:
-        std::set<T> _add; // Set of added elt
+        std::set<T> _add; // Set of added elt (Without removed elt)
         std::set<T> _rem; // Set of removed elt (tombstone)
+
+    public:
+        typedef typename std::set<T>::iterator              iterator;
+        typedef typename std::set<T>::const_iterator        const_iterator;
+        typedef typename std::set<T>::size_type             size_type;
+
+
+    // -------------------------------------------------------------------------
+    // Capacity
+    // -------------------------------------------------------------------------
+
+    public:
+
+        /**
+         * Check if the container has no elements.
+         *
+         * \return True if empty, otherwise, return false.
+         */
+        bool empty() const {
+            return _add.empty();
+        }
+
+        /**
+         * Returns the number of elements in the add container.
+         *
+         * \return Size of the set.
+         */
+        size_type size() const {
+            return _add.size();
+        }
 
 
     // -------------------------------------------------------------------------
@@ -38,137 +72,140 @@ class TwoPSet {
     public:
 
         /**
+         * Returns the number of elements matching specific key.
+         * Since keys are unique, this returns 0 or 1.
+         *
+         * \note
+         * Key added and removed is not contained (return 0).
+         *
+         * \return true if key in set, otherwise, return false.
+         */
+        int count(const T& key) const {
+            return _add.count(key);
+        }
+
+        /**
          * Finds an element with key equivalent to key.
          *
          * \param key key value of the element to search for.
          * \return Copy of the element.
          */
-        auto find(const T& key) const {
-            auto it_add = _add.find(key);
-            auto it_rem = _rem.find(key);
-
-            bool containsAdd = it_add != _add.end();
-            bool containsRem = it_rem != _rem.end();
-
-            if(containsAdd && !containsRem) {
-                return *it_add;
-            }
-            return *_add.end(); //TODO
-        }
-
-        /**
-         * Check whether the key is in the set.
-         * Add key added and then removed is not contains (Return false).
-         *
-         * \return true if key in set, otherwise, return false.
-         */
-        bool contains(const T& key) const {
-            if(_add.count(key) == 0) {
-                return false;
-            }
-            return (_rem.count(key) == 0) ? true : false;
+        const_iterator find(const T& key) const {
+            return _add.find(key);
         }
 
 
     // -------------------------------------------------------------------------
     // Modifiers
     // -------------------------------------------------------------------------
+
     public:
 
         /**
+         * Removes all elements from the container.
+         * Internally, Add and Remove list are cleared.
+         */
+        void clear() {
+            _add.clear();
+            _rem.clear();
+        }
+
+        /**
          * Insert a value.
-         * Set has no duplicat. Do nothing if already in the set.
+         * Set has no duplicate. Do nothing if already in the set.
+         *
+         * \param element value to insert.
          */
         void insert(const T& value) {
             _add.insert(value);
         }
 
         /**
-         * TODO
+         * Removes the element (if one exists) with the key equivalent to key.
+         *
+         * \param key Key value of the elements to remove.
+         * \return Number of elements removed.
          */
-        void remove(const T& key) {
-            auto it_add = _add.find(key);
-            bool containsAdd = it_add != _add.end();
-            if(containsAdd) {
-                _rem.insert(key);
-            }
+        size_type erase(const T& key) {
+            _rem.insert(key);
+            return _add.erase(key);
         }
 
+        /**
+         * Merge other CRDT with this current data.
+         *
+         * \param other CRDT to merge with.
+         */
         void merge(const TwoPSet<T>& other) {
+            for(auto it = other._rem.begin(); it != other._rem.end(); ++it) {
+                _add.erase(*it);
+                _rem.insert(*it);
+            }
             for(auto it = other._add.begin(); it != other._add.end(); ++it) {
                 _add.insert(*it);
             }
-            for(auto it = other._rem.begin(); it != other._rem.end(); ++it) {
-                _rem.insert(*it);
-            }
-        }
-
-
-    // -------------------------------------------------------------------------
-    // Operators overloard
-    // -------------------------------------------------------------------------
-        friend std::ostream& operator<<(std::ostream& os, const TwoPSet& obj) {
-            os << "2PSet: a(";
-            for(auto it = obj._add.begin(); it != obj._add.end(); ++it) {
-                os << *it << " ";
-            }
-            os << ") - r(";
-            for(auto it = obj._rem.begin(); it != obj._rem.end(); ++it) {
-                os << *it << " ";
-            }
-            os << ")";
-            return os;
         }
 
 
     // -------------------------------------------------------------------------
     // Iterators
     // -------------------------------------------------------------------------
+
     public:
 
         /**
-         * Iterator for CRDT Two-Phases Set.
+         * Returns an iterator to the first element of the container.
+         * If the container is empty, the returned iterator will be
+         * equal to end().
+         *
+         * \return Iterator to the first element.
          */
-        class iterator : public std::iterator<std::input_iterator_tag, T> {
-            public: // TODO: TMP, to change to private
-                TwoPSet& _data;
-                typename std::set<T>::iterator _it;
-
-            public:
-                explicit iterator(TwoPSet<T>& m, typename std::set<T>::iterator it)
-                    : _data(m), _it(it) {
-                }
-
-                iterator& operator++() {
-                    ++_it;
-                    const T& key = *_it;
-                    while(_it != _data._add.end() && !_data.contains(key)) {
-                        ++_it;
-                    }
-                    return *this;
-                }
-
-                bool operator==(const iterator& other) const {
-                    return *_it == *(other._it);
-                }
-
-                bool operator!=(const iterator& other) const {
-                    return !(*this == other);
-                }
-
-                const T& operator*() const {
-                    const T& key = *_it;
-                    return key;
-                }
-        };
-
-    public:
         iterator begin() {
-            return iterator(*this, _add.begin());
+            return _add.begin();
         }
 
+        /**
+         * Returns an iterator to the element following the last element of
+         * the container. This element acts as a placeholder.
+         * Attempting to access it results in undefined behavior.
+         *
+         * \return Iterator to the element following the last element.
+         */
         iterator end() {
-            return iterator(*this, _add.end());
+            return _add.end();
+        }
+
+        /**
+         * \copydoc begin()
+         */
+        const_iterator cbegin() const {
+            return _add.cbegin();
+        }
+
+        /**
+         * \copydoc end()
+         */
+        const_iterator cend() const {
+            return _add.cend();
+        }
+
+
+    // -------------------------------------------------------------------------
+    // Operators overload
+    // -------------------------------------------------------------------------
+    public:
+
+        friend std::ostream& operator<<(std::ostream& out, const TwoPSet& obj) {
+            out << "2PSet: a(";
+            for(auto it = obj._add.begin(); it != obj._add.end(); ++it) {
+                out << *it << " ";
+            }
+            out << ") - r(";
+            for(auto it = obj._rem.begin(); it != obj._rem.end(); ++it) {
+                out << *it << " ";
+            }
+            out << ")";
+            return out;
         }
 };
 

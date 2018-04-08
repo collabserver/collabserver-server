@@ -22,9 +22,9 @@ void TwoPSet_example() {
     data0.insert(3);
     data0.insert(4);
 
-    // Modif (Remove) from user0
-    data0.remove(0);
-    data0.remove(3);
+    // Modif (erase) from user0
+    data0.erase(0);
+    data0.erase(3);
 
     // -> User 0: [1,2,4]
 
@@ -41,11 +41,12 @@ void TwoPSet_example() {
     data1.insert(0);
     data1.insert(2);
     data1.insert(4);
+    data1.insert(5);
     data1.insert(6);
 
-    // Modif (Remove) from user1
-    data1.remove(0);
-    data1.remove(4);
+    // Modif (erase) from user1
+    data1.erase(0);
+    data1.erase(4);
 
     // -> User 1: [2,6]
 
