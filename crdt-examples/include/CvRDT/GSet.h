@@ -2,6 +2,7 @@
 
 #include <set>
 #include <iterator>
+#include <iostream>
 #include <cassert>
 
 namespace CRDT {
@@ -9,19 +10,11 @@ namespace CvRDT {
 
 
 /**
- * Two-Phase Set (2P-Set).
- *
- * Grow Only Add / Remove Set.
- * Elements are added only once and removed only if already added.
- * Once removed, an element cannot be added again.
- * Removing an element is allowed only if already in the 'add' set.
+ * Grow Only (add-only) Set.
+ * Do not support remove element.
  *
  * \note
- * 2P-Set gives precedences to remove operation.
- * (OR-Set however, gives precedences to add).
- *
- * \note
- * CvRDT (State-based)
+ * CvRDT (State-based).
  *
  * \note
  * Internally, uses two std::set (Add set and Remove set).
@@ -33,10 +26,9 @@ namespace CvRDT {
  * \date    March 2018
  */
 template<typename T>
-class TwoPSet {
+class GSet {
     private:
-        std::set<T> _add; // Set of added elt (Without removed elt)
-        std::set<T> _rem; // Set of removed elt (tombstone)
+        std::set<T> _add; // Set of added elements
 
     public:
         typedef typename std::set<T>::iterator              iterator;
@@ -61,7 +53,6 @@ class TwoPSet {
 
         /**
          * Returns the number of elements in the container.
-         * This internally count elements in add set.
          *
          * \return Size of the set.
          */
@@ -71,46 +62,27 @@ class TwoPSet {
 
 
     // -------------------------------------------------------------------------
-    // Modifiers
+    // Modifier
     // -------------------------------------------------------------------------
 
     public:
 
         /**
          * Removes all elements from the container.
-         * Internally, Add and Remove list are cleared.
+         * Internally, Add set is cleared.
          */
         void clear() {
             _add.clear();
-            _rem.clear();
         }
 
         /**
          * Insert a value.
          * Set has no duplicate. Do nothing if already in the set.
-         * Element may be added only once.
-         * Do nothing if element has already been removed (Is in tombstone set).
          *
          * \param Element value to insert.
          */
         void insert(const T& value) {
-            if(_rem.count(value) == 0) {
-                _add.insert(value);
-            }
-        }
-
-        /**
-         * Removes the element (if one exists) with the key equivalent to key.
-         *
-         * \param key Key value of the elements to remove.
-         * \return Number of elements removed.
-         */
-        size_type erase(const T& key) {
-            size_type count = _add.erase(key);
-            if(count != 0) {
-                _rem.insert(key);
-            }
-            return count;
+            _add.insert(value);
         }
 
         /**
@@ -118,11 +90,8 @@ class TwoPSet {
          *
          * \param other CRDT to merge with.
          */
-        void merge(const TwoPSet<T>& other) {
-            for(auto it = other._rem.begin(); it != other._rem.end(); ++it) {
-                _add.erase(*it);
-                _rem.insert(*it);
-            }
+        void merge(const GSet<T>& other) {
+            //_add.insert(other._add.begin(), other._add.end()); // TODO
             for(auto it = other._add.begin(); it != other._add.end(); ++it) {
                 _add.insert(*it);
             }
@@ -132,14 +101,12 @@ class TwoPSet {
     // -------------------------------------------------------------------------
     // Lookup
     // -------------------------------------------------------------------------
+
     public:
 
         /**
          * Returns the number of elements matching specific key.
          * Since keys are unique, this returns 0 or 1.
-         *
-         * \note
-         * Internally returns the number of elements in add set.
          *
          * \return Number of element with key key.
          */
@@ -189,14 +156,14 @@ class TwoPSet {
         /**
          * \copydoc begin()
          */
-        const_iterator cbegin() const {
+        const_iterator cbegin() {
             return _add.cbegin();
         }
 
         /**
          * \copydoc end()
          */
-        const_iterator cend() const {
+        const_iterator cend() {
             return _add.cend();
         }
 
@@ -204,16 +171,12 @@ class TwoPSet {
     // -------------------------------------------------------------------------
     // Operators overload
     // -------------------------------------------------------------------------
+
     public:
 
-        friend std::ostream& operator<<(std::ostream& out, const TwoPSet& o) {
-            //TODO: atm, this is mostly a debug print.
-            out << "2PSet: a(";
+        friend std::ostream& operator<<(std::ostream& out, const GSet<T>& o) {
+            out << "GSet: a(";
             for(auto it = o._add.begin(); it != o._add.end(); ++it) {
-                out << *it << " ";
-            }
-            out << ") - r(";
-            for(auto it = o._rem.begin(); it != o._rem.end(); ++it) {
                 out << *it << " ";
             }
             out << ")";
@@ -222,6 +185,7 @@ class TwoPSet {
 };
 
 
-}} // End namespace
+}} // End namespaces
+
 
 

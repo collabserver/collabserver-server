@@ -1,7 +1,7 @@
 
 // CvRDT (State-based)
 #include "CvRDT/GCounterInt_Test.h"
-#include "CvRDT/GSetInt_Test.h"
+#include "CvRDT/GSet_Test.h"
 #include "CvRDT/GVectorInt_Test.h"
 #include "CvRDT/LWWRegister_Test.h"
 #include "CvRDT/PNCounterInt_Test.h"
@@ -21,12 +21,14 @@ int main(int argc, char** argv) {
     CvRDT::PNCounterInt_example();
     CvRDT::PNVectorInt_example();
 
-    CvRDT::GSetInt_example();
-    CvRDT::TwoPSet_example();
-
     CvRDT::LWWRegister_example();
 
+    CvRDT::GSet_example();
+    CvRDT::TwoPSet_example();
+
+
     // CmRDT (Operation-based)
+    // TODO
 
     return 0;
 }

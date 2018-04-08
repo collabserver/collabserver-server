@@ -1,44 +1,34 @@
 #pragma once
 
-#include "CvRDT/2PSet.h"
-
-#include <iostream>
+#include "CvRDT/GSet.h"
 
 namespace CRDT {
 namespace CvRDT {
 
 
-void TwoPSet_example() {
-    std::cout << "\n----- CvRDT 2PSet Example ----------\n";
+void GSet_example() {
+    std::cout << "\n----- CvRDT GSet Example ----------\n";
 
-    TwoPSet<int> data0; // Ex: data at replicate 0
-    TwoPSet<int> data1; // Ex: data at replicate 1
+    GSet<int> data0; // Data at replicate 0
+    GSet<int> data1; // Data at replicate 1
 
 
     // --- Replicate 0 (data0) ---
 
-    // Updates from user0 -> [1,2,4]
+    // Updates from user0 -> [0,2,4]
     data0.insert(0);
-    data0.insert(1);
     data0.insert(2);
-    data0.insert(3);
     data0.insert(4);
-
-    data0.erase(0);
-    data0.erase(3);
 
 
     // --- Replicate 1 (data1) ---
 
-    // Updates from user1 -> [2,6]
-    data1.insert(0);
+    // Updates from user1 -> [1,2,3,4,5]
+    data1.insert(1);
     data1.insert(2);
+    data1.insert(3);
     data1.insert(4);
     data1.insert(5);
-    data1.insert(6);
-
-    data1.erase(0);
-    data1.erase(4);
 
 
     // --- Final ---
