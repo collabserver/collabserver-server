@@ -9,23 +9,33 @@ namespace CvRDT {
 
 
 void LWWRegister_example() {
-    LWWRegister<int> data0;
-    LWWRegister<int> data1;
+    std::cout << "\n----- CvRDT LWWRegister Example ----------\n";
 
-    LWWRegister_assign(data0, 1);
-    LWWRegister_assign(data1, 2);
+    LWWRegister<int, int> data0;
+    LWWRegister<int, int> data1;
 
-    LWWRegister_assign(data1, 3);
-    LWWRegister_assign(data0, 4);
 
-    LWWRegister_merge(data0, data1);
-    LWWRegister_merge(data1, data0);
+    // --- Replicate 0 (data0) ---
+    data0.set(100, 1);
+    data0.set(500, 3);
+    data0.set(700, 7);
 
-    int v0 = LWWRegister_query(data0);
-    int v1 = LWWRegister_query(data1);
 
-    fprintf(stdout, "CvRDT LWWRegister (data0) = %d\n", v0);
-    fprintf(stdout, "CvRDT LWWRegister (data1) = %d\n", v1);
+    // --- Replicate 1 (data1) ---
+    data1.set(300, 1);
+    data1.set(400, 6);
+
+
+    // --- Final ---
+    std::cout << "data0 before merge: " << data0 << "\n";
+    std::cout << "data1 before merge: " << data1 << "\n";
+
+    // Merge result -> [0,1,2,3,4,5]
+    data0.merge(data1);
+    data1.merge(data0);
+
+    std::cout << "data0 after merge: " << data0 << "\n";
+    std::cout << "data1 after merge: " << data1 << "\n";
 }
 
 
