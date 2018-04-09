@@ -2,7 +2,7 @@
 
 #include <set>
 #include <iterator>
-#include <cassert>
+#include <iostream>
 
 namespace CRDT {
 namespace CvRDT {
@@ -27,12 +27,12 @@ namespace CvRDT {
  * Internally, uses two std::set (Add set and Remove set).
  *
  *
- * \tparam T Type of element.
+ * \tparam T Type of element. (Default int)
  *
  * \author  Constantin Masson
  * \date    March 2018
  */
-template<typename T>
+template<typename T = int>
 class TwoPSet {
     private:
         std::set<T> _add; // Set of added elt (Without removed elt)
