@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <algorithm> // std::max
 #include <iostream>
-#include <cassert>
 
 namespace CRDT {
 namespace CvRDT {
@@ -11,12 +10,10 @@ namespace CvRDT {
 
 /**
  * Grow Only Counter.
- *
- * \note
  * CvRDT (State-based)
  *
  * \note
- * Internally store counter values in a map. Key is the replicate unique id.
+ * Internally stores counter in a map. Key is the replicate's unique id.
  *
  *
  * \tparam T Type of counter. (Default int)
@@ -26,7 +23,7 @@ namespace CvRDT {
  * \date    March 2018
  */
 template<typename T = int, typename ID = std::string>
-struct GCounter {
+class GCounter {
     private:
         std::unordered_map<ID, T> _map;
         const ID _currentID;
@@ -76,6 +73,7 @@ struct GCounter {
     // -------------------------------------------------------------------------
 
     public:
+
         friend std::ostream& operator<<(std::ostream& out, const GCounter& o) {
             out << "GCounter: " << o.query() << " -> [";
             for(const auto& it: o._map) {

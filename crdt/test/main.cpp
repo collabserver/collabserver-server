@@ -1,10 +1,13 @@
 
 // CvRDT (State-based)
 #include "CvRDT/GCounter_Test.h"
-#include "CvRDT/PNCounterInt_Test.h"
+#include "CvRDT/PNCounter_Test.h"
+
 #include "CvRDT/GVectorInt_Test.h"
 #include "CvRDT/PNVectorInt_Test.h"
+
 #include "CvRDT/LWWRegister_Test.h"
+
 #include "CvRDT/GSet_Test.h"
 #include "CvRDT/2PSet_Test.h"
 
@@ -17,13 +20,13 @@ int main(int argc, char** argv) {
     // CvRDT (State-based)
     CvRDT::GVectorInt_Test::example();
 
-    CvRDT::PNCounterInt_example();
     CvRDT::PNVectorInt_example();
 
     CvRDT::LWWRegister_example();
 
 
     CvRDT::GCounter_example();
+    CvRDT::PNCounter_example();
 
     CvRDT::GSet_example();
     CvRDT::TwoPSet_example();
