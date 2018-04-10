@@ -42,7 +42,7 @@ void TwoPSet_example() {
     // Re-insert do nothing
     data0.insert(0);
     data0.insert(3);
-    // data0 -> {2}
+    // data0 = {2}
 
 
     // --- Replicate 1 (data1) ---
@@ -60,10 +60,11 @@ void TwoPSet_example() {
 
     data1.erase(0);
     data1.erase(4);
-    // data1 -> {2,5,6,11,12,13}
+    // data1 = {2,5,6,11,12,13}
 
 
     // --- Final ---
+    // Merge result = {0,1,2,3,4,5}
     std::cout << "data0 before merge: " << data0 << "\n";
     std::cout << "data1 before merge: " << data1 << "\n";
 
@@ -76,8 +77,6 @@ void TwoPSet_example() {
     std::cout << "(data0 == data1) = " << (data0 == data1);
     std::cout << " (true=" << true << ")\n";
     std::cout << "(data0 != data1) = " << (data0 != data1) << "\n";
-
-    // Merge result -> {0,1,2,3,4,5}
 }
 
 

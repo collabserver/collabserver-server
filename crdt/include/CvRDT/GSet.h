@@ -16,7 +16,7 @@ namespace CvRDT {
  * CvRDT (State-based).
  *
  * \note
- * Internally, uses two std::set (Add set and Remove set).
+ * Internally, uses std::set
  *
  *
  * \tparam T Type of element. (Default int)
@@ -67,14 +67,6 @@ class GSet {
     public:
 
         /**
-         * Removes all elements from the container.
-         * Internally, Add set is cleared.
-         */
-        void clear() {
-            _add.clear();
-        }
-
-        /**
          * Insert a value.
          * Set has no duplicate. Do nothing if already in the set.
          *
@@ -90,9 +82,8 @@ class GSet {
          * \param other CRDT to merge with.
          */
         void merge(const GSet<T>& other) {
-            //_add.insert(other._add.begin(), other._add.end()); // TODO
-            for(auto it = other._add.begin(); it != other._add.end(); ++it) {
-                _add.insert(*it);
+            for(const T& value : other._add) {
+                _add.insert(value);
             }
         }
 
@@ -155,14 +146,14 @@ class GSet {
         /**
          * \copydoc begin()
          */
-        const_iterator cbegin() {
+        const_iterator cbegin() const {
             return _add.cbegin();
         }
 
         /**
          * \copydoc end()
          */
-        const_iterator cend() {
+        const_iterator cend() const {
             return _add.cend();
         }
 
@@ -173,12 +164,20 @@ class GSet {
 
     public:
 
+        bool operator==(const GSet& lhs) const {
+            return this->_add == lhs._add;
+        }
+
+        bool operator!=(const GSet& lhs) const {
+            return !(*this == lhs);
+        }
+
         friend std::ostream& operator<<(std::ostream& out, const GSet<T>& o) {
-            out << "GSet: a(";
-            for(auto it = o._add.begin(); it != o._add.end(); ++it) {
-                out << *it << " ";
+            out << "GSet = {";
+            for(const T& value : o._add) {
+                out << value << " ";
             }
-            out << ")";
+            out << "}";
             return out;
         }
 };

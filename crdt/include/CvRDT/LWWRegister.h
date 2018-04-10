@@ -11,7 +11,7 @@ namespace CvRDT {
  * Last-Writer-Wins Register (LWW Register).
  * CvRDT (State-based).
  *
- * Timestamps is assigned to each update and creates a total order of updates.
+ * Timestamp is assigned to each update and creates a total order of updates.
  *
  * \note
  * Quote from the CRDT article "A comprehensive study of CRDT":
@@ -42,28 +42,34 @@ template<typename T, typename Key>
 class LWWRegister {
     private:
         T _reg;
-        Key _timestamps = 0;
+        Key _timestamp = 0;
 
 
     public:
 
+        /**
+         * Get a copy of the current register value.
+         */
         T query() const {
             return _reg;
         }
 
-        void set(const T value, const Key timestamps) {
-            assert(timestamps > _timestamps);
+        /**
+         * Assign new value to the register.
+         */
+        void set(const T value, const Key timestamp) {
+            assert(timestamp > _timestamp);
 
-            _timestamps = timestamps;
+            _timestamp = timestamp;
             _reg = value;
         }
 
         void merge(const LWWRegister& other) {
-            assert(other._timestamps != _timestamps);
+            assert(other._timestamp != _timestamp);
 
-            if(other._timestamps > _timestamps) {
+            if(other._timestamp > _timestamp) {
                 _reg = other._reg;
-                _timestamps = other._timestamps;
+                _timestamp = other._timestamp;
             }
         }
 
@@ -72,6 +78,26 @@ class LWWRegister {
     // -------------------------------------------------------------------------
 
     public:
+
+        /**
+         * Check if two registers are equal.
+         * Register data and timestamp must be same for registers to be equal.
+         *
+         * \return True if registers are equal.
+         */
+        friend bool operator==(const LWWRegister& lhs, const LWWRegister& rhs) {
+            return (lhs._reg == rhs._reg) && (lhs._timestamp == rhs._timestamp);
+        }
+
+        /**
+         * Check if two registers are different.
+         * See operator== for equality meaning.
+         *
+         * \return True if registers are different.
+         */
+        friend bool operator!=(const LWWRegister& lhs, const LWWRegister& rhs) {
+            return !(lhs == rhs);
+        }
 
         friend std::ostream& operator<<(std::ostream& out,
                                         const LWWRegister& o) {

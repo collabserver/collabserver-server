@@ -28,12 +28,15 @@ void GCounter_example() {
     std::cout << "data0 before merge: " << data0 << "\n";
     std::cout << "data1 before merge: " << data1 << "\n";
 
-    // Merge result -> [0,1,2,3,4,5]
     data0.merge(data1);
     data1.merge(data0);
 
     std::cout << "data0 after merge: " << data0 << "\n";
     std::cout << "data1 after merge: " << data1 << "\n";
+
+    std::cout << "(data0 == data1) = " << (data0 == data1);
+    std::cout << " (true=" << true << ")\n";
+    std::cout << "(data0 != data1) = " << (data0 != data1) << "\n";
 }
 
 }} // End namespaces

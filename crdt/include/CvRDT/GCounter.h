@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <algorithm> // std::max
 #include <iostream>
+#include <cassert>
 
 namespace CRDT {
 namespace CvRDT {
@@ -40,7 +41,7 @@ class GCounter {
     public:
 
         /**
-         * Get the current counter value.
+         * Get a copy of the current counter value.
          */
         T query() const {
             T value = 0;
@@ -51,10 +52,22 @@ class GCounter {
         }
 
         /**
-         * Increment by one the counter for the current process ID.
+         * Increment the counter by one.
+         * Internally increment the counter at current process id.
          */
         void increment() {
-            _map[_currentID]++;
+            _map[_currentID] += 1;
+        }
+
+        /**
+         * Increment the counter by specific amount.
+         *
+         * \warning
+         * Negative number are reset to 0.
+         */
+        void increment(const T& value) {
+            assert(value >= 0);
+            _map[_currentID] += std::max(value, 0); // negativ numb -> 0
         }
 
         /**
@@ -74,10 +87,18 @@ class GCounter {
 
     public:
 
+        friend bool operator==(const GCounter& lhs, const GCounter& rhs) {
+            return lhs.query() == rhs.query();
+        }
+
+        friend bool operator!=(const GCounter& lhs, const GCounter& rhs) {
+            return !(lhs == rhs);
+        }
+
         friend std::ostream& operator<<(std::ostream& out, const GCounter& o) {
-            out << "GCounter: " << o.query() << " -> [";
+            out << "GCounter = " << o.query() << " -> [";
             for(const auto& it: o._map) {
-                out << it.second << " ";
+                out << it.first << ":" << it.second << " ";
             }
             out << "]";
             return out;
