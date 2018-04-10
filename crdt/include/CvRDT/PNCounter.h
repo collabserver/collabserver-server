@@ -15,6 +15,9 @@ namespace CvRDT {
  * \note
  * Internally, uses two Grow Only counters. (Positive / Negative).
  *
+ * \warning
+ * Data type T must work with std::max. (is_arithmetic == true)
+ *
  *
  * \tparam T Type of counter. (Default int)
  * \tparam ID Type of the id used to identify each replicated. (Each unique).

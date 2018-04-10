@@ -16,6 +16,9 @@ namespace CvRDT {
  * \note
  * Internally stores counter in a map. Key is the replicate's unique id.
  *
+ * \warning
+ * Data type T must work with std::max. (is_arithmetic == true)
+ *
  *
  * \tparam T Type of counter. (Default int)
  * \tparam ID Type of the id used to identify each replicated. (Each unique).
