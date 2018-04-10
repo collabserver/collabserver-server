@@ -1,11 +1,13 @@
 #pragma once
 
-#include <USetInt>
+#include "2PSet.h"
 
 namespace CRDT {
 namespace CvRDT {
 
-struct 2P2PGraph {
+
+class TwoPTwoPGraph {
+    private:
 
 };
 

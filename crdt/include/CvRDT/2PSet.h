@@ -61,7 +61,7 @@ class TwoPSet {
 
         /**
          * Returns the number of elements in the container.
-         * This internally count elements in add set.
+         * This internally count elements in the add set.
          *
          * \return Size of the set.
          */
@@ -77,12 +77,15 @@ class TwoPSet {
     public:
 
         /**
-         * Removes all elements from the container.
-         * Internally, Add and Remove list are cleared.
+         * Remove all elements from the container.
+         * All removed element are added to the tombstone and cannot be
+         * added again.
          */
         void clear() {
+            for(const T& value : _add) {
+                _rem.insert(value);
+            }
             _add.clear();
-            _rem.clear();
         }
 
         /**
@@ -94,23 +97,27 @@ class TwoPSet {
          * \param Element value to insert.
          */
         void insert(const T& value) {
+            // Add only if not already removed.
             if(_rem.count(value) == 0) {
                 _add.insert(value);
             }
         }
 
         /**
-         * Removes the element (if one exists) with the key equivalent to key.
+         * Removes the element with the key equivalent to key.
+         *
+         * \warning
+         * insert and erase are commutative (CRDT Property).
+         * Calling erase() before insert() adds the element to the tombstone.
+         * It won't be possible to add this element later.
+         * (precedence to remove)
          *
          * \param key Key value of the elements to remove.
-         * \return Number of elements removed.
+         * \return Number of elements actually removed.
          */
         size_type erase(const T& key) {
-            size_type count = _add.erase(key);
-            if(count != 0) {
-                _rem.insert(key);
-            }
-            return count;
+            _rem.insert(key);
+            return _add.erase(key);
         }
 
         /**
@@ -119,12 +126,16 @@ class TwoPSet {
          * \param other CRDT to merge with.
          */
         void merge(const TwoPSet<T>& other) {
-            for(auto it = other._rem.begin(); it != other._rem.end(); ++it) {
-                _add.erase(*it);
-                _rem.insert(*it);
+            for(const T& value : other._rem) {
+                _rem.insert(value);
+                if(_add.count(value) != 0) {
+                    _add.erase(value);
+                }
             }
-            for(auto it = other._add.begin(); it != other._add.end(); ++it) {
-                _add.insert(*it);
+            for(const T& value : other._add) {
+                if(_rem.count(value) == 0) {
+                    _add.insert(value);
+                }
             }
         }
 
@@ -206,17 +217,41 @@ class TwoPSet {
     // -------------------------------------------------------------------------
     public:
 
+        /**
+         * Check if lhs and rhs are equals.
+         *
+         * \warning
+         * Two 2PSet lists are equal if and only if they internal add set are
+         * equals and they internal remove set are equals.
+         */
+        friend bool operator==(const TwoPSet& lhs, const TwoPSet& rhs) {
+            return (lhs._add == rhs._add) && (lhs._rem == rhs._rem);
+        }
+
+        /**
+         * Check if lhs and rhs are not equals.
+         * See operator == for further information about equality meaning.
+         *
+         * \See operator==
+         */
+        friend bool operator!=(const TwoPSet& lhs, const TwoPSet& rhs) {
+            return !(lhs == rhs);
+        }
+
+        /**
+         * This is mainly for debug print purpose.
+         * This display the actual internal state of the 2PSet.
+         */
         friend std::ostream& operator<<(std::ostream& out, const TwoPSet& o) {
-            //TODO: atm, this is mostly a debug print.
-            out << "2PSet: a(";
-            for(auto it = o._add.begin(); it != o._add.end(); ++it) {
-                out << *it << " ";
+            out << "2PSet = add {";
+            for(const T& value : o._add) {
+                out << value << " ";
             }
-            out << ") - r(";
-            for(auto it = o._rem.begin(); it != o._rem.end(); ++it) {
-                out << *it << " ";
+            out << "} - rem {";
+            for(const T& value : o._rem) {
+                out << value << " ";
             }
-            out << ")";
+            out << "}";
             return out;
         }
 };
