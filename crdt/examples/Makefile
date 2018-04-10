@@ -1,6 +1,6 @@
 CC=g++
 FLAGS=-g -Wall
-TARGET=test_CRDT.out
+TARGET=crdt_examples.out
 
 
 all: $(TARGET)
