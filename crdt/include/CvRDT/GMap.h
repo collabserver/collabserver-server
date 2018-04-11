@@ -192,14 +192,30 @@ class GMap {
 
     public:
 
+        /**
+         * Check if lhs and rhs are equals.
+         * Two GMap are equal if their internal map are equal.
+         *
+         * \return True if equal, otherwise, return false.
+         */
         friend bool operator==(const GMap& lhs, const GMap& rhs) {
             return lhs._map == rhs._map;
         }
 
+        /**
+         * Check if lhs and rhs are not equals.
+         * See operator == for further information about equality meaning.
+         *
+         * \return True if not equal, otherwise, return false.
+         */
         friend bool operator!=(const GMap& lhs, const GMap& rhs) {
             return !(lhs._map == rhs._map);
         }
 
+        /**
+         * Display the internal map content.
+         * This is mainly for debug print purpose.
+         */
         friend std::ostream& operator<<(std::ostream& out, const GMap<K,T>& o) {
             out << "GMap = ";
             for(const std::pair<K,T>& elt : o._map) {

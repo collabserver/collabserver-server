@@ -64,6 +64,11 @@ class LWWRegister {
             _reg = value;
         }
 
+        /**
+         * Merge this register with another.
+         * Use Last-Writer-Wins as modification order.
+         * (Therefore, timestamps must be comparable).
+         */
         void merge(const LWWRegister& other) {
             assert(other._timestamp != _timestamp);
 
@@ -81,9 +86,9 @@ class LWWRegister {
 
         /**
          * Check if two registers are equal.
-         * Register data and timestamp must be same for registers to be equal.
+         * Register data and timestamp must be equal for registers to be equal.
          *
-         * \return True if registers are equal.
+         * \return True if equal, otherwise, return false.
          */
         friend bool operator==(const LWWRegister& lhs, const LWWRegister& rhs) {
             return (lhs._reg == rhs._reg) && (lhs._timestamp == rhs._timestamp);
@@ -93,12 +98,16 @@ class LWWRegister {
          * Check if two registers are different.
          * See operator== for equality meaning.
          *
-         * \return True if registers are different.
+         * \return True if not equal, otherwise, return false.
          */
         friend bool operator!=(const LWWRegister& lhs, const LWWRegister& rhs) {
             return !(lhs == rhs);
         }
 
+        /**
+         * Display the register value.
+         * This is mainly for debug print purpose.
+         */
         friend std::ostream& operator<<(std::ostream& out,
                                         const LWWRegister& o) {
             out << "LWWRegister: " << o.query();

@@ -164,14 +164,30 @@ class GSet {
 
     public:
 
+        /**
+         * Check if lhs and rhs are equals.
+         * Two GSet are equal if their internal add set are equal.
+         *
+         * \return True if equal, otherwise, return false.
+         */
         bool operator==(const GSet& lhs) const {
             return this->_add == lhs._add;
         }
 
+        /**
+         * Check if lhs and rhs are not equals.
+         * See operator == for further information about equality meaning.
+         *
+         * \return True if not equal, otherwise, return false.
+         */
         bool operator!=(const GSet& lhs) const {
             return !(*this == lhs);
         }
 
+        /**
+         * Display the GSet content.
+         * This is mainly for debug print purpose.
+         */
         friend std::ostream& operator<<(std::ostream& out, const GSet<T>& o) {
             out << "GSet = {";
             for(const T& value : o._add) {

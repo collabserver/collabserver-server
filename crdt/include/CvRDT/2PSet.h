@@ -219,10 +219,10 @@ class TwoPSet {
 
         /**
          * Check if lhs and rhs are equals.
-         *
-         * \warning
          * Two 2PSet lists are equal if and only if they internal add set are
-         * equals and they internal remove set are equals.
+         * equals and their internal remove set are equals.
+         *
+         * \return True if equal, otherwise, return false.
          */
         friend bool operator==(const TwoPSet& lhs, const TwoPSet& rhs) {
             return (lhs._add == rhs._add) && (lhs._rem == rhs._rem);
@@ -232,15 +232,15 @@ class TwoPSet {
          * Check if lhs and rhs are not equals.
          * See operator == for further information about equality meaning.
          *
-         * \See operator==
+         * \return True if not equal, otherwise, return false.
          */
         friend bool operator!=(const TwoPSet& lhs, const TwoPSet& rhs) {
             return !(lhs == rhs);
         }
 
         /**
+         * Display the actual 2PSet's internal state.
          * This is mainly for debug print purpose.
-         * This display the actual internal state of the 2PSet.
          */
         friend std::ostream& operator<<(std::ostream& out, const TwoPSet& o) {
             out << "2PSet = add {";

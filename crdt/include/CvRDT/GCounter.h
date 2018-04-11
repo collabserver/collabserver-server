@@ -90,14 +90,30 @@ class GCounter {
 
     public:
 
+        /**
+         * Check if lhs and rhs are equals.
+         * Two counter are equal if query returns the same value.
+         *
+         * \return True if equal, otherwise, return false.
+         */
         friend bool operator==(const GCounter& lhs, const GCounter& rhs) {
             return lhs.query() == rhs.query();
         }
 
+        /**
+         * Check if lhs and rhs are not equals.
+         * See operator == for further information about equality meaning.
+         *
+         * \return True if not equal, otherwise, return false.
+         */
         friend bool operator!=(const GCounter& lhs, const GCounter& rhs) {
             return !(lhs == rhs);
         }
 
+        /**
+         * Display the actual GCounter's internal state.
+         * This is mainly for debug print purpose.
+         */
         friend std::ostream& operator<<(std::ostream& out, const GCounter& o) {
             out << "GCounter = " << o.query() << " -> [";
             for(const auto& it: o._map) {

@@ -103,15 +103,32 @@ class PNCounter {
 
     public:
 
-        bool operator==(const PNCounter& lhs) const {
-            return (this->_positive == lhs._positive)
-                && (this->_negative == lhs._negative);
+        /**
+         * Check if lhs and rhs are equals.
+         * Two PNCounter are equal if their internal state are equals.
+         * (Positive Set and Negative Set equal).
+         *
+         * \return True if strictly equal, otherwise, return false.
+         */
+        friend bool operator==(const PNCounter& lhs, const PNCounter& rhs) {
+            return (lhs._positive == rhs._positive)
+                && (lhs._negative == rhs._negative);
         }
 
-        bool operator!=(const PNCounter& lhs) const {
-            return !(*this == lhs);
+        /**
+         * Check if lhs and rhs are not equals.
+         * See operator == for further information about equality meaning.
+         *
+         * \return True if strictly not equal, otherwise, return false.
+         */
+        friend bool operator!=(const PNCounter& lhs, const PNCounter& rhs) {
+            return !(lhs == rhs);
         }
 
+        /**
+         * Display internal content.
+         * This is mainly for debug print purpose.
+         */
         friend std::ostream& operator<<(std::ostream& out, const PNCounter& o) {
             out << "PNCounter = " << o.query();
             out << " (" << o._positive << "), (" << o._negative << ")";
