@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GMap.h"
+#include "GSet.h"
 
 #include <ostream>
 
@@ -36,7 +37,7 @@ class GGraph {
             GSet<K> _edges;
 
             friend bool operator==(const _Vertex& lhs, const _Vertex& rhs) {
-                return lhs._id == rhs._id;
+                return (lhs._id == rhs._id) && (lhs._content == rhs._content);
             }
 
             friend bool operator!=(const _Vertex& lhs, const _Vertex& rhs) {
@@ -44,8 +45,13 @@ class GGraph {
             }
 
             friend bool operator<(const _Vertex& lhs, const _Vertex& rhs) {
-                //return lhs._content < rhs._content;
-                return true; // TODO TMP
+                return lhs._content < rhs._content;
+            }
+
+            _Vertex& operator=(const _Vertex& other) {
+                _content = other._content;
+                _edges = other._edges;
+                return *this;
             }
 
             friend bool operator>(const _Vertex& lhs, const _Vertex& rhs) {
@@ -78,8 +84,17 @@ class GGraph {
         }
 
         void merge(const GGraph<K,T>& other) {
-            // TODO
-            //_adj.merge(other._adj);
+            for(const_iterator it = other._adj.cbegin(); it != other._adj.cend(); ++it) {
+                const K& id = it->first;
+                const _Vertex& v = it->second;
+                if(_adj.count(id) == 0) {
+                    _adj.insert({id, {id, v._content, v._edges}});
+                }
+                else {
+                    _adj[id]._edges.merge(v._edges);
+                    _adj[id]._content = std::max(_adj[id]._content, v._content);
+                }
+            }
         }
 
     public:

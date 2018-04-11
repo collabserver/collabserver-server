@@ -36,10 +36,10 @@ class GMap {
         std::map<K,T> _map;
 
     public:
-        typedef typename std::map<K,T>::iterator       iterator;
-        typedef typename std::map<K,T>::const_iterator const_iterator;
-        typedef typename std::map<K,T>::size_type      size_type;
-        typedef typename std::map<K,T>::value_type     value_type;
+        typedef typename std::map<K,T>::iterator            iterator;
+        typedef typename std::map<K,T>::const_iterator      const_iterator;
+        typedef typename std::map<K,T>::size_type           size_type;
+        typedef typename std::map<K,T>::value_type          value_type;
 
 
     // -------------------------------------------------------------------------
@@ -93,7 +93,7 @@ class GMap {
         void merge(const GMap<K,T>& other) {
             for(const std::pair<K,T>& elt : other._map) {
                 if(_map.count(elt.first) == 0) {
-                    _map.insert(elt);
+                    _map.insert(elt); // Was not already in map
                 }
                 else {
                     _map[elt.first] = std::max(elt.second, _map[elt.first]);
