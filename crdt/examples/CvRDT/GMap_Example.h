@@ -16,11 +16,14 @@ void GMap_example() {
 
 
     // --- Replicate 0 (data0) ---
-    // [ (v1=100), (v2=20), (v3=300), (v4=400) ]
+    // [ (v1=100), (v2=20), (v3=300), (v4=400), (v9=900) ]
     data0.insert({"v1", 100});
     data0.insert({"v2", 20});
     data0.insert({"v3", 300});
-    data0.insert({"v4", 400});
+    data0.insert({"v4", 4444});
+    data0["v4"] = 400; // Replace old value
+    data0["v9"] = 900;
+    data0.insert({"v9", 9999}); // No nothing because already in map
 
 
     // --- Replicate 1 (data1) ---
@@ -33,6 +36,7 @@ void GMap_example() {
 
 
     // --- Final ---
+    // [ all xxx numbers ]
     std::cout << "data0 before merge: " << data0 << "\n";
     std::cout << "data1 before merge: " << data1 << "\n";
 

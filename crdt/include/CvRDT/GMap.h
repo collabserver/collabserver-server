@@ -9,10 +9,10 @@ namespace CRDT {
 namespace CvRDT {
 
 
-
 /**
  * Grow Only (add-only) Map.
- * Remove and update not supported. (Key added only once).
+ * Remove not supported. Update is supported (but merge uses the max value
+ * as total order).
  * CvRDT (State-based).
  *
  * Keys are unique.
@@ -86,6 +86,9 @@ class GMap {
         /**
          * Merge with another map.
          * If a key is already in both, replace with max(ours, theirs)
+         *
+         * std::max is used to create total order.
+         * (Won't work is std::max not allowed for T data type).
          */
         void merge(const GMap<K,T>& other) {
             for(const std::pair<K,T>& elt : other._map) {
@@ -128,6 +131,15 @@ class GMap {
          */
         const_iterator find(const T& key) const {
             return _map.find(key);
+        }
+
+        /**
+         * Returns a reference to the value that is mapped to a key
+         * equivalent to key, performing an insertion if such key does not
+         * already exist.
+         */
+        T& operator[](const K& key) {
+            return _map[key];
         }
 
 
