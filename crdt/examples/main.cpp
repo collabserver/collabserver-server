@@ -12,6 +12,7 @@
 #include "CvRDT/GMap_Example.h"
 
 #include "CvRDT/2P2PGraph_Example.h"
+#include "CvRDT/GGraph_Example.h"
 
 using namespace CRDT;
 
@@ -31,6 +32,7 @@ int main(int argc, char** argv) {
     CvRDT::GMap_example();
 
     CvRDT::TwoPTwoPGraph_example();
+    CvRDT::GGraph_example();
 
 
     return 0;

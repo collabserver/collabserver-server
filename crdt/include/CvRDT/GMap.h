@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_map>
+#include <map>
 #include <algorithm> // std::max
 #include <utility> // std::pair
 
@@ -18,7 +18,7 @@ namespace CvRDT {
  * Keys are unique.
  *
  * \note
- * Internally, uses std::unordered_map
+ * Internally, uses std::map
  *
  * \warning
  * Data type T must work with std::max. (is_arithmetic == true)
@@ -33,13 +33,13 @@ namespace CvRDT {
 template<typename K = int, typename T = int>
 class GMap {
     private:
-        std::unordered_map<K,T> _map;
+        std::map<K,T> _map;
 
     public:
-        typedef typename std::unordered_map<K,T>::iterator       iterator;
-        typedef typename std::unordered_map<K,T>::const_iterator const_iterator;
-        typedef typename std::unordered_map<K,T>::size_type      size_type;
-        typedef typename std::unordered_map<K,T>::value_type     value_type;
+        typedef typename std::map<K,T>::iterator       iterator;
+        typedef typename std::map<K,T>::const_iterator const_iterator;
+        typedef typename std::map<K,T>::size_type      size_type;
+        typedef typename std::map<K,T>::value_type     value_type;
 
 
     // -------------------------------------------------------------------------
@@ -115,7 +115,7 @@ class GMap {
          *
          * \return Number of element with key key.
          */
-        size_type count(const T& key) const {
+        size_type count(const K& key) const {
             return _map.count(key);
         }
 
