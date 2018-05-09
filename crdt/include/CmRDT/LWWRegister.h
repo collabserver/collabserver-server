@@ -2,7 +2,6 @@
 
 #include <cassert>
 
-
 namespace CRDT {
 namespace CmRDT {
 
@@ -52,15 +51,6 @@ class LWWRegister {
          * \return Copy of the register content.
          */
         T query() const {
-            return _reg;
-        }
-
-        /**
-         * Get a reference to the current register value.
-         *
-         * \return Reference to the register content.
-         */
-        T& query() {
             return _reg;
         }
 

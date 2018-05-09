@@ -4,17 +4,16 @@
 #include <algorithm> // std::max
 #include <utility> // std::pair
 
-
 namespace CRDT {
 namespace CvRDT {
 
 
 /**
- * Grow Only (add-only) Map.
- * Remove not supported. Update is supported (but merge uses the max value
- * as total order).
+ * Grow-only (add-only) Map.
  * CvRDT (State-based).
  *
+ * Remove not supported. Update is supported (but merge uses the max value
+ * as total order).
  * Keys are unique.
  *
  * \note
@@ -24,22 +23,21 @@ namespace CvRDT {
  * Data type T must work with std::max. (is_arithmetic == true)
  *
  *
- * \tparam T Type of element. (Default int)
- * \tparam K Key of element. (Default int)
+ * \tparam Key  Key.
+ * \tparam T    Element.
  *
  * \author  Constantin Masson
  * \date    March 2018
  */
-template<typename K = int, typename T = int>
+template<typename Key, typename T>
 class GMap {
     private:
-        std::map<K,T> _map;
+        std::map<Key,T> _map;
 
     public:
-        typedef typename std::map<K,T>::iterator            iterator;
-        typedef typename std::map<K,T>::const_iterator      const_iterator;
-        typedef typename std::map<K,T>::size_type           size_type;
-        typedef typename std::map<K,T>::value_type          value_type;
+        typedef typename std::map<Key,T>::const_iterator    const_iterator;
+        typedef typename std::map<Key,T>::size_type         size_type;
+        typedef typename std::map<Key,T>::value_type        value_type;
 
 
     // -------------------------------------------------------------------------
@@ -90,8 +88,8 @@ class GMap {
          * std::max is used to create total order.
          * (Won't work is std::max not allowed for T data type).
          */
-        void merge(const GMap<K,T>& other) {
-            for(const std::pair<K,T>& elt : other._map) {
+        void merge(const GMap<Key,T>& other) {
+            for(const std::pair<Key,T>& elt : other._map) {
                 if(_map.count(elt.first) == 0) {
                     _map.insert(elt); // Was not already in map
                 }
@@ -115,7 +113,7 @@ class GMap {
          *
          * \return Number of element with key key.
          */
-        size_type count(const K& key) const {
+        size_type count(const Key& key) const {
             return _map.count(key);
         }
 
@@ -129,7 +127,7 @@ class GMap {
          * \param key key value of the element to search for.
          * \return Constant iterator to the element (Or end if no element).
          */
-        const_iterator find(const T& key) const {
+        const_iterator find(const Key& key) const {
             return _map.find(key);
         }
 
@@ -138,7 +136,7 @@ class GMap {
          * equivalent to key, performing an insertion if such key does not
          * already exist.
          */
-        T& operator[](const K& key) {
+        T& operator[](const Key& key) {
             return _map[key];
         }
 
@@ -150,36 +148,22 @@ class GMap {
     public:
 
         /**
-         * Returns an iterator to the first element of the container.
+         * Returns a constant iterator to the first element of the container.
          * If the container is empty, the returned iterator will be
          * equal to end().
          *
-         * \return Iterator to the first element.
-         */
-        iterator begin() {
-            return _map.begin();
-        }
-
-        /**
-         * Returns an iterator to the element following the last element of
-         * the container. This element acts as a placeholder.
-         * Attempting to access it results in undefined behavior.
-         *
-         * \return Iterator to the element following the last element.
-         */
-        iterator end() {
-            return _map.end();
-        }
-
-        /**
-         * \copydoc begin()
+         * \return Constant iterator to the first element.
          */
         const_iterator cbegin() const {
             return _map.cbegin();
         }
 
         /**
-         * \copydoc end()
+         * Returns a constant iterator to the element following the last element of
+         * the container. This element acts as a placeholder.
+         * Attempting to access it results in undefined behavior.
+         *
+         * \return Constant iterator to the element following the last element.
          */
         const_iterator cend() const {
             return _map.cend();
@@ -216,9 +200,9 @@ class GMap {
          * Display the internal map content.
          * This is mainly for debug print purpose.
          */
-        friend std::ostream& operator<<(std::ostream& out, const GMap<K,T>& o) {
-            out << "GMap = ";
-            for(const std::pair<K,T>& elt : o._map) {
+        friend std::ostream& operator<<(std::ostream& out, const GMap<Key,T>& o) {
+            out << "CvRDT::GMap = ";
+            for(const std::pair<Key,T>& elt : o._map) {
                 out << "(" << elt.first << "," << elt.second << ") ";
             }
             return out;

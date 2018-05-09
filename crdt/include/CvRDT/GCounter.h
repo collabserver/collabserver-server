@@ -10,8 +10,8 @@ namespace CvRDT {
 
 
 /**
- * Grow Only Counter.
- * CvRDT (State-based)
+ * Grow-only Counter.
+ * CvRDT (State-based).
  *
  * \note
  * Internally stores counter in a map. Key is the replicate's unique id.
@@ -20,13 +20,13 @@ namespace CvRDT {
  * Data type T must work with std::max. (is_arithmetic == true)
  *
  *
- * \tparam T Type of counter. (Default int)
- * \tparam ID Type of the id used to identify each replicated. (Each unique).
+ * \tparam T    Type of counter.
+ * \tparam ID   Type of the id used to identify each replicated. (Each unique).
  *
  * \author  Constantin Masson
  * \date    March 2018
  */
-template<typename T = int, typename ID = std::string>
+template<typename T, typename ID>
 class GCounter {
     private:
         std::unordered_map<ID, T> _map;

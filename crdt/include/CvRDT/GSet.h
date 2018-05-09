@@ -9,28 +9,26 @@ namespace CvRDT {
 
 
 /**
- * Grow Only (add-only) Set.
- * Do not support remove element.
- *
- * \note
+ * Grow-only (add-only) Set.
  * CvRDT (State-based).
+ *
+ * Do not support remove element.
  *
  * \note
  * Internally, uses std::set
  *
  *
- * \tparam T Type of element. (Default int)
+ * \tparam T Type of element.
  *
  * \author  Constantin Masson
  * \date    March 2018
  */
-template<typename T = int>
+template<typename T>
 class GSet {
     private:
         std::set<T> _add; // Set of added elements
 
     public:
-        typedef typename std::set<T>::iterator              iterator;
         typedef typename std::set<T>::const_iterator        const_iterator;
         typedef typename std::set<T>::size_type             size_type;
 
@@ -122,36 +120,22 @@ class GSet {
     public:
 
         /**
-         * Returns an iterator to the first element of the container.
+         * Returns a constant iterator to the first element of the container.
          * If the container is empty, the returned iterator will be
          * equal to end().
          *
-         * \return Iterator to the first element.
-         */
-        iterator begin() {
-            return _add.begin();
-        }
-
-        /**
-         * Returns an iterator to the element following the last element of
-         * the container. This element acts as a placeholder.
-         * Attempting to access it results in undefined behavior.
-         *
-         * \return Iterator to the element following the last element.
-         */
-        iterator end() {
-            return _add.end();
-        }
-
-        /**
-         * \copydoc begin()
+         * \return Constant iterator to the first element.
          */
         const_iterator cbegin() const {
             return _add.cbegin();
         }
 
         /**
-         * \copydoc end()
+         * Returns a constant iterator to the element following the last element of
+         * the container. This element acts as a placeholder.
+         * Attempting to access it results in undefined behavior.
+         *
+         * \return Constant iterator to the element following the last element.
          */
         const_iterator cend() const {
             return _add.cend();

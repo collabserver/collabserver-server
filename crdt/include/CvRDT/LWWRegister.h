@@ -58,15 +58,6 @@ class LWWRegister {
         }
 
         /**
-         * Get a reference to the current register value.
-         *
-         * \return Reference to the register content.
-         */
-        T& query() {
-            return _reg;
-        }
-
-        /**
          * Assign new value to the register.
          * Do nothing if given stamp is less or equal to the current timestamps.
          *

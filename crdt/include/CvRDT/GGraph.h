@@ -11,7 +11,7 @@ namespace CvRDT {
 
 /**
  * Grow-only Graph.
- * CvRDT (State-based)
+ * CvRDT (State-based).
  *
  * \warning
  * Data type T must work with std::max (is_arithmetic == true)
@@ -23,11 +23,10 @@ namespace CvRDT {
  * \author  Constantin Masson
  * \date    March 2018
  */
-template<typename K = std::string, typename T = int>
+template<typename K, typename T>
 class GGraph {
 
     // TODO: To cleanup
-
     private:
 
         struct _Vertex {
@@ -63,7 +62,6 @@ class GGraph {
 
 
     public:
-        typedef typename GMap<K,_Vertex>::iterator          iterator;
         typedef typename GMap<K,_Vertex>::const_iterator    const_iterator;
 
 
@@ -113,8 +111,10 @@ class GGraph {
             for(const_iterator it = o._adj.cbegin(); it != o._adj.cend(); ++it) {
                 _Vertex v = it->second;
                 out << it->first << " (" << v._content << ") -> ";
-                for(const auto& elt : v._edges) {
-                    out << elt << " ";
+
+                //info: auto is typename GSet<K>::const_iterator
+                for(auto itv = v._edges.cbegin(); itv != v._edges.cend(); ++itv) {
+                    out << *itv << " ";
                 }
                 out << "\n";
             }
@@ -125,3 +125,5 @@ class GGraph {
 
 
 }} // End namespaces
+
+

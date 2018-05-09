@@ -10,7 +10,7 @@ namespace CvRDT {
 
 /**
  * Increment / Decrement Counter.
- * CvRDT (State based object)
+ * CvRDT (State-based).
  *
  * \note
  * Internally, uses two Grow Only counters. (Positive / Negative).

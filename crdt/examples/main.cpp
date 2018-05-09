@@ -5,12 +5,12 @@
 #include "CvRDT/GSet_Example.h"
 #include "CvRDT/2PSet_Example.h"
 #include "CvRDT/GMap_Example.h"
-#include "CvRDT/2P2PGraph_Example.h"
 #include "CvRDT/GGraph_Example.h"
 
 
 // CmRDT (Operation-based)
 #include "CmRDT/LWWRegister_Example.h"
+#include "CmRDT/LWWMap_Example.h"
 
 
 using namespace CRDT;
@@ -31,12 +31,12 @@ int main(int argc, char** argv) {
 
     CvRDT::GMap_example();
 
-    CvRDT::TwoPTwoPGraph_example();
     CvRDT::GGraph_example();
 
 
     // CmRDT (Operation-based)
     CmRDT::LWWRegister_example();
+    CmRDT::LWWMap_example();
 
 
     return 0;
