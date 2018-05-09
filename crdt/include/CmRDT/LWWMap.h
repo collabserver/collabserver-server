@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LWWRegister.h"
+
 #include <unordered_map>
 #include <utility> // std::pair
 
@@ -15,6 +17,12 @@ namespace CmRDT {
  * Internally uses std::unordered_map. See its documentation for further
  * informations.
  *
+ * \warning
+ * Timestamps must have a total order.
+ * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
+ * may diverge. (See quote and implementation).
+ *
+ *
  * \note
  * Quote from the CRDT article "A comprehensive study of CRDT":
  *
@@ -28,10 +36,6 @@ namespace CmRDT {
  * such as its MAC address.
  * "
  *
- * \warning
- * Timestamps must have a total order.
- * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
- * may diverge. (See quote and implementation).
  *
  * \tparam T    Type of element.
  * \tparam Key  Type of key.
@@ -43,10 +47,12 @@ namespace CmRDT {
 template<typename Key, typename T, typename U>
 class LWWMap {
     private:
-        typedef typename std::pair<U, bool> _meta; // bool=true if removed
-        typedef typename std::pair<T, _meta> Elt;
+        typedef typename std::pair<U, bool> metadata;// bool=true if removed
+        typedef typename std::pair<metadata, LWWRegister<T,U>> celldata;
+        typedef typename std::pair<T, celldata> Elt;
 
-        std::unordered_map<Key,Elt> _map;
+    private:
+        std::unordered_map<Key, Elt> _map;
 
     public:
         typedef typename std::unordered_map<Key,Elt>::value_type     value_type;
@@ -64,6 +70,16 @@ class LWWMap {
             return this->cend();
         }
 
+        /**
+         * Inserts element into the container.
+         * If a key already exists, its value is updated (Call update).
+         * This is important for commutativity (CRDT Property).
+         * Concurrent add are resolved using LWW to set its value.
+         *
+         * \param key   Key of the element to add.
+         * \param value Element to add.
+         * \param stamp Timestamp to associate with this element.
+         */
         bool insert(const Key& key, const T& value, const U& stamp) {
             // TODO
             return false;
@@ -74,6 +90,23 @@ class LWWMap {
             return false; // TODO
         }
 
+        /**
+         * Update value for the given key.
+         *
+         * Updating a removed key update its value (No key are actually removed,
+         * only added in tombstone) but doesn't change its 'removed' status.
+         *
+         * \warning
+         * Update is commutative. If update is called before element exists in
+         * the map (Never added before), a tmp key value pair is created. This
+         * means update may be called before insert. Such scenario may appear
+         * whenever user receive update from someone who already received the 
+         * insert call, but we don't). 'tmp' means that any
+         *
+         * \param key   Key to update
+         * \param value Value to set for this key (Using LWW control)
+         * \param stamp Timestamp of this action.
+         */
         bool update(const Key& key, const T& value, const U& stamp) {
             // TODO
             return false;
@@ -142,11 +175,7 @@ class LWWMap {
         friend std::ostream& operator<<(std::ostream& out,
                                         const LWWMap<Key,T,U>& o) {
             out << "CmRDT::LWWMap = Not Implemented Yet";
-            /* TODO
-            for(const std::pair<Key,T>& elt : o._map) {
-                out << "(" << elt.first << "," << elt.second << ") ";
-            }
-            */
+            // TODO
             return out;
         }
 };
