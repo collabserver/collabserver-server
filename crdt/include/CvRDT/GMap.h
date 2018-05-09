@@ -66,7 +66,7 @@ class GMap {
 
 
     // -------------------------------------------------------------------------
-    // Modifier
+    // Modifiers
     // -------------------------------------------------------------------------
 
     public:
@@ -159,8 +159,8 @@ class GMap {
         }
 
         /**
-         * Returns a constant iterator to the element following the last element of
-         * the container. This element acts as a placeholder.
+         * Returns a constant iterator to the element following the last element
+         * of the container. This element acts as a placeholder.
          * Attempting to access it results in undefined behavior.
          *
          * \return Constant iterator to the element following the last element.

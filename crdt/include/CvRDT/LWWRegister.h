@@ -49,11 +49,11 @@ class LWWRegister {
     public:
 
         /**
-         * Get a copy of the current register value.
+         * Get a constant reference of the current register value.
          *
-         * \return Copy of the register content.
+         * \return Constant reference of the register content.
          */
-        T query() const {
+        const T& query() const {
             return _reg;
         }
 

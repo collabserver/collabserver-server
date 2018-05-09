@@ -28,42 +28,50 @@ namespace CmRDT {
  * \warning
  * Timestamps must have a total order.
  * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
- * may diverge. (See implementation).
- * (Ex: use a mix of datetime + user id for instance).
+ * may diverge. (See quote and implementation).
  *
  *
  * \tparam T    Type of element.
- * \tparam Key  Timestamps key.
+ * \tparam U    Timestamps.
  *
  * \author  Constantin Masson
  * \date    May 2018
  */
-template<typename T, typename Key>
+template<typename T, typename U>
 class LWWRegister {
     private:
         T   _reg;
-        Key _timestamp = 0;
+        U   _timestamp = 0;
+
+
+    // -------------------------------------------------------------------------
+    // CRDT methods
+    // -------------------------------------------------------------------------
 
     public:
+
         /**
-         * Get a copy of the current register value.
+         * Get a constant reference of the current register value.
          *
-         * \return Copy of the register content.
+         * \return Constant reference of the register content.
          */
-        T query() const {
+        const T& query() const {
             return _reg;
         }
 
         /**
          * Change the local register value. (Downstream update).
          * Do nothing if given stamp is less or equal to the current timestamps.
-         * (There are no preconditions, so update always returns true).
+         *
+         * Precondition:
+         * There are no preconditions, so update always returns true.
+         * Update are commutative.
          *
          * \param value New value for this register.
          * \param stamp Associated timestamp
          * \return True if precondition was true, otherwise, returns false.
          */
-        bool update(const T& value, const Key& stamp) {
+        bool update(const T& value, const U& stamp) {
             assert(stamp != _timestamp);
 
             if(stamp > _timestamp) {
@@ -83,7 +91,7 @@ class LWWRegister {
 
         /**
          * Check if two registers are equal.
-         * Register data and timestamp must be equal for registers to be equal.
+         * Two registers are equal if their data and timestamp are equal.
          *
          * \return True if equal, otherwise, return false.
          */
@@ -102,12 +110,12 @@ class LWWRegister {
         }
 
         /**
-         * Display the register value.
+         * Display the register value and timestamp.
          * This is mainly for debug print purpose.
          */
-        friend std::ostream& operator<<(std::ostream& out,
-                                        const LWWRegister& o) {
-            out << "CmRDT::LWWRegister: " << o.query();
+        friend std::ostream& operator<<(std::ostream& out, const LWWRegister& o) {
+            out << "CmRDT::LWWRegister = (T=" << o.query();
+            out << ", U=" << o._timestamp << ")";
             return out;
         }
 };

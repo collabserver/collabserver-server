@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <utility> // std::pair
 
 namespace CRDT {
@@ -11,6 +11,27 @@ namespace CmRDT {
  * Last-Writer-Wins Map (LWW Map).
  * CmRDT (Operation-based)
  *
+ * Associative container that contains key-value pairs with unique keys.
+ * Internally uses std::unordered_map. See its documentation for further
+ * informations.
+ *
+ * \note
+ * Quote from the CRDT article "A comprehensive study of CRDT":
+ *
+ * "
+ * A Last-Writer-Wins [...] creates a total order of
+ * assignments by associating a timestamp with each update.
+ * Timestamps are assumed unique, totally ordered, and consistent with causal
+ * order; i.e., if assignment 1 happened-before assignment 2,
+ * the former's timestamp is less than the latter's. This may be implemented as
+ * a per-replicate counter concatenated with a unique replica identifier,
+ * such as its MAC address.
+ * "
+ *
+ * \warning
+ * Timestamps must have a total order.
+ * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
+ * may diverge. (See quote and implementation).
  *
  * \tparam T    Type of element.
  * \tparam Key  Type of key.
@@ -22,39 +43,69 @@ namespace CmRDT {
 template<typename Key, typename T, typename U>
 class LWWMap {
     private:
-        /*
-         * This map only keep metadata about each element in map
-         */
-        std::map<Key,std::pair<U,bool>> _meta; // bool=true if removed
-        std::map<Key,T> _map;
+        typedef typename std::pair<U, bool> _meta; // bool=true if removed
+        typedef typename std::pair<T, _meta> Elt;
+
+        std::unordered_map<Key,Elt> _map;
 
     public:
-        typedef typename std::map<Key,T>::const_iterator  const_iterator;
-        typedef typename std::map<Key,T>::size_type       size_type;
-        typedef typename std::map<Key,T>::value_type      value_type;
+        typedef typename std::unordered_map<Key,Elt>::value_type     value_type;
+        typedef typename std::unordered_map<Key,Elt>::const_iterator const_iterator;
 
 
     // -------------------------------------------------------------------------
-    // Modifier
+    // CRDT methods
+    // -------------------------------------------------------------------------
+
+    public:
+
+        const_iterator query(const Key& key) const {
+            // TODO
+            return this->cend();
+        }
+
+        bool insert(const Key& key, const T& value, const U& stamp) {
+            // TODO
+            return false;
+        }
+
+        bool remove(const Key& key, const U& stamp) {
+            // TODO
+            return false; // TODO
+        }
+
+        bool update(const Key& key, const T& value, const U& stamp) {
+            // TODO
+            return false;
+        }
+
+
+    // -------------------------------------------------------------------------
+    // Iterators
     // -------------------------------------------------------------------------
 
     public:
 
         /**
-         * Inserts element into the container, if the container
-         * doesn't already contain an element with an equivalent key.
+         * Returns a constant iterator to the first element of the container.
+         * If the container is empty, the returned iterator will be
+         * equal to end().
          *
-         * \param value {key, data} to add.
+         * \return Constant iterator to the first element.
          */
-        void insert(const value_type& value, const U& stamp) {
-            //TODO get elt
-            // if no elt
-            //      add
-            // else
-            //      if stamp > current -> add
-            //      else -> nothing
-            //
-            //_map.insert(value);
+        const_iterator cbegin() const {
+            return _map.cbegin();
+        }
+
+        /**
+         * Returns a constant iterator to the element following the last element
+         * of the container. This element acts as a placeholder.
+         * Attempting to access it results in undefined behavior.
+         *
+         * \return Constant iterator to the element following the last element.
+         */
+        const_iterator cend() const {
+            return _map.cend();
         }
 
 
@@ -81,18 +132,17 @@ class LWWMap {
          * \return True if not equal, otherwise, return false.
          */
         friend bool operator!=(const LWWMap& lhs, const LWWMap& rhs) {
-            return !(lhs._map == rhs._map);
+            return !(lhs == rhs);
         }
 
         /**
          * Display the internal map content.
          * This is mainly for debug print purpose.
          */
-        friend std::ostream& operator<<(std::ostream& out, const LWWMap<Key,T,U>& o) {
+        friend std::ostream& operator<<(std::ostream& out,
+                                        const LWWMap<Key,T,U>& o) {
             out << "CmRDT::LWWMap = Not Implemented Yet";
-            /*
-             * TODO
-             *
+            /* TODO
             for(const std::pair<Key,T>& elt : o._map) {
                 out << "(" << elt.first << "," << elt.second << ") ";
             }

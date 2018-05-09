@@ -17,19 +17,19 @@ void LWWRegister_example() {
 
     // At replicate 0
     data0.update(300, 3);
-    std::cout << "update(300, 3) -> " << data0.query() << "\n";
+    std::cout << "update(300, 3) -> " << data0 << "\n";
 
     data0.update(100, 1);
-    std::cout << "update(100, 1) -> " << data0.query() << "\n";
+    std::cout << "update(100, 1) -> " << data0 << "\n";
 
     data0.update(500, 5);
-    std::cout << "update(500, 5) -> " << data0.query() << "\n";
+    std::cout << "update(500, 5) -> " << data0 << "\n";
 
     data0.update(700, 7);
-    std::cout << "update(700, 7) -> " << data0.query() << "\n";
+    std::cout << "update(700, 7) -> " << data0 << "\n";
 
     data0.update(200, 2);
-    std::cout << "update(200, 2) -> " << data0.query() << "\n";
+    std::cout << "update(200, 2) -> " << data0 << "\n";
 
 
     // At replicate 1
