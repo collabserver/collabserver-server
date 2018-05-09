@@ -1,15 +1,15 @@
 #pragma once
 
 #include <cassert>
-#include <ostream>
+
 
 namespace CRDT {
-namespace CvRDT {
+namespace CmRDT {
 
 
 /**
  * Last-Writer-Wins Register (LWW Register).
- * CvRDT (State-based).
+ * CmRDT (Operation-based).
  *
  * Timestamp is assigned to each update and creates a total order of updates.
  *
@@ -37,7 +37,7 @@ namespace CvRDT {
  * \tparam Key  Timestamps key.
  *
  * \author  Constantin Masson
- * \date    March 2018
+ * \date    May 2018
  */
 template<typename T, typename Key>
 class LWWRegister {
@@ -45,9 +45,7 @@ class LWWRegister {
         T   _reg;
         Key _timestamp = 0;
 
-
     public:
-
         /**
          * Get a copy of the current register value.
          *
@@ -67,34 +65,25 @@ class LWWRegister {
         }
 
         /**
-         * Assign new value to the register.
+         * Change the local register value. (Downstream update).
          * Do nothing if given stamp is less or equal to the current timestamps.
-         *
-         * TODO: create return value.
+         * (There are no preconditions, so update always returns true).
          *
          * \param value New value for this register.
          * \param stamp Associated timestamp
+         * \return True if precondition was true, otherwise, returns false.
          */
-        void set(const T& value, const Key& stamp) {
+        bool update(const T& value, const Key& stamp) {
+            assert(stamp != _timestamp);
+
             if(stamp > _timestamp) {
-                _timestamp  = stamp;
-                _reg        = value;
+                _reg = value;
+                _timestamp = stamp;
+                return true;
             }
+            return true; // Because no pre-condition
         }
 
-        /**
-         * Merge this register with another.
-         * Use Last-Writer-Wins as modification order.
-         * (See required timestamp properties)
-         */
-        void merge(const LWWRegister& other) {
-            assert(other._timestamp != _timestamp);
-
-            if(other._timestamp > _timestamp) {
-                _reg = other._reg;
-                _timestamp = other._timestamp;
-            }
-        }
 
     // -------------------------------------------------------------------------
     // Operators overload
@@ -128,7 +117,7 @@ class LWWRegister {
          */
         friend std::ostream& operator<<(std::ostream& out,
                                         const LWWRegister& o) {
-            out << "CvRDT::LWWRegister: " << o.query();
+            out << "CmRDT::LWWRegister: " << o.query();
             return out;
         }
 };
