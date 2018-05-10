@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LWWSet.h"
+#include <utility> // std::pair
 
 namespace CRDT {
 namespace CmRDT {
@@ -65,9 +66,12 @@ class LWWGraph {
         /**
          * TODO
          */
-        void addVertex(const Key& key, const T& content, const U& stamp) {
-
-            //_adj.insert(key, content, stamp);
+        void addVertex(const Key& key, const U& stamp) {
+            // TODO (Not CRDT yet)
+            Vertex v;
+            Metadata data = {stamp, true};
+            Elt element = {data, v};
+            _adj.insert(std::make_pair(key, element));
         }
 
         /**
