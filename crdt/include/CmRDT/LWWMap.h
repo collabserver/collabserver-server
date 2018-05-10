@@ -46,7 +46,7 @@ namespace CmRDT {
 template<typename Key, typename T, typename U>
 class LWWMap {
     private:
-        typedef typename std::pair<U, bool> Metadata;// bool=true if removed
+        typedef typename std::pair<U, bool> Metadata; // bool=true if removed
         typedef typename std::pair<Metadata, LWWRegister<T,U>> Elt;
 
     public:
@@ -186,6 +186,7 @@ class LWWMap {
         /**
          * Check if lhs and rhs are equals.
          * Two LWWMap are equal if their internal map are equal.
+         * Removed elements are used to determine equality.
          *
          * \return True if equal, otherwise, return false.
          */
@@ -213,9 +214,13 @@ class LWWMap {
             for(const auto& elt : o._map) {
                 out << "(K=" << elt.first
                     << ",T=" << elt.second.second.query()
-                    << ",U=" << elt.second.first.first
-                    << ",R=" << elt.second.first.second
-                    << ") ";
+                    << ",U=" << elt.second.first.first;
+                if(elt.second.first.second == true) {
+                    out << ",removed) ";
+                }
+                else {
+                    out << ",alive) ";
+                }
             }
             return out;
         }

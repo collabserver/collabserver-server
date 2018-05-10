@@ -9,8 +9,9 @@
 
 
 // CmRDT (Operation-based)
-#include "CmRDT/LWWRegister_Example.h"
 #include "CmRDT/LWWMap_Example.h"
+#include "CmRDT/LWWRegister_Example.h"
+#include "CmRDT/LWWSet_Example.h"
 
 
 using namespace CRDT;
@@ -35,8 +36,9 @@ int main(int argc, char** argv) {
 
 
     // CmRDT (Operation-based)
-    CmRDT::LWWRegister_example();
     CmRDT::LWWMap_example();
+    CmRDT::LWWRegister_example();
+    CmRDT::LWWSet_example();
 
 
     return 0;
