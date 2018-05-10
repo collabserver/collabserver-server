@@ -10,7 +10,13 @@ namespace CmRDT {
  * Last-Writer-Wins Register (LWW Register).
  * CmRDT (Operation-based).
  *
- * Timestamp is assigned to each update and creates a total order of updates.
+ * Timestamps is assigned to each update and creates a total order of updates.
+ *
+ * \warning
+ * Timestamps are strictly unique with total order.
+ * If (t1 == t2) is true, replicates may diverge.
+ * (See quote and implementation).
+ *
  *
  * \note
  * Quote from the CRDT article "A comprehensive study of CRDT":
@@ -24,14 +30,9 @@ namespace CmRDT {
  *  such as its MAC address.
  * "
  *
- * \warning
- * Timestamps must have a total order.
- * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
- * may diverge. (See quote and implementation).
  *
- *
- * \tparam T    Type of element.
- * \tparam U    Timestamps.
+ * \tparam T    Type of element (Register content).
+ * \tparam U    Type of timestamps (Implements operators > and <).
  *
  * \author  Constantin Masson
  * \date    May 2018
@@ -105,12 +106,14 @@ class LWWRegister {
         }
 
         /**
-         * Display the register value and timestamp.
+         * Displays the register value and its timestamp.
          * This is mainly for debug print purpose.
          */
         friend std::ostream& operator<<(std::ostream& out, const LWWRegister& o) {
-            out << "CmRDT::LWWRegister = (T=" << o.query();
-            out << ", U=" << o._timestamp << ")";
+            out << "CmRDT::LWWRegister = (T="
+                << o.query()
+                << ", U=" << o._timestamp
+                << ")";
             return out;
         }
 };

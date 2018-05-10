@@ -21,9 +21,9 @@ namespace CmRDT {
  * with the minimal timestamp value).
  *
  * \warning
- * Timestamps must have a total order.
- * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
- * may diverge. (See quote and implementation).
+ * Timestamps are strictly unique with total order.
+ * If (t1 == t2) is true, replicates may diverge.
+ * (See quote and implementation).
  *
  *
  * \note
@@ -41,7 +41,7 @@ namespace CmRDT {
  *
  * \tparam Key  Type of unique identifier for each graph vertex
  * \tparam T    Type of vertex content data.
- * \tparam U    Type of timestamp.
+ * \tparam U    Type of timestamps (Implements operators > and <).
  *
  * \author  Constantin Masson
  * \date    May 2018
@@ -64,7 +64,7 @@ class LWWGraph {
     public:
 
         /**
-         * TODO
+         * TODO doc
          */
         void addVertex(const Key& key, const U& stamp) {
             // TODO (Not CRDT yet)
@@ -75,14 +75,14 @@ class LWWGraph {
         }
 
         /**
-         * TODO
+         * TODO doc
          */
         void removeVertex(const Key& key, const U& stamp) {
             //_adj.remove(key, stamp);
         }
 
         /**
-         * TODO
+         * TODO doc
          */
         void addEdge(const Key& from, const Key& to, const U& stamp) {
             if(from != to) {
@@ -91,7 +91,7 @@ class LWWGraph {
         }
 
         /**
-         * TODO
+         * TODO doc
          */
         void removeEdge(const Key& from, const Key& to, const U& stamp) {
         }
@@ -138,7 +138,7 @@ class LWWGraph {
 
 
 /**
- * TODO
+ * TODO doc
  */
 template<typename Key, typename T, typename U>
 class LWWGraph<Key,T,U>::Vertex {

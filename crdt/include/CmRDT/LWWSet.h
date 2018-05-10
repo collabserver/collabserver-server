@@ -11,14 +11,14 @@ namespace CmRDT {
  * Last-Writer-Wins Set (LWW Set).
  * CmRDT (Operation-based)
  *
- * Associative container that contains key-value pairs with unique keys.
- * Internally uses std::unordered_set. See its documentation for further
- * informations.
+ * Associative container that contains unique keys.
+ * Timestamps is assigned to each add / remove operation to create total order
+ * of operations.
  *
  * \warning
- * Timestamps must have a total order.
- * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
- * may diverge. (See quote and implementation).
+ * Timestamps are strictly unique with total order.
+ * If (t1 == t2) is true, replicates may diverge.
+ * (See quote and implementation).
  *
  *
  * \note
@@ -34,8 +34,8 @@ namespace CmRDT {
  * "
  *
  *
- * \tparam Key  Object of type Key.
- * \tparam U    Type of timestamp.
+ * \tparam Key  Type of set elements.
+ * \tparam U    Type of timestamps (Implements operators > and <).
  *
  * \author  Constantin Masson
  * \date    May 2018
@@ -61,14 +61,14 @@ class LWWSet {
     public:
 
         /**
-         * TODO
+         * TODO To document
          */
         const_iterator lookup(const Key& key) const {
             return _map.find(key);
         }
 
         /**
-         * TODO
+         * TODO To document
          */
         void insert(const Key& key, const U& stamp) {
             iterator it = _map.find(key);
@@ -85,7 +85,7 @@ class LWWSet {
         }
 
         /**
-         * TODO
+         * TODO To document
          */
         void remove(const Key& key, const U& stamp) {
             iterator it = _map.find(key);

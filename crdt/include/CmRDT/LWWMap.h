@@ -14,13 +14,13 @@ namespace CmRDT {
  * CmRDT (Operation-based)
  *
  * Associative container that contains key-value pairs with unique keys.
- * Internally uses std::unordered_map. See its documentation for further
- * informations.
+ * Timestamps is assigned to each add / remove operation to create total order
+ * of operations.
  *
  * \warning
- * Timestamps must have a total order.
- * Two equal timestamps (t1 == t1 returns true) is undefined and replicated
- * may diverge. (See quote and implementation).
+ * Timestamps are strictly unique with total order.
+ * If (t1 == t2) is true, replicates may diverge.
+ * (See quote and implementation).
  *
  *
  * \note
