@@ -36,8 +36,8 @@ namespace CmRDT {
  * "
  *
  *
- * \tparam T    Type of element.
  * \tparam Key  Type of key.
+ * \tparam T    Type of element.
  * \tparam U    Type of timestamp.
  *
  * \author  Constantin Masson
@@ -140,7 +140,9 @@ class LWWMap {
                 it->second.second.update(value, stamp);
             }
             else {
-                Metadata coco = std::make_pair(0, false);
+                // Creates tmp removed elt, with the actual value.
+                // (We will probably receive its 'insert' later)
+                Metadata coco = std::make_pair(0, true);
                 LWWRegister<T,U> reg;
                 reg.update(value, stamp);
                 _map.emplace(std::make_pair(key, std::make_pair(coco, reg)));
