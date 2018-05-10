@@ -25,15 +25,14 @@ namespace CmRDT {
  *
  * \note
  * Quote from the CRDT article "A comprehensive study of CRDT":
- *
  * "
- * A Last-Writer-Wins [...] creates a total order of
- * assignments by associating a timestamp with each update.
- * Timestamps are assumed unique, totally ordered, and consistent with causal
- * order; i.e., if assignment 1 happened-before assignment 2,
- * the former's timestamp is less than the latter's. This may be implemented as
- * a per-replicate counter concatenated with a unique replica identifier,
- * such as its MAC address.
+ *  A Last-Writer-Wins [...] creates a total order of
+ *  assignments by associating a timestamp with each update.
+ *  Timestamps are assumed unique, totally ordered, and consistent with causal
+ *  order; i.e., if assignment 1 happened-before assignment 2,
+ *  the former's timestamp is less than the latter's. This may be implemented as
+ *  a per-replicate counter concatenated with a unique replica identifier,
+ *  such as its MAC address.
  * "
  *
  *
@@ -47,16 +46,16 @@ namespace CmRDT {
 template<typename Key, typename T, typename U>
 class LWWMap {
     private:
-        typedef typename std::pair<U, bool> metadata;// bool=true if removed
-        typedef typename std::pair<metadata, LWWRegister<T,U>> celldata;
-        typedef typename std::pair<T, celldata> Elt;
-
-    private:
-        std::unordered_map<Key, Elt> _map;
+        typedef typename std::pair<U, bool> Metadata;// bool=true if removed
+        typedef typename std::pair<Metadata, LWWRegister<T,U>> Elt;
 
     public:
         typedef typename std::unordered_map<Key,Elt>::value_type     value_type;
+        typedef typename std::unordered_map<Key,Elt>::iterator       iterator;
         typedef typename std::unordered_map<Key,Elt>::const_iterator const_iterator;
+
+    private:
+        std::unordered_map<Key, Elt> _map;
 
 
     // -------------------------------------------------------------------------
@@ -80,20 +79,46 @@ class LWWMap {
          * \param value Element to add.
          * \param stamp Timestamp to associate with this element.
          */
-        bool insert(const Key& key, const T& value, const U& stamp) {
-            // TODO
-            return false;
+        void insert(const Key& key, const T& value, const U& stamp) {
+            iterator it = _map.find(key);
+
+            // This code is ugly, but see the _map definition to understand
+            if(it != _map.end()) {
+                if(it->second.first.first < stamp) {
+                    it->second.first.first = stamp;
+                    it->second.first.second = false;
+                    this->update(key, value, stamp);
+                }
+            }
+            else {
+                Metadata coco = std::make_pair(stamp, false);
+                LWWRegister<T,U> reg;
+                reg.update(value, stamp);
+                _map.emplace(std::make_pair(key, std::make_pair(coco, reg)));
+            }
         }
 
-        bool remove(const Key& key, const U& stamp) {
-            // TODO
-            return false; // TODO
+        void remove(const Key& key, const U& stamp) {
+            iterator it = _map.find(key);
+
+            // This code is ugly, but see the _map definition to understand
+            if(it != _map.end()) {
+                if(it->second.first.first < stamp) {
+                    it->second.first.first = stamp;
+                    it->second.first.second = true;
+                }
+            }
+            else {
+                Metadata coco = std::make_pair(0, false);
+                LWWRegister<T,U> reg;
+                _map.emplace(std::make_pair(key, std::make_pair(coco, reg)));
+            }
         }
 
         /**
          * Update value for the given key.
          *
-         * Updating a removed key update its value (No key are actually removed,
+         * Updating a removed key update its value. (keys are not actually removed,
          * only added in tombstone) but doesn't change its 'removed' status.
          *
          * \warning
@@ -107,9 +132,19 @@ class LWWMap {
          * \param value Value to set for this key (Using LWW control)
          * \param stamp Timestamp of this action.
          */
-        bool update(const Key& key, const T& value, const U& stamp) {
-            // TODO
-            return false;
+        void update(const Key& key, const T& value, const U& stamp) {
+            iterator it = _map.find(key);
+
+            // This code is ugly, but see the _map definition to understand
+            if(it != _map.end()) {
+                it->second.second.update(value, stamp);
+            }
+            else {
+                Metadata coco = std::make_pair(0, false);
+                LWWRegister<T,U> reg;
+                reg.update(value, stamp);
+                _map.emplace(std::make_pair(key, std::make_pair(coco, reg)));
+            }
         }
 
 
@@ -174,8 +209,14 @@ class LWWMap {
          */
         friend std::ostream& operator<<(std::ostream& out,
                                         const LWWMap<Key,T,U>& o) {
-            out << "CmRDT::LWWMap = Not Implemented Yet";
-            // TODO
+            out << "CmRDT::LWWMap = ";
+            for(const auto& elt : o._map) {
+                out << "(K=" << elt.first
+                    << ",T=" << elt.second.second.query()
+                    << ",U=" << elt.second.first.first
+                    << ",R=" << elt.second.first.second
+                    << ") ";
+            }
             return out;
         }
 };

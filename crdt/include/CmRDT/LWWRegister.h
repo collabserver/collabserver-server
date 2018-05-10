@@ -14,15 +14,14 @@ namespace CmRDT {
  *
  * \note
  * Quote from the CRDT article "A comprehensive study of CRDT":
- *
  * "
- * A Last-Writer-Wins Register (LWW-Register) creates a total order of
- * assignments by associating a timestamp with each update.
- * Timestamps are assumed unique, totally ordered, and consistent with causal
- * order; i.e., if assignment 1 happened-before assignment 2,
- * the former's timestamp is less than the latter's. This may be implemented as
- * a per-replicate counter concatenated with a unique replica identifier,
- * such as its MAC address.
+ *  A Last-Writer-Wins Register (LWW-Register) creates a total order of
+ *  assignments by associating a timestamp with each update.
+ *  Timestamps are assumed unique, totally ordered, and consistent with causal
+ *  order; i.e., if assignment 1 happened-before assignment 2,
+ *  the former's timestamp is less than the latter's. This may be implemented as
+ *  a per-replicate counter concatenated with a unique replica identifier,
+ *  such as its MAC address.
  * "
  *
  * \warning
@@ -61,25 +60,21 @@ class LWWRegister {
 
         /**
          * Change the local register value. (Downstream update).
-         * Do nothing if given stamp is less or equal to the current timestamps.
+         * Do nothing if given stamp is less to the current timestamps.
          *
-         * Precondition:
-         * There are no preconditions, so update always returns true.
-         * Update are commutative.
+         * \warning
+         * timestamp must be strictly unique. Two equal timestamps is undefined.
          *
          * \param value New value for this register.
          * \param stamp Associated timestamp
-         * \return True if precondition was true, otherwise, returns false.
          */
-        bool update(const T& value, const U& stamp) {
+        void update(const T& value, const U& stamp) {
             assert(stamp != _timestamp);
 
             if(stamp > _timestamp) {
                 _reg = value;
                 _timestamp = stamp;
-                return true;
             }
-            return true; // Because no pre-condition
         }
 
 
