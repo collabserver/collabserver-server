@@ -17,14 +17,14 @@ void LWWSet_example() {
 
 
     // User1 flow (Normal order)
-    data0.insert("v1", 1);
-    data0.insert("v2", 3);
+    data0.add("v1", 1);
+    data0.add("v2", 3);
     data0.remove("v1", 4);
 
     // User1 flow
     data1.remove("v1", 4);
-    data1.insert("v2", 3);
-    data1.insert("v1", 1);
+    data1.add("v2", 3);
+    data1.add("v1", 1);
 
     // --- Final ---
     std::cout << "data0 = " << data0 << "\n";

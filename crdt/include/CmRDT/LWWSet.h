@@ -80,7 +80,7 @@ class LWWSet {
          * \param key   Key element to add.
          * \param stamp Timestamps of this operation.
          */
-        void insert(const Key& key, const U& stamp) {
+        void add(const Key& key, const U& stamp) {
             Metadata elt; // Content is not set here
             elt._timestamp  = stamp;
             elt._isRemoved  = false;

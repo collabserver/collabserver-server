@@ -1,7 +1,7 @@
 #pragma once
 
+#include "LWWMap.h"
 #include "LWWSet.h"
-#include <utility> // std::pair
 
 namespace CRDT {
 namespace CmRDT {
@@ -10,6 +10,8 @@ namespace CmRDT {
 /**
  * Last-Writer-Wins Graph (LWW Graph).
  * CmRDT (Operation-based)
+ *
+ * This is a Directed Graph.
  *
  * \note
  * CRDT graph deals with concurrent add / remove of vertex and edges.
@@ -50,11 +52,7 @@ template<typename Key, typename T, typename U>
 class LWWGraph {
     private:
         class Vertex;
-        typedef typename std::pair<U, bool>     Metadata; // true = removed
-        typedef typename std::pair<Metadata, Vertex> Elt;
-
-    private:
-        std::unordered_map<Key, Elt> _adj;
+        LWWMap<Key, Vertex, U> _adj;
 
 
     // -------------------------------------------------------------------------
@@ -67,33 +65,43 @@ class LWWGraph {
          * TODO doc
          */
         void addVertex(const Key& key, const U& stamp) {
-            // TODO (Not CRDT yet)
-            Vertex v;
-            Metadata data = {stamp, true};
-            Elt element = {data, v};
-            _adj.insert(std::make_pair(key, element));
+            _adj.add(key, stamp);
         }
 
         /**
          * TODO doc
          */
         void removeVertex(const Key& key, const U& stamp) {
-            //_adj.remove(key, stamp);
+            _adj.remove(key, stamp);
+            // TODO IMPORTANT: Remove from all edge links
         }
 
         /**
          * TODO doc
          */
         void addEdge(const Key& from, const Key& to, const U& stamp) {
-            if(from != to) {
-
+            if(from == to) {
+                return;
             }
+            _adj.add(from, stamp);
+            _adj.add(to, stamp);
+
+            Vertex &v = _adj.query(from);
+            v._edges.add(to, stamp);
         }
 
         /**
          * TODO doc
          */
         void removeEdge(const Key& from, const Key& to, const U& stamp) {
+            if(from == to) {
+                return;
+            }
+            _adj.remove(from, 0);
+            _adj.remove(to, 0);
+
+            Vertex &v = _adj.query(from);
+            v._edges.remove(to, stamp);
         }
 
 
@@ -143,13 +151,13 @@ class LWWGraph {
 template<typename Key, typename T, typename U>
 class LWWGraph<Key,T,U>::Vertex {
     public:
-        const Key       _id;
+        Key             _id;
         T               _content;
         LWWSet<Key,U>   _edges;
 
     public:
         friend bool operator==(const Vertex& lhs,const Vertex& rhs) {
-            return(lhs._id == rhs._id) && (lhs._content == rhs._content);
+            return (lhs._edges == rhs._edges) && (lhs._content == rhs._content);
         }
 };
 
