@@ -1,9 +1,6 @@
 #pragma once
 
-#include "LWWRegister.h"
-
 #include <unordered_map>
-#include <utility> // std::pair
 
 namespace CRDT {
 namespace CmRDT {
@@ -16,6 +13,14 @@ namespace CmRDT {
  * Associative container that contains key-value pairs with unique keys.
  * Timestamps is assigned to each add / remove operation to create total order
  * of operations.
+ * Remove operation does not actually remove the key-value but only mark it
+ * as deleted.
+ *
+ * \note
+ * CRDT Map only deals with concurrent add / remove of keys. The content for 
+ * a key is not CRDT by itself. It is on your call to deal with the content.
+ * You may for instance use a LWWRegister. (In such case, after any add,
+ * call register.update function to also update, if necessary, the content).
  *
  * \warning
  * Timestamps are strictly unique with total order.
@@ -38,7 +43,7 @@ namespace CmRDT {
  *
  * \tparam Key  Type of key.
  * \tparam T    Type of element.
- * \tparam U    Type of timestamp.
+ * \tparam U    Type of timestamps (Implements operators > and <).
  *
  * \author  Constantin Masson
  * \date    May 2018
@@ -46,16 +51,26 @@ namespace CmRDT {
 template<typename Key, typename T, typename U>
 class LWWMap {
     private:
-        typedef typename std::pair<U, bool> Metadata; // bool=true if removed
-        typedef typename std::pair<Metadata, LWWRegister<T,U>> Elt;
+        /** Map cell component */
+        class Element {
+            public:
+                T       _content;
+                U       _timestamp;
+                bool    _isRemoved;
 
-    public:
-        typedef typename std::unordered_map<Key,Elt>::value_type     value_type;
-        typedef typename std::unordered_map<Key,Elt>::iterator       iterator;
-        typedef typename std::unordered_map<Key,Elt>::const_iterator const_iterator;
+            public:
+                friend bool operator==(const Element& lhs, const Element& rhs) {
+                    return (lhs._content == rhs._content)
+                            && (lhs._timestamp == rhs._timestamp)
+                            && (lhs._isRemoved == rhs._isRemoved);
+                }
+                friend bool operator!=(const Element& lhs, const Element& rhs) {
+                    return !(lhs == rhs);
+                }
+        };
 
     private:
-        std::unordered_map<Key, Elt> _map;
+        std::unordered_map<Key, Element> _map;
 
 
     // -------------------------------------------------------------------------
@@ -64,118 +79,65 @@ class LWWMap {
 
     public:
 
-        const_iterator query(const Key& key) const {
+        void query(const Key& key) const {
             // TODO
-            return this->cend();
+            //return this->cend();
         }
 
         /**
-         * Inserts element into the container.
-         * If a key already exists, its value is updated (Call update).
-         * This is important for commutativity (CRDT Property).
-         * Concurrent add are resolved using LWW to set its value.
+         * Inserts new key in the container.
+         *
+         * Add a new key into the container.
+         * If key already exists, update timestamps if was smaller than this one.
+         * This is required for CRDT properties and commutativity.
          *
          * \param key   Key of the element to add.
-         * \param value Element to add.
-         * \param stamp Timestamp to associate with this element.
+         * \param stamp Timestamps of this operation.
          */
-        void insert(const Key& key, const T& value, const U& stamp) {
-            iterator it = _map.find(key);
+        void add(const Key& key, const U& stamp) {
+            Element elt; // Content is not set here
+            elt._timestamp  = stamp;
+            elt._isRemoved  = false;
 
-            // This code is ugly, but see the _map definition to understand
-            if(it != _map.end()) {
-                if(it->second.first.first < stamp) {
-                    it->second.first.first = stamp;
-                    it->second.first.second = false;
-                    this->update(key, value, stamp);
+            auto res        = _map.insert(std::make_pair(key, elt));
+            bool keyAdded   = res.second;
+            Element& keyElt = res.first->second;
+            U keyStamp      = keyElt._timestamp;
+
+            if(!keyAdded) {
+                if(keyStamp < stamp) {
+                    keyElt._timestamp = stamp;
+                    keyElt._isRemoved = false;
                 }
-            }
-            else {
-                Metadata coco = std::make_pair(stamp, false);
-                LWWRegister<T,U> reg;
-                reg.update(value, stamp);
-                _map.emplace(std::make_pair(key, std::make_pair(coco, reg)));
             }
         }
 
+        /**
+         * Remove a key from the container.
+         *
+         * If key doesn't exists, create it with default timestamps.
+         * This is because remove / add are commutative and remove may be
+         * received before add.
+         *
+         * \param key   Key of the element to add.
+         * \param stamp Timestamps of this operation.
+         */
         void remove(const Key& key, const U& stamp) {
-            iterator it = _map.find(key);
+            Element elt; // Content is not set here
+            elt._timestamp  = stamp;
+            elt._isRemoved  = true;
 
-            // This code is ugly, but see the _map definition to understand
-            if(it != _map.end()) {
-                if(it->second.first.first < stamp) {
-                    it->second.first.first = stamp;
-                    it->second.first.second = true;
+            auto res        = _map.insert(std::make_pair(key, elt));
+            bool keyAdded   = res.second;
+            Element& keyElt = res.first->second;
+            U keyStamp      = keyElt._timestamp;
+
+            if(!keyAdded) {
+                if(keyStamp < stamp) {
+                    keyElt._timestamp = stamp;
+                    keyElt._isRemoved = true;
                 }
             }
-            else {
-                Metadata coco = std::make_pair(0, false);
-                LWWRegister<T,U> reg;
-                _map.emplace(std::make_pair(key, std::make_pair(coco, reg)));
-            }
-        }
-
-        /**
-         * Update value for the given key.
-         *
-         * Updating a removed key update its value. (keys are not actually removed,
-         * only added in tombstone) but doesn't change its 'removed' status.
-         *
-         * \warning
-         * Update is commutative. If update is called before element exists in
-         * the map (Never added before), a tmp key value pair is created. This
-         * means update may be called before insert. Such scenario may appear
-         * whenever user receive update from someone who already received the 
-         * insert call, but we don't). 'tmp' means that any
-         *
-         * \param key   Key to update
-         * \param value Value to set for this key (Using LWW control)
-         * \param stamp Timestamp of this action.
-         */
-        void update(const Key& key, const T& value, const U& stamp) {
-            iterator it = _map.find(key);
-
-            // This code is ugly, but see the _map definition to understand
-            if(it != _map.end()) {
-                it->second.second.update(value, stamp);
-            }
-            else {
-                // Creates tmp removed elt, with the actual value.
-                // (We will probably receive its 'insert' later)
-                Metadata coco = std::make_pair(0, true);
-                LWWRegister<T,U> reg;
-                reg.update(value, stamp);
-                _map.emplace(std::make_pair(key, std::make_pair(coco, reg)));
-            }
-        }
-
-
-    // -------------------------------------------------------------------------
-    // Iterators
-    // -------------------------------------------------------------------------
-
-    public:
-
-        /**
-         * Returns a constant iterator to the first element of the container.
-         * If the container is empty, the returned iterator will be
-         * equal to end().
-         *
-         * \return Constant iterator to the first element.
-         */
-        const_iterator cbegin() const {
-            return _map.cbegin();
-        }
-
-        /**
-         * Returns a constant iterator to the element following the last element
-         * of the container. This element acts as a placeholder.
-         * Attempting to access it results in undefined behavior.
-         *
-         * \return Constant iterator to the element following the last element.
-         */
-        const_iterator cend() const {
-            return _map.cend();
         }
 
 
@@ -215,9 +177,9 @@ class LWWMap {
             out << "CmRDT::LWWMap = ";
             for(const auto& elt : o._map) {
                 out << "(K=" << elt.first
-                    << ",T=" << elt.second.second.query()
-                    << ",U=" << elt.second.first.first;
-                if(elt.second.first.second == true) {
+                    << ",T=" << elt.second._content
+                    << ",U=" << elt.second._timestamp;
+                if(elt.second._isRemoved == true) {
                     out << ",removed) ";
                 }
                 else {

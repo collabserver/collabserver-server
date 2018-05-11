@@ -21,6 +21,11 @@ void LWWSet_example() {
     data0.insert("v2", 3);
     data0.remove("v1", 4);
 
+    // User1 flow
+    data1.remove("v1", 4);
+    data1.insert("v2", 3);
+    data1.insert("v1", 1);
+
     std::cout << "data0 = " << data0 << "\n";
     std::cout << "data1 = " << data1 << "\n";
 

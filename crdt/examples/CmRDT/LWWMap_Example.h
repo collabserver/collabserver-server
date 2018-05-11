@@ -17,20 +17,23 @@ void LWWMap_example() {
 
 
     // User1 flow (Normal order)
-    data0.update("attr1", 500, 50);
-    data0.insert("attr1", 100, 10);
-    data0.insert("attr1", 200, 20);
-    data0.update("attr1", 600, 60);
-    data0.update("attr1", 110, 11);
-    data0.update("attr1", 330, 33);
-    data0.insert("attr1", 300, 30);
-    data0.remove("attr1", 80);
+    data0.add("attr1", 1);
+    data0.add("attr1", 2);
+    data0.add("attr1", 3);
+    data0.remove("attr1", 8);
 
 
+    // User0 flow (Weird order)
+    data1.remove("attr1", 8);
+    data1.add("attr1", 2);
+    data1.add("attr1", 3);
+    data1.add("attr1", 1);
+
+
+    // --- Final ---
     std::cout << "data0 = " << data0 << "\n";
     std::cout << "data1 = " << data1 << "\n";
 
-    // --- Final ---
     std::cout << "(data0 == data1) = " << (data0 == data1);
     std::cout << " (true=" << true << ")\n";
     std::cout << "(data0 != data1) = " << (data0 != data1) << "\n";
