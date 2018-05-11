@@ -79,9 +79,34 @@ class LWWMap {
 
     public:
 
-        void query(const Key& key) const {
-            // TODO
-            //return this->cend();
+        /**
+         * TODO Doc
+         */
+        T query(const Key& key) const {
+            auto it = _map.find(key);
+            if(it == _map.end()) {
+                // See comment in "T& query(const Key& key)"
+                return {}; // Note: Default constructor must exists
+            }
+            return it->second._content;
+        }
+
+        /**
+         * TODO Doc
+         */
+        T& query(const Key& key) {
+            auto it = _map.find(key);
+            if(it == _map.end()) {
+                /*
+                 * Dev note: this is ugly, another way would be to use iterator.
+                 * I did this because simple iterator would show the internal
+                 * content (class Element).
+                 * This solution 'works' but should be updated later.
+                 */
+                static T t = {};
+                return t;
+            }
+            return it->second._content;
         }
 
         /**
@@ -115,7 +140,7 @@ class LWWMap {
         /**
          * Remove a key from the container.
          *
-         * If key doesn't exists, create it with default timestamps.
+         * If key doesn't exists, add it first with removed state true.
          * This is because remove / add are commutative and remove may be
          * received before add.
          *

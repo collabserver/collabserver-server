@@ -26,10 +26,10 @@ void LWWSet_example() {
     data1.insert("v2", 3);
     data1.insert("v1", 1);
 
+    // --- Final ---
     std::cout << "data0 = " << data0 << "\n";
     std::cout << "data1 = " << data1 << "\n";
 
-    // --- Final ---
     std::cout << "(data0 == data1) = " << (data0 == data1);
     std::cout << " (true=" << true << ")\n";
     std::cout << "(data0 != data1) = " << (data0 != data1) << "\n";

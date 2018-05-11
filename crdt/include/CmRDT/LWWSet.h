@@ -43,12 +43,20 @@ namespace CmRDT {
 template<typename Key, typename U>
 class LWWSet {
     private:
-        typedef typename std::pair<U, bool> Metadata; // bool=true if removed
+        class Metadata {
+            public:
+                U       _timestamp;
+                bool    _isRemoved;
 
-    public:
-        typedef typename std::unordered_map<Key,Metadata>::value_type     value_type;
-        typedef typename std::unordered_map<Key,Metadata>::iterator       iterator;
-        typedef typename std::unordered_map<Key,Metadata>::const_iterator const_iterator;
+            public:
+                friend bool operator==(const Metadata& lhs, const Metadata& rhs) {
+                    return (lhs._timestamp == rhs._timestamp)
+                            && (lhs._isRemoved == rhs._isRemoved);
+                }
+                friend bool operator!=(const Metadata& lhs, const Metadata& rhs) {
+                    return !(lhs == rhs);
+                }
+        };
 
     private:
         std::unordered_map<Key, Metadata> _map;
@@ -60,74 +68,62 @@ class LWWSet {
 
     public:
 
-        /**
-         * TODO To document
-         */
-        const_iterator lookup(const Key& key) const {
-            return _map.find(key);
-        }
+        // TODO: function query
 
         /**
-         * TODO To document
+         * Inserts new key in the container.
+         *
+         * Add a new key into the container.
+         * If key already exists, update timestamps if was smaller than this one.
+         * This is required for CRDT properties and commutativity.
+         *
+         * \param key   Key element to add.
+         * \param stamp Timestamps of this operation.
          */
         void insert(const Key& key, const U& stamp) {
-            iterator it = _map.find(key);
+            Metadata elt; // Content is not set here
+            elt._timestamp  = stamp;
+            elt._isRemoved  = false;
 
-            if(it != _map.end()) {
-                if(it->second.first < stamp) {
-                    it->second.first = stamp;
-                    it->second.second = false;
+            auto res        = _map.insert(std::make_pair(key, elt));
+            bool keyAdded   = res.second;
+            Metadata& keyElt= res.first->second;
+            U keyStamp      = keyElt._timestamp;
+
+            if(!keyAdded) {
+                if(keyStamp < stamp) {
+                    keyElt._timestamp = stamp;
+                    keyElt._isRemoved = false;
                 }
-            }
-            else {
-                _map.emplace(std::make_pair(key, std::make_pair(stamp, false)));
             }
         }
 
         /**
-         * TODO To document
+         * Remove a key from the container.
+         *
+         * If key doesn't exists, add it first with removed state true.
+         * This is because remove / add are commutative and remove may be
+         * received before add.
+         *
+         * \param key   Key of the element to add.
+         * \param stamp Timestamps of this operation.
          */
         void remove(const Key& key, const U& stamp) {
-            iterator it = _map.find(key);
+            Metadata elt; // Content is not set here
+            elt._timestamp  = stamp;
+            elt._isRemoved  = true;
 
-            if(it != _map.end()) {
-                if(it->second.first < stamp) {
-                    it->second.first = stamp;
-                    it->second.second = true;
+            auto res        = _map.insert(std::make_pair(key, elt));
+            bool keyAdded   = res.second;
+            Metadata& keyElt= res.first->second;
+            U keyStamp      = keyElt._timestamp;
+
+            if(!keyAdded) {
+                if(keyStamp < stamp) {
+                    keyElt._timestamp = stamp;
+                    keyElt._isRemoved = true;
                 }
             }
-            else {
-                _map.emplace(std::make_pair(key, std::make_pair(0, true)));
-            }
-        }
-
-
-    // -------------------------------------------------------------------------
-    // Iterators
-    // -------------------------------------------------------------------------
-
-    public:
-
-        /**
-         * Returns a constant iterator to the first element of the container.
-         * If the container is empty, the returned iterator will be
-         * equal to end().
-         *
-         * \return Constant iterator to the first element.
-         */
-        const_iterator cbegin() const {
-            return _map.cbegin();
-        }
-
-        /**
-         * Returns a constant iterator to the element following the last element
-         * of the container. This element acts as a placeholder.
-         * Attempting to access it results in undefined behavior.
-         *
-         * \return Constant iterator to the element following the last element.
-         */
-        const_iterator cend() const {
-            return _map.cend();
         }
 
 
@@ -166,8 +162,8 @@ class LWWSet {
             out << "CmRDT::LWWSet = ";
             for(const auto& elt : o._map) {
                 out << "(K=" << elt.first
-                    << ",U=" << elt.second.first;
-                if(elt.second.second == true) {
+                    << ",U=" << elt.second._timestamp;
+                if(elt.second._isRemoved == true) {
                     out << ",removed) ";
                 }
                 else {
