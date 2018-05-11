@@ -51,26 +51,11 @@ namespace CmRDT {
 template<typename Key, typename T, typename U>
 class LWWMap {
     private:
-        /** Map cell component */
-        class Element {
-            public:
-                T       _content;
-                U       _timestamp;
-                bool    _isRemoved;
-
-            public:
-                friend bool operator==(const Element& lhs, const Element& rhs) {
-                    return (lhs._content == rhs._content)
-                            && (lhs._timestamp == rhs._timestamp)
-                            && (lhs._isRemoved == rhs._isRemoved);
-                }
-                friend bool operator!=(const Element& lhs, const Element& rhs) {
-                    return !(lhs == rhs);
-                }
-        };
+        /* Map cell component */
+        class Cell;
 
     private:
-        std::unordered_map<Key, Element> _map;
+        std::unordered_map<Key, Cell> _map;
 
 
     // -------------------------------------------------------------------------
@@ -100,7 +85,7 @@ class LWWMap {
                 /*
                  * Dev note: this is ugly, another way would be to use iterator.
                  * I did this because simple iterator would show the internal
-                 * content (class Element).
+                 * content (class Cell).
                  * This solution 'works' but should be updated later.
                  */
                 static T t = {};
@@ -116,17 +101,17 @@ class LWWMap {
          * If key already exists, update timestamps if was smaller than this one.
          * This is required for CRDT properties and commutativity.
          *
-         * \param key   Key of the element to add.
+         * \param key   Key of the Cell to add.
          * \param stamp Timestamps of this operation.
          */
         void add(const Key& key, const U& stamp) {
-            Element elt; // Content is not set here
+            Cell elt; // Content is not set here
             elt._timestamp  = stamp;
             elt._isRemoved  = false;
 
             auto res        = _map.insert(std::make_pair(key, elt));
             bool keyAdded   = res.second;
-            Element& keyElt = res.first->second;
+            Cell& keyElt    = res.first->second;
             U keyStamp      = keyElt._timestamp;
 
             if(!keyAdded) {
@@ -144,17 +129,17 @@ class LWWMap {
          * This is because remove / add are commutative and remove may be
          * received before add.
          *
-         * \param key   Key of the element to add.
+         * \param key   Key of the Cell to add.
          * \param stamp Timestamps of this operation.
          */
         void remove(const Key& key, const U& stamp) {
-            Element elt; // Content is not set here
+            Cell elt; // Content is not set here
             elt._timestamp  = stamp;
             elt._isRemoved  = true;
 
             auto res        = _map.insert(std::make_pair(key, elt));
             bool keyAdded   = res.second;
-            Element& keyElt = res.first->second;
+            Cell& keyElt    = res.first->second;
             U keyStamp      = keyElt._timestamp;
 
             if(!keyAdded) {
@@ -215,6 +200,25 @@ class LWWMap {
         }
 };
 
+
+template<typename Key, typename T, typename U>
+class LWWMap<Key,T,U>::Cell {
+    public:
+        T       _content;
+        U       _timestamp;
+        bool    _isRemoved;
+
+    public:
+        friend bool operator==(const Cell& lhs, const Cell& rhs) {
+            return (lhs._content == rhs._content)
+                    && (lhs._timestamp == rhs._timestamp)
+                    && (lhs._isRemoved == rhs._isRemoved);
+        }
+
+        friend bool operator!=(const Cell& lhs, const Cell& rhs) {
+            return !(lhs == rhs);
+        }
+};
 
 }} // End namespace
 

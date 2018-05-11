@@ -156,8 +156,12 @@ class LWWGraph<Key,T,U>::Vertex {
         LWWSet<Key,U>   _edges;
 
     public:
-        friend bool operator==(const Vertex& lhs,const Vertex& rhs) {
+        friend bool operator==(const Vertex& lhs, const Vertex& rhs) {
             return (lhs._edges == rhs._edges) && (lhs._content == rhs._content);
+        }
+
+        friend bool operator!=(const Vertex& lhs, const Vertex& rhs) {
+            return !(lhs == rhs);
         }
 };
 

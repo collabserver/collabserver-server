@@ -10,6 +10,10 @@ namespace collab {
 
 /**
  * TODO
+ *
+ *
+ * \author  Constantin Masson
+ * \date    May 2018
  */
 class LWWViewMDE {
     public:
