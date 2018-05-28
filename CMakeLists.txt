@@ -6,6 +6,7 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 endif()
 
 include(CMake/AddCompilerFlags.cmake)
+include(CMake/AddTests.cmake)
 
 
 # ------------------------------------------------------------------------------
@@ -15,5 +16,4 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 
 file(GLOB_RECURSE srcFiles ${CMAKE_SOURCE_DIR}/src/*.cpp)
 add_executable(collab-server ${srcFiles})
-
-add_custom_target(runServer collab-server)
+add_custom_target(run collab-server)
