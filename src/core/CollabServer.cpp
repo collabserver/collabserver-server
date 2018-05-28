@@ -1,12 +1,12 @@
-#include "core/CollabServer.h"
+#include "collab/core/CollabServer.h"
 
 using namespace collab;
 
 
 void CollabServer::start() {
-    this->m_messageReceiver.start();
+    // TODO
 }
 
 void CollabServer::stop() {
-    this->m_messageReceiver.stop();
+    // TODO
 }

@@ -12,5 +12,6 @@ class Room {
         ~Room() = default;
 };
 
+
 } // End namespace
 

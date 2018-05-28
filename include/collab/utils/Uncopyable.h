@@ -18,7 +18,6 @@ namespace collab {
  *
  *
  * \author  Constantin Masson
- * \since   0.1.0
  * \date    Nov 2017
  */
 template <class T>
@@ -34,3 +33,5 @@ class Uncopyable {
 
 
 } // End namespace
+
+

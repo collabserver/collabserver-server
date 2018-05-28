@@ -1,7 +1,8 @@
-#
-# Setup all compiler flags depending on current build type (Debug, Release etc...)
-# Author: Constantin Masson
-#
+# Setup all compiler flags depending on current build type:
+#   - Debug
+#   - Release
+#   - RelWithDebInfo
+#   - MinSizeRel
 
 message(STATUS "Detected Operating System: ${CMAKE_SYSTEM_NAME}")
 
