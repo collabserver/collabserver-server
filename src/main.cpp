@@ -1,4 +1,4 @@
-#include "collab/core/CollabServer.h"
+#include "collabserver/core/CollabServer.h"
 
 #include <exception>
 

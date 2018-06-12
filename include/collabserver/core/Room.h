@@ -2,6 +2,8 @@
 
 #include <unordered_map>
 
+#include "User.h"
+
 namespace collab {
 
 
