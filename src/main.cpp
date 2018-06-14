@@ -1,14 +1,12 @@
 #include "collabserver/core/CollabServer.h"
 
 #include <exception>
-#include "collabserver/core/Room.h"
 
 
 int main(int argc, char** argv) {
-    collab::Room r; // TODO tmp
     try {
-
         /*
+         * TODO
         LOG_TRACE(0, "Start Collab Server");
 
         collab::CollabServer& server = collab::CollabServer::getInstance();
@@ -19,6 +17,7 @@ int main(int argc, char** argv) {
     }
     catch(const std::exception& exception) {
         /*
+         * TODO
         LOG_ERROR(0, "Crashed with exception: %s", exception.what());
         LOG_ERROR(3, "Crashed with exception: %s", exception.what());
         elephantlogger::saveLogs("./");
@@ -27,6 +26,7 @@ int main(int argc, char** argv) {
     }
     catch(...) {
         /*
+         * TODO
         LOG_ERROR(0, "Crashed with unknown exception");
         LOG_ERROR(3, "Crashed with unknown exception");
         elephantlogger::saveLogs("./");

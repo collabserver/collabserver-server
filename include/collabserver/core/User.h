@@ -11,11 +11,12 @@ namespace collab {
  */
 class User {
     private:
-        int _id;
-
+        const int _id;
+        int _currentOperationID = 0;
 
     public:
         User(const int id) : _id(id) {
+            // Hi little rabbit :)
         }
 };
 
