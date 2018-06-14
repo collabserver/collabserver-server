@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include "User.h"
+#include "collabdata/utils/CollabData.h"
 
 namespace collab {
 

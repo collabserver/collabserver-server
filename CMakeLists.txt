@@ -5,15 +5,37 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
     message(FATAL_ERROR "in-source build not allowed. Use another directory.")
 endif()
 
+
+# ------------------------------------------------------------------------------
+# Various
+# ------------------------------------------------------------------------------
+
+set(DEPENDENCY_DIR "${CMAKE_SOURCE_DIR}/bin/")
+
 include(CMake/AddCompilerFlags.cmake)
-include(CMake/AddTests.cmake)
+
+
+# ------------------------------------------------------------------------------
+# Tests
+# ------------------------------------------------------------------------------
+
+option(BUILD_TESTS "Build Tests" OFF)
+
+if(BUILD_TESTS)
+    message(STATUS "Build tests")
+    include("CMake/AddTests.cmake")
+else()
+    message(STATUS "Doesn't build tests")
+endif()
 
 
 # ------------------------------------------------------------------------------
 # Server executable
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")
+include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-data-crdts/include")
 
 file(GLOB_RECURSE srcFiles ${CMAKE_SOURCE_DIR}/src/*.cpp)
 add_executable(collab-server ${srcFiles})
-add_custom_target(run collab-server)
+add_custom_target(runServer collab-server)
+

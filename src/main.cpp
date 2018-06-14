@@ -1,9 +1,11 @@
 #include "collabserver/core/CollabServer.h"
 
 #include <exception>
+#include "collabserver/core/Room.h"
 
 
 int main(int argc, char** argv) {
+    collab::Room r; // TODO tmp
     try {
 
         /*

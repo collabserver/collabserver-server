@@ -29,7 +29,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 # Add googletest directly to our build. This defines
 # the gtest and gtest_main targets.
-add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
+add_subdirectory("${DEPENDENCY_DIR}/googletest"
                  "${CMAKE_BINARY_DIR}/googletest-build"
                  EXCLUDE_FROM_ALL)
 
@@ -46,9 +46,9 @@ endif()
 # ------------------------------------------------------------------------------
 
 include_directories("${CMAKE_SOURCE_DIR}/include/")
-file(GLOB_RECURSE srcFiles "${CMAKE_SOURCE_DIR}/test/*.cpp")
+file(GLOB_RECURSE srcFilesTests "${CMAKE_SOURCE_DIR}/test/*.cpp")
 
-add_executable(runtests ${srcFiles})
+add_executable(runtests ${srcFilesTests})
 target_link_libraries(runtests gtest)
 add_test(NAME runAllTests COMMAND runtests)
 
