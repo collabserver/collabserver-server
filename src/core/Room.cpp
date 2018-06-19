@@ -48,9 +48,13 @@ bool Room::receiveOperation(OperationInfo& op) {
         return false;
     }
     assert(_operations.capacity() > 0); // If false, you forgot to reserve
-    // TODO
-    //OperationInfo info = {op.buffer, op.typeID, op.userID};
-    //_operations.push_back(info); // Creates a copy
+    OperationInfo info;
+    info.buffer.str(op.buffer.str()); // Copy content
+    info.typeID = op.typeID;
+    info.userID = op.userID;
+    info.opID = _currentHeadOperationID;
+    _currentHeadOperationID++;
+
     float load = _operations.size() / _operations.capacity();
     if(load > 0.90) {
         _operations.reserve(_operations.size() + 20); // 20 is arbitrary
