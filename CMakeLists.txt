@@ -31,10 +31,11 @@ endif()
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")
 include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-data-crdts/include")
-include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-messaging/include")
+include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-messaging-protocol/include")
 
 file(GLOB_RECURSE srcFiles ${CMAKE_SOURCE_DIR}/src/*.cpp)
-add_executable(runServer ${srcFiles})
-target_link_libraries(runServer "zmq")
+add_executable(server ${srcFiles})
+add_custom_target(runServer server)
+target_link_libraries(server "zmq")
 
 

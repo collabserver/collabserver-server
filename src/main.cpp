@@ -7,11 +7,13 @@
 
 int main(int argc, char** argv) {
     try {
-        std::cout << "Start server (Debug)\n";
+
         // TODO This is temporary test
+        std::cout << "Start server (Debug)\n";
         collab::MessageReceiver coco;
         coco.start();
         std::cout << "Stop server (Debug)\n";
+
         /*
          * TODO
         LOG_TRACE(0, "Start Collab Server");
