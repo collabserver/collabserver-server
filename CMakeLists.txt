@@ -34,6 +34,7 @@ endif()
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")
 include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-data-crdts/include")
+include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-messaging/include")
 
 file(GLOB_RECURSE srcFiles ${CMAKE_SOURCE_DIR}/src/*.cpp)
 add_executable(collab-server ${srcFiles})
