@@ -9,16 +9,13 @@ endif()
 # ------------------------------------------------------------------------------
 # Various
 # ------------------------------------------------------------------------------
-
 set(DEPENDENCY_DIR "${CMAKE_SOURCE_DIR}/bin/")
-
 include(CMake/AddCompilerFlags.cmake)
 
 
 # ------------------------------------------------------------------------------
 # Tests
 # ------------------------------------------------------------------------------
-
 option(BUILD_TESTS "Build Tests" OFF)
 
 if(BUILD_TESTS)
@@ -37,6 +34,7 @@ include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-data-crdts/include")
 include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-messaging/include")
 
 file(GLOB_RECURSE srcFiles ${CMAKE_SOURCE_DIR}/src/*.cpp)
-add_executable(collab-server ${srcFiles})
-add_custom_target(runServer collab-server)
+add_executable(runServer ${srcFiles})
+target_link_libraries(runServer "zmq")
+
 

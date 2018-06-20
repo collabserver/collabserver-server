@@ -11,18 +11,18 @@ message(STATUS "Detected Operating System: ${CMAKE_SYSTEM_NAME}")
 # WINDOWS (32, 64)
 # ------------------------------------------------------------------------------
 if(WIN32)
-    message(FATAL_ERROR "Windows System not supported, use Visual Studio instead")
+    message(FATAL_ERROR "Windows Systems not supported.")
 
 
 # ------------------------------------------------------------------------------
 # MAC
 # ------------------------------------------------------------------------------
 elseif("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
-    message(FATAL_ERROR "Apple System not supported")
+    message(FATAL_ERROR "Apple Systems not supported")
 
 
 # ------------------------------------------------------------------------------
-# LINUX
+# LINUX (GCC)
 # ------------------------------------------------------------------------------
 elseif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     message(STATUS "Set flags and variables for Build '${CMAKE_BUILD_TYPE}'")
@@ -63,4 +63,5 @@ else()
     # Unknown OS
     message(FATAL_ERROR "Unsupported operating system")
 endif()
+
 
