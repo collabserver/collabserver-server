@@ -1,0 +1,17 @@
+#pragma once
+
+#include <stdio.h>
+#include <stdarg.h>
+
+namespace collab {
+namespace ui {
+
+
+void writeLine(const char* format, va_list argList);
+void writeLine(const char* format, ...);
+void listAllMessages();
+
+
+}} // End namespace
+
+
