@@ -27,6 +27,19 @@ endif()
 
 
 # ------------------------------------------------------------------------------
+# Debug
+# ------------------------------------------------------------------------------
+option(BUILD_DEBUG "Build Debug" OFF)
+
+if(BUILD_DEBUG)
+    message(STATUS "Build debug")
+    include("CMake/AddDebug.cmake")
+else()
+    message(STATUS "Doesn't build debug")
+endif()
+
+
+# ------------------------------------------------------------------------------
 # Server executable
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")

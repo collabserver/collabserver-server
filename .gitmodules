@@ -6,3 +6,6 @@
 	path = gitmodules/collab-messaging-protocol
 	url = https://github.com/CollabServer/collab-messaging-protocol.git
 	branch = dev
+[submodule "gitmodules/collab-client-interface"]
+	path = gitmodules/collab-client-interface
+	url = https://github.com/CollabServer/collab-client-interface.git
