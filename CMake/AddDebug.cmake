@@ -1,28 +1,18 @@
-
 # ------------------------------------------------------------------------------
-# Build collab-client-interface
+# Project collab-client-interface (gitsubmodule)
 # ------------------------------------------------------------------------------
-set(COLLAB_CLIENT_SRC_DIR "${GITMODULE_DIR}/collab-client-interface/")
-set(COLLAB_CLIENT_BUILD_DIR "${CMAKE_BINARY_DIR}/collab-client-build/")
-set(COLLAB_CLIENT_LIBRARY "${COLLAB_CLIENT_BUILD_DIR}/libclient_interface.a")
+include(ExternalProject)
+ExternalProject_Add(collab-client-interface
+    SOURCE_DIR          "${GIT_SUBMODULE_DIR}/collab-client-interface/"
+    BINARY_DIR          "${CMAKE_BINARY_DIR}/collab-client-interface-build"
+    INSTALL_COMMAND     ""
+    TEST_COMMAND        ""
+)
 
-file(MAKE_DIRECTORY "${COLLAB_CLIENT_BUILD_DIR}")
-
-execute_process(
-    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" "${COLLAB_CLIENT_SRC_DIR}"
-    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/collab-client-build"
-    RESULT_VARIABLE error)
-if(error)
-    message(FATAL_ERROR "Unable to cmake collab-client: ${error}")
-endif()
-
-execute_process(
-    COMMAND ${CMAKE_COMMAND} --build .
-    RESULT_VARIABLE error
-    WORKING_DIRECTORY "${COLLAB_CLIENT_BUILD_DIR}")
-if(error)
-    message(FATAL_ERROR "Unable to build collab-client: ${error}")
-endif()
+ExternalProject_Get_Property(collab-client-interface binary_dir)
+add_library(client_interface STATIC IMPORTED)
+set_property(TARGET client_interface PROPERTY IMPORTED_LOCATION
+    "${binary_dir}/libclient_interface.a")
 
 
 # ------------------------------------------------------------------------------
@@ -31,7 +21,11 @@ endif()
 include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-client-interface/include")
 
 file(GLOB_RECURSE srcDebug ${CMAKE_SOURCE_DIR}/debug/src/*.cpp)
+
 add_executable(debugger ${srcDebug})
+add_dependencies(debugger collab-client-interface)
 add_custom_target(runDebugger debugger)
-target_link_libraries(debugger "zmq" "${COLLAB_CLIENT_LIBRARY}")
+
+target_link_libraries(debugger "zmq" client_interface)
+
 
