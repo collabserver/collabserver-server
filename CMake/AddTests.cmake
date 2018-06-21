@@ -10,6 +10,7 @@ configure_file(
     "${CMAKE_SOURCE_DIR}/CMake/ExternalProjects/GoogleTest.cmake"
     "googletest-download/CMakeLists.txt")
 
+# Prepare download
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
     RESULT_VARIABLE result
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
@@ -17,6 +18,7 @@ if(result)
     message(FATAL_ERROR "CMake step for googletest failed: ${result}")
 endif()
 
+# Actually download gtest
 execute_process(COMMAND ${CMAKE_COMMAND} --build .
     RESULT_VARIABLE result
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")

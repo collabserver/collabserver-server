@@ -10,6 +10,7 @@ endif()
 # Various
 # ------------------------------------------------------------------------------
 set(DEPENDENCY_DIR "${CMAKE_SOURCE_DIR}/bin/")
+set(GITMODULE_DIR "${CMAKE_SOURCE_DIR}/gitmodules/")
 include(CMake/AddCompilerFlags.cmake)
 
 
@@ -27,19 +28,6 @@ endif()
 
 
 # ------------------------------------------------------------------------------
-# Debug
-# ------------------------------------------------------------------------------
-option(BUILD_DEBUG "Build Debug" OFF)
-
-if(BUILD_DEBUG)
-    message(STATUS "Build debug")
-    include("CMake/AddDebug.cmake")
-else()
-    message(STATUS "Doesn't build debug")
-endif()
-
-
-# ------------------------------------------------------------------------------
 # Server executable
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")
@@ -52,3 +40,16 @@ add_custom_target(runServer server)
 target_link_libraries(server "zmq")
 
 
+
+
+# ------------------------------------------------------------------------------
+# Debug
+# ------------------------------------------------------------------------------
+option(BUILD_DEBUG "Build Debug" OFF)
+
+if(BUILD_DEBUG)
+    message(STATUS "Build debug")
+    include("CMake/AddDebug.cmake")
+else()
+    message(STATUS "Doesn't build debug")
+endif()
