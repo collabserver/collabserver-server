@@ -17,9 +17,9 @@ Server for realtime collaboration.
 ```
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake ..
 make -j4
-make run
+make runServer
 ```
 > DCMAKE_BUILD_TYPE options: Debug / Release / RelWithDebInfo / MinSizeRel
 
