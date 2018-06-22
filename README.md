@@ -1,7 +1,6 @@
 # Collab Server
-
 [![release-version](https://img.shields.io/badge/release-no--release-red.svg)]()
-[![license](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](https://github.com/GeekyMoose/elephant-logger-realtime/blob/dev/LICENSE.txt://github.com/GeekyMoose/collab-server/blob/dev/LICENSE.txt)
+[![license](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](https://github.com/CollabServer/collab-server/blob/dev/LICENSE.txt)
 
 Server for realtime collaboration.
 > Work in progress!

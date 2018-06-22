@@ -14,12 +14,12 @@ class MessageFactory;
  * \author  Constantin Masson
  * \date    Nov 2017
  */
-class MessageReceiver {
+class MessageListener {
     private:
         bool m_isRunning = false;
 
     public:
-        MessageReceiver() = default;
+        MessageListener() = default;
 
     public:
 

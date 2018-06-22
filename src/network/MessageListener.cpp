@@ -9,7 +9,7 @@
 namespace collab {
 
 
-void MessageReceiver::start() {
+void MessageListener::start() {
     if(!this->m_isRunning) {
         this->m_isRunning = true;
 
@@ -33,7 +33,7 @@ void MessageReceiver::start() {
     }
 }
 
-void MessageReceiver::stop() {
+void MessageListener::stop() {
     this->m_isRunning = false;
 }
 
