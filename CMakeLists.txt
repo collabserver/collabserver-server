@@ -9,8 +9,8 @@ endif()
 # ------------------------------------------------------------------------------
 # Various
 # ------------------------------------------------------------------------------
-set(DEPENDENCY_DIR "${CMAKE_SOURCE_DIR}/bin/")
-set(GIT_SUBMODULE_DIR "${CMAKE_SOURCE_DIR}/gitmodules/")
+set(collab_dependency_dir "${CMAKE_SOURCE_DIR}/bin/")
+set(collab_gitmodule_dir "${CMAKE_SOURCE_DIR}/gitmodules/")
 
 include("CMake/AddCompilerFlags.cmake")
 
@@ -18,9 +18,9 @@ include("CMake/AddCompilerFlags.cmake")
 # ------------------------------------------------------------------------------
 # Tests
 # ------------------------------------------------------------------------------
-option(BUILD_TESTS "Build Tests" OFF)
+option(collab_tests "Build Tests" OFF)
 
-if(BUILD_TESTS)
+if(collab_tests)
     message(STATUS "Build tests")
     include("CMake/AddTests.cmake")
 else()
@@ -32,8 +32,8 @@ endif()
 # Server executable
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")
-include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-data-crdts/include")
-include_directories("${CMAKE_SOURCE_DIR}/gitmodules/collab-messaging-protocol/include")
+include_directories("${collab_gitmodule_dir}/collab-data-crdts/include")
+include_directories("${collab_gitmodule_dir}/collab-common/include")
 
 file(GLOB_RECURSE srcFilesServer ${CMAKE_SOURCE_DIR}/src/*.cpp)
 

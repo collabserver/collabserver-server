@@ -2,9 +2,9 @@
 
 #include <zmq.hpp>
 
-#include "collabmessaging/MessageFactory.h"
-#include "collabmessaging/IMessage.h"
-#include "collabmessaging/MessageTypes.h"
+#include "collabcommon/messaging/MessageFactory.h"
+#include "collabcommon/messaging/IMessage.h"
+#include "collabcommon/messaging/MessageTypes.h"
 
 namespace collab {
 

@@ -2,7 +2,7 @@
 	path = gitmodules/collab-data-crdts
 	url = https://github.com/CollabServer/collab-data-crdts.git
 	branch = dev
-[submodule "gitmodules/collab-messaging-protocol"]
-	path = gitmodules/collab-messaging-protocol
-	url = https://github.com/CollabServer/collab-messaging-protocol.git
+[submodule "gitmodules/collab-common"]
+	path = gitmodules/collab-common
+	url = https://github.com/CollabServer/collab-common.git
 	branch = dev

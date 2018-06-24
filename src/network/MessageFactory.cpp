@@ -1,5 +1,5 @@
-#include "collabmessaging/MessageFactory.h"
-#include "collabmessaging/IMessage.h"
+#include "collabcommon/messaging/MessageFactory.h"
+#include "collabcommon/messaging/IMessage.h"
 
 namespace collab {
 
