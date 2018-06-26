@@ -3,8 +3,8 @@
 #include <unordered_map>
 #include <sstream>
 
-#include "collabdata/utils/CollabData.h"
-#include "collabdata/utils/Operation.h"
+#include "collabdata/custom/CollabData.h"
+#include "collabdata/custom/Operation.h"
 
 #include "User.h"
 #include "Connector.h"
