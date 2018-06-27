@@ -19,7 +19,7 @@ Server for realtime collaboration.
 > Dependencies marked with *(CMake)* are automatically downloaded by CMake
 > script and placed in *dependencies* folder.
 > Others must be installed manually (Generally system-wide install).
-- [ZeroMQ](http://zeromq.org/) **Must be installed system-wide**
+- [ZeroMQ](http://zeromq.org/) (**Must be installed system-wide**)
 - [collab-common](https://github.com/CollabServer/collab-common.git) (CMake)
 - [collab-data-crdts](https://github.com/CollabServer/collab-data-crdts.git) (CMake)
 - [GoogleTest](https://github.com/google/googletest) (CMake)
@@ -40,8 +40,8 @@ cd collab-server
     - RelWithDebInfo
     - MinSizeRel
 
-### Build server and run with CMake
-#### Manual
+### Build and run server with CMake
+#### Manual build instructions
 ```bash
 mkdir build
 cd build
@@ -49,7 +49,7 @@ cmake ..
 make -j4
 make runCollabServer
 ```
-### Bash script
+#### Script build instructions
 ```bash
 ./build.sh
 cd build
@@ -57,7 +57,7 @@ make runCollabServer
 ```
 
 ### Build and run tests with CMake
-#### Manual
+#### Manual build tests instructions
 ```bash
 mkdir build
 cd build
@@ -65,7 +65,7 @@ cmake -Dcollab_tests=ON ..
 make -j4
 make runAllTests
 ```
-### Bash script
+#### Script build tests instructions
 ```bash
 ./build.sh
 # Tests should start by default.
