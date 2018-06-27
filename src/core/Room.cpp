@@ -3,42 +3,48 @@
 #include <utility> // std::pair
 #include <cassert>
 
-#include "collabserver/core/User.h"
-
 namespace collab {
 
+int Room::idcounter = 0;
+
+Room::Room(const CollabDataAvailable dataID, Connector& connector)
+  : _connector(connector), _roomID(++idcounter) {
+    _data = CollabDataFactory::newCollabDataByID(dataID);
+    assert(_data != nullptr);
+    if(_data == nullptr) {
+        _data = CollabDataFactory::newCollabDataByID(
+                    CollabDataAvailable::DEFAULT_DATA);
+    }
+
+    _users.reserve(15); // Pre-allocate for 15 users
+    _operations.reserve(100); // Pre-allocate for 100 operations
+}
+
+Room::~Room() {
+    CollabDataFactory::releaseCollabData(_data);
+}
 
 bool Room::addUser(const int id) {
-    auto result = _users.emplace(std::make_pair(id, User{id}));
+    auto result = _users.emplace(id);
     return result.second;
 }
 
 bool Room::removeUser(const int id) {
     int removed = _users.erase(id);
-    return removed == 1;
+    return (removed == 1);
+}
+
+bool Room::isEmpty() const {
+    return _users.size() == 0;
 }
 
 int Room::getNbUsers() const {
     return _users.size();
 }
 
-bool Room::registerData(CollabData& data) {
-    if(_data != nullptr) {
-        return false;
-    }
-    _data = &data;
-    return true;
-}
+bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
+    assert(_data != nullptr);
 
-bool Room::unregisterData() {
-    if(_data == nullptr) {
-        return false;
-    }
-    _data = nullptr;
-    return true;
-}
-
-bool Room::receiveOperation(OperationInfo& op) {
     if(_data == nullptr) {
         return false;
     }
@@ -47,12 +53,15 @@ bool Room::receiveOperation(OperationInfo& op) {
     if(!isApplied) {
         return false;
     }
+
     assert(_operations.capacity() > 0); // If false, you forgot to reserve
+
     OperationInfo info;
     info.buffer.str(op.buffer.str()); // Copy content
     info.typeID = op.typeID;
     info.userID = op.userID;
-    info.opID = _currentHeadOperationID;
+    info.opID   = _currentHeadOperationID;
+
     _currentHeadOperationID++;
 
     float load = _operations.size() / _operations.capacity();
@@ -63,8 +72,8 @@ bool Room::receiveOperation(OperationInfo& op) {
     return true;
 }
 
-void Room::sendOperation(const Operation& op, const int userID) {
-    _connector->sendUserOperation(op, userID);
+void Room::sendOperation(const Operation& op, const int userToID) const {
+    _connector.sendRoomUserOperation(op, _roomID, userToID);
 }
 
 

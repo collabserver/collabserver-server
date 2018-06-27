@@ -1,13 +1,13 @@
 #pragma once
 
-#include <unordered_map>
+#include <unordered_set>
 #include <sstream>
 
 #include "collabdata/custom/CollabData.h"
 #include "collabdata/custom/Operation.h"
 
-#include "User.h"
 #include "Connector.h"
+#include "CollabDataFactory.h"
 
 namespace collab {
 
@@ -25,36 +25,35 @@ struct OperationInfo {
 
 /**
  * \brief
- *
- * TODO Documentation
+ * Room of collaboration.
  *
  * \author  Constantin Masson
  * \date    May 2018
  */
 class Room {
     private:
-        std::unordered_map<int, User>   _users;
+        static int idcounter;
+
+        std::unordered_set<int>         _users;
         std::vector<OperationInfo>      _operations;
+        Connector&                      _connector;
         CollabData*                     _data = nullptr;
-        Connector*                      _connector = nullptr;
+
         int                             _currentHeadOperationID = 0;
+        const int                       _roomID;
 
     public:
-        Room() {
-            _users.reserve(15); // Pre-allocate for 15 users
-            _operations.reserve(100); // Pre-allocate for 100 operations
-        }
+        Room(const CollabDataAvailable dataID, Connector& connector);
+        ~Room();
 
     public:
         bool addUser(const int id);
         bool removeUser(const int id);
+        bool isEmpty() const;
         int getNbUsers() const;
 
-        bool registerData(CollabData& data);
-        bool unregisterData();
-
-        bool receiveOperation(OperationInfo& op);
-        void sendOperation(const Operation& op, const int userID);
+        bool receiveOperation(OperationInfo& op, const int userFromID);
+        void sendOperation(const Operation& op, const int userToID) const;
 };
 
 

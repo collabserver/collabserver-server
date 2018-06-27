@@ -6,7 +6,8 @@ namespace collab {
 
 
 TEST(Room, roomConstructorTest) {
-    Room r;
+    //Room r;
+    //TODO
 }
 
 

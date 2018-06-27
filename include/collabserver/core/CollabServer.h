@@ -13,6 +13,9 @@ class CollabServer {
     public:
         void start();
         void stop();
+
+
+    public:
 };
 
 
