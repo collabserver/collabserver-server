@@ -23,23 +23,36 @@ Room::~Room() {
     DataFactory::releaseData(_data);
 }
 
+
+// -----------------------------------------------------------------------------
+// Users management
+// -----------------------------------------------------------------------------
+
 bool Room::addUser(const int id) {
     auto result = _users.emplace(id);
     return result.second;
 }
 
 bool Room::removeUser(const int id) {
-    int removed = _users.erase(id);
-    return (removed == 1);
+    return _users.erase(id) == 1;
+}
+
+bool Room::hasUser(const int id) const {
+    return _users.find(id) != _users.end();
 }
 
 bool Room::isEmpty() const {
-    return _users.size() == 0;
+    return _users.empty();
 }
 
 int Room::getNbUsers() const {
     return _users.size();
 }
+
+
+// -----------------------------------------------------------------------------
+// Operations
+// -----------------------------------------------------------------------------
 
 bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
     assert(_data != nullptr);

@@ -2,14 +2,15 @@
 
 namespace collab {
 
+
 int User::idcounter = 0;
 
-User::User() : _id (++idcounter) {
+User::User() : _id(++idcounter) {
     // Nothing else to do (Or nothing else matter)
 }
 
 bool User::joinRoom(Room& room) {
-    if(_currentRoom == nullptr) {
+    if(_currentRoom != nullptr) {
         return false;
     }
     bool added = room.addUser(_id);
@@ -32,7 +33,13 @@ bool User::leaveCurrentRoom() {
     return false;
 }
 
+int User::getUserID() const {
+    return _id;
+};
 
+bool User::isUserUgly() const {
+    return (_id % 42) != 0;
+}
 
 
 } // End namespace

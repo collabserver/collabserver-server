@@ -2,16 +2,16 @@
 
 #include "collabcommon/utils/Log.h"
 
-using namespace collab;
+namespace collab {
 
-int CollabInstance::addNewUser() {
+int CollabInstance::createNewUser() {
     // There is a copy but that's ok
     User coco;
-    _users.insert(std::make_pair(coco.getID(), coco));
-    return coco.getID();
+    _users.insert(std::make_pair(coco.getUserID(), coco));
+    return coco.getUserID();
 }
 
-bool CollabInstance::removeUser(const int id) {
+bool CollabInstance::deleteUser(const int id) {
     auto it = _users.find(id);
     if(it == _users.end()) {
         return false;
@@ -27,3 +27,8 @@ bool CollabInstance::removeUser(const int id) {
 int CollabInstance::getNbUsers() const {
     return _users.size();
 }
+
+
+} // End namespace
+
+
