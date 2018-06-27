@@ -7,13 +7,12 @@ namespace collab {
 
 int Room::idcounter = 0;
 
-Room::Room(const CollabDataAvailable dataID, Connector& connector)
+Room::Room(const DataAvailable dataID, Connector& connector)
   : _connector(connector), _roomID(++idcounter) {
-    _data = CollabDataFactory::newCollabDataByID(dataID);
+    _data = DataFactory::newDataByID(dataID);
     assert(_data != nullptr);
     if(_data == nullptr) {
-        _data = CollabDataFactory::newCollabDataByID(
-                    CollabDataAvailable::DEFAULT_DATA);
+        _data = DataFactory::newDataByID(DataAvailable::DEFAULT_DATA);
     }
 
     _users.reserve(15); // Pre-allocate for 15 users
@@ -21,7 +20,7 @@ Room::Room(const CollabDataAvailable dataID, Connector& connector)
 }
 
 Room::~Room() {
-    CollabDataFactory::releaseCollabData(_data);
+    DataFactory::releaseData(_data);
 }
 
 bool Room::addUser(const int id) {

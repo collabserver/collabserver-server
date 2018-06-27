@@ -7,7 +7,7 @@
 #include "collabdata/custom/Operation.h"
 
 #include "Connector.h"
-#include "CollabDataFactory.h"
+#include "DataFactory.h"
 
 namespace collab {
 
@@ -43,7 +43,7 @@ class Room {
         const int                       _roomID;
 
     public:
-        Room(const CollabDataAvailable dataID, Connector& connector);
+        Room(const DataAvailable dataID, Connector& connector);
         ~Room();
 
     public:

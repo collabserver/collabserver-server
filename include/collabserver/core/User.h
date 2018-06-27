@@ -9,19 +9,19 @@ namespace collab {
 
 /**
  * \brief
- * Working user session in CollabServer instance.
+ * User registered in CollabServer working instance.
  *
  * \author  Constantin Masson
  * \date    May 2018
  */
-class UserSession {
+class User {
     private:
         static int  idcounter;
         const int   _id;
         Room*       _currentRoom = nullptr;
 
     public:
-        UserSession();
+        User();
 
     public:
         bool joinRoom(Room& room);

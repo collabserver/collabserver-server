@@ -1,14 +1,14 @@
-#include "collabserver/core/UserSession.h"
+#include "collabserver/core/User.h"
 
 namespace collab {
 
-int UserSession::idcounter = 0;
+int User::idcounter = 0;
 
-UserSession::UserSession() : _id (++idcounter) {
+User::User() : _id (++idcounter) {
     // Nothing else to do (Or nothing else matter)
 }
 
-bool UserSession::joinRoom(Room& room) {
+bool User::joinRoom(Room& room) {
     if(_currentRoom == nullptr) {
         return false;
     }
@@ -20,7 +20,7 @@ bool UserSession::joinRoom(Room& room) {
     return false;
 }
 
-bool UserSession::leaveCurrentRoom() {
+bool User::leaveCurrentRoom() {
     if(_currentRoom == nullptr) {
         return false;
     }

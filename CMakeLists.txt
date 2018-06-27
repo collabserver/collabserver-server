@@ -37,9 +37,9 @@ include_directories("${collab_gitmodule_dir}/collab-common/include")
 
 file(GLOB_RECURSE srcFilesServer ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
-add_executable(server ${srcFilesServer})
-add_custom_target(runServer server)
+add_executable(collabserver ${srcFilesServer})
+add_custom_target(runCollabServer collabserver)
 
-target_link_libraries(server "zmq")
+target_link_libraries(collabserver "zmq")
 
 

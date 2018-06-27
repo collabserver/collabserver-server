@@ -10,7 +10,7 @@ namespace collab {
 /**
  * List all supported data for this server.
  */
-enum class CollabDataAvailable : int {
+enum class DataAvailable : int {
     DEFAULT_DATA = 1,
     SIMPLE_GRAPH
 };
@@ -22,7 +22,10 @@ enum class CollabDataAvailable : int {
  * \date    June 2018
  * \author  Constantin Masson
  */
-class CollabDataFactory {
+class DataFactory {
+    private:
+        DataFactory() = delete;
+
     public:
 
         /**
@@ -33,10 +36,10 @@ class CollabDataFactory {
          * \param id The ID of CollabData to create.
          * \return Pointer to the created data or nullptr if error.
          */
-        static CollabData* newCollabDataByID(const CollabDataAvailable id) {
+        static CollabData* newDataByID(const DataAvailable id) {
             switch(id) {
-                case CollabDataAvailable::DEFAULT_DATA:
-                case CollabDataAvailable::SIMPLE_GRAPH:
+                case DataAvailable::DEFAULT_DATA:
+                case DataAvailable::SIMPLE_GRAPH:
                     return new SimpleGraph();
 
                 default:
@@ -50,7 +53,7 @@ class CollabDataFactory {
          *
          * \param data CollabData pointer to free.
          */
-        static void releaseCollabData(CollabData* data) {
+        static void releaseData(CollabData* data) {
             assert(data != nullptr);
             if(data != nullptr) {
                 delete data;
