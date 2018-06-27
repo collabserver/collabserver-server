@@ -54,6 +54,7 @@ class Room {
         bool unregisterData();
 
         bool receiveOperation(OperationInfo& op);
+        void sendOperation(const Operation& op, const int userID);
 };
 
 

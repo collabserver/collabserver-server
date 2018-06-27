@@ -63,6 +63,10 @@ bool Room::receiveOperation(OperationInfo& op) {
     return true;
 }
 
+void Room::sendOperation(const Operation& op, const int userID) {
+    _connector->sendUserOperation(op, userID);
+}
+
 
 } // End namespace
 
