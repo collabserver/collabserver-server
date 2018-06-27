@@ -6,7 +6,7 @@
 
 ## Overview
 Server for realtime collaboration.
-> Work in progress!
+> Work in progress...
 
 
 ## Requirements
@@ -17,11 +17,12 @@ Server for realtime collaboration.
 
 ## Dependencies
 > Dependencies marked with *(CMake)* are automatically downloaded by CMake
-> script and placed in *bin* folder.
+> script and placed in *dependencies* folder.
 > Others must be installed manually (Generally system-wide install).
+- [ZeroMQ](http://zeromq.org/) **Must be installed system-wide**
 - [collab-common](https://github.com/CollabServer/collab-common.git) (CMake)
 - [collab-data-crdts](https://github.com/CollabServer/collab-data-crdts.git) (CMake)
-- [ZeroMQ](http://zeromq.org/) (Must be installed system-wide)
+- [GoogleTest](https://github.com/google/googletest) (CMake)
 
 
 ## Build instructions
@@ -40,33 +41,35 @@ cd collab-server
     - MinSizeRel
 
 ### Build server and run with CMake
-```cmake
-# Build manually
+#### Manual
+```bash
 mkdir build
 cd build
 cmake ..
 make -j4
-make runServer
-
-# Build from shell script
+make runCollabServer
+```
+### Bash script
+```bash
 ./build.sh
 cd build
-make runServer
+make runCollabServer
 ```
 
 ### Build and run tests with CMake
-- [GoogleTest](https://github.com/google/googletest)
-(Automatically downloaded by CMake and placed in project's root folder `bin`
-```cmake
-# Build manually
+#### Manual
+```bash
 mkdir build
 cd build
-cmake ..
+cmake -Dcollab_tests=ON ..
 make -j4
-make runServer
-
-# Build from shell script
+make runAllTests
+```
+### Bash script
+```bash
 ./build.sh
+# Tests should start by default.
+# If not, follow the manual instructions
 ```
 
 

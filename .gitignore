@@ -1,6 +1,7 @@
 # Personal ignore
 build/
 bin/
+dependencies/
 doc/
 .syntastic_cpp_config
 .ycm_extra_conf.py
