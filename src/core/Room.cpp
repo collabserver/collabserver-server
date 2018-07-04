@@ -7,12 +7,13 @@ namespace collab {
 
 int Room::idcounter = 0;
 
-Room::Room(const DataAvailable dataID, Connector& connector)
-  : _connector(connector), _roomID(++idcounter) {
+Room::Room(const int dataID, Connector& connector)
+        : _connector(connector), _id(++idcounter) {
     _data = DataFactory::newDataByID(dataID);
+
     assert(_data != nullptr);
     if(_data == nullptr) {
-        _data = DataFactory::newDataByID(DataAvailable::DEFAULT_DATA);
+        _data = DataFactory::newDataByID(DataFactory::DataID::DEFAULT_DATA);
     }
 
     _users.reserve(15); // Pre-allocate for 15 users
@@ -85,7 +86,7 @@ bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
 }
 
 void Room::sendOperation(const Operation& op, const int userToID) const {
-    _connector.sendRoomUserOperation(op, _roomID, userToID);
+    _connector.sendRoomUserOperation(op, _id, userToID);
 }
 
 

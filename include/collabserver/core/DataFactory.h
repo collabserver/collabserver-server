@@ -8,21 +8,20 @@ namespace collab {
 
 
 /**
- * List all supported data for this server.
- */
-enum class DataAvailable : int {
-    DEFAULT_DATA = 1,
-    SIMPLE_GRAPH
-};
-
-
-/**
  * Factory to create any collab data supported by the server.
  *
  * \date    June 2018
  * \author  Constantin Masson
  */
 class DataFactory {
+    public:
+
+        /** List all supported data for this server. */
+        enum DataID : int {
+            DEFAULT_DATA = 1,
+            SIMPLE_GRAPH
+        };
+
     private:
         DataFactory() = delete;
 
@@ -30,16 +29,16 @@ class DataFactory {
 
         /**
          * Create a new CollabData according to given ID.
-         * Data is created on the head (new).
+         * Data is created on the heap (new).
          * You must release the memory later.
          *
          * \param id The ID of CollabData to create.
          * \return Pointer to the created data or nullptr if error.
          */
-        static CollabData* newDataByID(const DataAvailable id) {
+        static CollabData* newDataByID(const int id) {
             switch(id) {
-                case DataAvailable::DEFAULT_DATA:
-                case DataAvailable::SIMPLE_GRAPH:
+                case DEFAULT_DATA:
+                case SIMPLE_GRAPH:
                     return new SimpleGraph();
 
                 default:

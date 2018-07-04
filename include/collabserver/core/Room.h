@@ -37,13 +37,13 @@ class Room {
     private:
         static int idcounter;
 
+        const int                       _id;
+        CollabData*                     _data = nullptr;
+        Connector&                      _connector;
         std::unordered_set<int>         _users;
         std::vector<OperationInfo>      _operations;
-        Connector&                      _connector;
-        CollabData*                     _data = nullptr;
 
         int                             _currentHeadOperationID = 0;
-        const int                       _roomID;
 
 
     // -------------------------------------------------------------------------
@@ -51,7 +51,7 @@ class Room {
     // -------------------------------------------------------------------------
 
     public:
-        Room(const DataAvailable dataID, Connector& connector);
+        Room(const int dataID, Connector& connector);
         ~Room();
 
 
@@ -103,6 +103,16 @@ class Room {
          * \param Number of users.
          */
         int getNbUsers() const;
+
+
+    // -------------------------------------------------------------------------
+    // Various
+    // -------------------------------------------------------------------------
+
+    public:
+        int getRoomID() const {
+            return _id;
+        }
 
 
     // -------------------------------------------------------------------------
