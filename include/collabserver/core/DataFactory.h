@@ -17,7 +17,7 @@ class DataFactory {
     public:
 
         /** List all supported data for this server. */
-        enum DataID : int {
+        enum DataTypeID : int {
             DEFAULT_DATA = 1,
             SIMPLE_GRAPH
         };

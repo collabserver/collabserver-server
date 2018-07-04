@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "User.h"
+#include "Broadcaster.h"
 
 namespace collab {
 
@@ -12,7 +13,6 @@ namespace collab {
  * \brief
  * The famous collaborative server component where all rooms are located.
  *
- *
  * \author  Constantin Masson
  * \date    Jun 2018
  */
@@ -20,6 +20,11 @@ class CollabServer {
     private:
         std::unordered_map<int, User>   _users;
         std::unordered_map<int, Room>   _rooms;
+        Broadcaster&                    _broadcaster;
+
+    public:
+        CollabServer(Broadcaster& broadcaster);
+        ~CollabServer();
 
 
     // -------------------------------------------------------------------------
@@ -52,6 +57,14 @@ class CollabServer {
          */
         int getNbUsers() const;
 
+        /**
+         * Check whether user is in CollabServer.
+         *
+         * \param id The user ID to search for.
+         * \return True if is in CollabServer, otherwise, return false.
+         */
+        bool hasUser(const int id) const;
+
 
     // -------------------------------------------------------------------------
     // Rooms
@@ -60,11 +73,11 @@ class CollabServer {
     public:
 
         /**
-         * Create a new room.
+         * Create a new room for given collab data type.
          *
          * \return ID of the created room.
          */
-        int createNewRoom();
+        int createNewRoom(const int dataID);
 
         /**
          * Remove a room. The room must be empty.
@@ -80,6 +93,14 @@ class CollabServer {
          * \return Number of rooms.
          */
         int getNbRooms() const;
+
+        /**
+         * Check whether room is in CollabServer.
+         *
+         * \param id The room ID to search for.
+         * \return True if is in CollabServer, otherwise, return false.
+         */
+        bool hasRoom(const int id) const;
 };
 
 

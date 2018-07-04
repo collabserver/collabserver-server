@@ -2,28 +2,34 @@
 
 #include "collabdata/custom/Operation.h"
 
+#include "OperationInfo.h"
+
 namespace collab {
 
 
 /**
  * \brief
- * Connector interface.
+ * Defines the set of callback functions the CollabServer core may call.
  *
- * \todo
- * Documentation to add.
+ * This may be used by the network component for instance, to broadcast events
+ * from CollabServer. (Such as operation in room etc).
  *
  *
  * \author  Constantin Masson
  * \date    June 2018
  */
-class Connector {
+class Broadcaster {
+
+    protected:
+        Broadcaster() = default;
+
 
     // -------------------------------------------------------------------------
     // Callback methods interface
     // -------------------------------------------------------------------------
 
     public:
-        virtual void sendRoomUserOperation(const Operation& op,
+        virtual void sendRoomUserOperation(const OperationInfo& op,
                                            const int roomID,
                                            const int userID) = 0;
 };

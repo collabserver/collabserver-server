@@ -1,26 +1,14 @@
 #pragma once
 
 #include <unordered_set>
-#include <sstream>
 
 #include "collabdata/custom/CollabData.h"
-#include "collabdata/custom/Operation.h"
 
-#include "Connector.h"
 #include "DataFactory.h"
+#include "Broadcaster.h"
+#include "OperationInfo.h"
 
 namespace collab {
-
-
-/**
- * Information about an operation.
- */
-struct OperationInfo {
-    std::stringstream buffer;   // Operation in serialized form
-    int userID;                 // User that made this operation
-    int typeID;                 // Operation's type
-    int opID;                   // Operation's unique ID
-};
 
 
 /**
@@ -39,10 +27,9 @@ class Room {
 
         const int                       _id;
         CollabData*                     _data = nullptr;
-        Connector&                      _connector;
+        Broadcaster&                    _broadcaster;
         std::unordered_set<int>         _users;
         std::vector<OperationInfo>      _operations;
-
         int                             _currentHeadOperationID = 0;
 
 
@@ -51,7 +38,7 @@ class Room {
     // -------------------------------------------------------------------------
 
     public:
-        Room(const int dataID, Connector& connector);
+        Room(const int dataID, Broadcaster& broadcaster);
         ~Room();
 
 
@@ -106,16 +93,6 @@ class Room {
 
 
     // -------------------------------------------------------------------------
-    // Various
-    // -------------------------------------------------------------------------
-
-    public:
-        int getRoomID() const {
-            return _id;
-        }
-
-
-    // -------------------------------------------------------------------------
     // Operations
     // -------------------------------------------------------------------------
 
@@ -126,10 +103,20 @@ class Room {
          */
         bool receiveOperation(OperationInfo& op, const int userFromID);
 
-        /**
-         * TODO blablabla
-         */
-        void sendOperation(const Operation& op, const int userToID) const;
+
+    // -------------------------------------------------------------------------
+    // Verious
+    // -------------------------------------------------------------------------
+
+    public:
+
+        int getRoomID() const {
+            return _id;
+        }
+
+        static int getNextExpectedRoomID() {
+            return Room::idcounter + 1;
+        }
 };
 
 

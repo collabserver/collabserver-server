@@ -5,19 +5,22 @@
 
 namespace collab {
 
+
 int Room::idcounter = 0;
 
-Room::Room(const int dataID, Connector& connector)
-        : _connector(connector), _id(++idcounter) {
-    _data = DataFactory::newDataByID(dataID);
 
+Room::Room(const int dataID, Broadcaster& broadcaster)
+        : _id(++idcounter), _broadcaster(broadcaster) {
+    _data = DataFactory::newDataByID(dataID);
     assert(_data != nullptr);
+
     if(_data == nullptr) {
-        _data = DataFactory::newDataByID(DataFactory::DataID::DEFAULT_DATA);
+        _data = DataFactory::newDataByID(DataFactory::DEFAULT_DATA);
     }
 
-    _users.reserve(15); // Pre-allocate for 15 users
-    _operations.reserve(100); // Pre-allocate for 100 operations
+    // Reserve values are totally arbitrary here.
+    _users.reserve(15);
+    _operations.reserve(100);
 }
 
 Room::~Room() {
@@ -69,24 +72,25 @@ bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
 
     assert(_operations.capacity() > 0); // If false, you forgot to reserve
 
-    OperationInfo info;
-    info.buffer.str(op.buffer.str()); // Copy content
-    info.typeID = op.typeID;
-    info.userID = op.userID;
-    info.opID   = _currentHeadOperationID;
-
+    OperationInfo info = op;
+    info.opID = _currentHeadOperationID;
     _currentHeadOperationID++;
 
     float load = _operations.size() / _operations.capacity();
     if(load > 0.90) {
         _operations.reserve(_operations.size() + 20); // 20 is arbitrary
     }
+    _operations.emplace_back(info);
+
+    for(int userID : _users) {
+        if(op.userID == userID) {
+            continue;
+        }
+        _broadcaster.sendRoomUserOperation(op, _id, userID);
+    }
+
 
     return true;
-}
-
-void Room::sendOperation(const Operation& op, const int userToID) const {
-    _connector.sendRoomUserOperation(op, _id, userToID);
 }
 
 
