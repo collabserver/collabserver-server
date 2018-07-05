@@ -12,9 +12,6 @@ namespace collab {
 /**
  * \brief
  * The famous collaborative server component where all rooms are located.
- *
- * \author  Constantin Masson
- * \date    Jun 2018
  */
 class CollabServer {
     private:

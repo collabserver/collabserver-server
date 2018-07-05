@@ -10,9 +10,6 @@ class MessageFactory;
 
 /**
  * Component that listen for message comming over the network.
- *
- * \author  Constantin Masson
- * \date    Nov 2017
  */
 class MessageListener {
     private:

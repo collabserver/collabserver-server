@@ -22,10 +22,6 @@ class Broadcaster;
  * database implementation is unknown here. On the other side, database
  * runs a client that receives operation and convert to apply them inside the
  * database.
- *
- *
- * \author  Constantin Masson
- * \date    July 2018
  */
 class Storage : public OperationObserver {
     private:

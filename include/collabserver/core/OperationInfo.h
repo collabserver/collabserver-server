@@ -8,6 +8,7 @@ namespace collab {
 
 
 /**
+ * \brief
  * Information about an operation.
  */
 class OperationInfo {

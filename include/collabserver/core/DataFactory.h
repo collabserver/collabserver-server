@@ -8,10 +8,8 @@ namespace collab {
 
 
 /**
+ * \brief
  * Factory to create any collab data supported by the server.
- *
- * \date    June 2018
- * \author  Constantin Masson
  */
 class DataFactory {
     public:

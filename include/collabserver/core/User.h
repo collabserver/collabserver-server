@@ -10,9 +10,6 @@ namespace collab {
 /**
  * \brief
  * User registered in current Collab instance.
- *
- * \author  Constantin Masson
- * \date    May 2018
  */
 class User {
     private:

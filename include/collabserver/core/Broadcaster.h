@@ -13,10 +13,6 @@ namespace collab {
  *
  * This may be used by the network component for instance, to broadcast events
  * from CollabServer. (Such as operation in room etc).
- *
- *
- * \author  Constantin Masson
- * \date    June 2018
  */
 class Broadcaster {
 

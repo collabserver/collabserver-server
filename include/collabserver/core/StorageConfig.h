@@ -6,9 +6,6 @@ namespace collab {
 /***
  * \brief
  * Information and config for a storage service.
- *
- * \date    July 2018
- * \author  Constantin Masson
  */
 class StorageConfig {
     public:

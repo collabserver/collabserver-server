@@ -15,9 +15,6 @@ namespace collab {
 /**
  * \brief
  * Room of collaboration.
- *
- * \author  Constantin Masson
- * \date    May 2018
  */
 class Room {
     // -------------------------------------------------------------------------
