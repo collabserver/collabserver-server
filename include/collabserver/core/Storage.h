@@ -1,21 +1,28 @@
 #pragma once
 
 #include "collabdata/custom/OperationObserver.h"
-#include "collabdata/custom/CollabData.h"
 
 #include "StorageConfig.h"
-#include "Broadcaster.h"
 
 namespace collab {
 
+
 class Room;
+class CollabData;
+class OperationInfo;
+class Broadcaster;
 
 
 /**
  * \brief
  * Element in charge of actual CollabData storage.
  *
- * This is only a kind of proxy of the actual physical storage.
+ * Storage receives operations from the Room it is linked with and send them
+ * to the actual distant database. This is only a proxy so that, the actual
+ * database implementation is unknown here. On the other side, database
+ * runs a client that receives operation and convert to apply them inside the
+ * database.
+ *
  *
  * \author  Constantin Masson
  * \date    July 2018
@@ -23,35 +30,16 @@ class Room;
 class Storage : public OperationObserver {
     private:
         StorageConfig       _config;
-        const Room*         _room = nullptr;
-        CollabData*         _data = nullptr;
-        Broadcaster*        _broadcaster = nullptr;
+        const Room*         _room           = nullptr;
+        CollabData*         _data           = nullptr;
+        Broadcaster*        _broadcaster    = nullptr;
 
     public:
-        Storage(StorageConfig config, const Room& room, CollabData& data,
-                Broadcaster& broadcast)
-                : _config(config), _room(&room), _data(&data),
-                _broadcaster(&broadcast) {
-            if(_config.mode == StorageConfig::LINEAR_OPERATIONS) {
-                _data->addOperationObserver(*this);
-            }
-        }
+        Storage(StorageConfig c, const Room& r, CollabData& d, Broadcaster& b);
 
     public:
-        // TODO ToFix
-        void notifyOperation(const Operation& op) {
-            if(_config.mode == StorageConfig::LINEAR_OPERATIONS) {
-                // TODO
-                // Call broadcaster
-            }
-        }
-
-        void receiveOperation(OperationInfo& op) {
-            if(_config.mode == StorageConfig::CRDT_OPERATIONS) {
-                // TODO
-                // Call broadcaster
-            }
-        }
+        void notifyOperation(const Operation& op) override;
+        void receiveOperation(OperationInfo& op);
 };
 
 
