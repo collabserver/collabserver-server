@@ -7,6 +7,7 @@
 #include "DataFactory.h"
 #include "Broadcaster.h"
 #include "OperationInfo.h"
+#include "Storage.h"
 
 namespace collab {
 
@@ -27,6 +28,7 @@ class Room {
 
         const int                       _id;
         CollabData*                     _data = nullptr;
+        Storage*                        _storage = nullptr;
         Broadcaster&                    _broadcaster;
         std::unordered_set<int>         _users;
         std::vector<OperationInfo>      _operations;
@@ -93,14 +95,19 @@ class Room {
 
 
     // -------------------------------------------------------------------------
+    // Storage
+    // -------------------------------------------------------------------------
+
+    public:
+        bool assignStorage(StorageConfig& config);
+        bool hasStorage() const;
+
+
+    // -------------------------------------------------------------------------
     // Operations
     // -------------------------------------------------------------------------
 
     public:
-
-        /**
-         * TODO blablabla
-         */
         bool receiveOperation(OperationInfo& op, const int userFromID);
 
 
