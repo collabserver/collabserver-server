@@ -22,6 +22,8 @@ class DataFactory {
 
     private:
         DataFactory() = delete;
+        DataFactory(const DataFactory& other) = delete;
+        DataFactory& operator=(const DataFactory& other) = delete;
 
     public:
 

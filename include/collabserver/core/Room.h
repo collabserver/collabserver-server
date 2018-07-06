@@ -3,13 +3,14 @@
 #include <unordered_set>
 
 #include "collabdata/custom/CollabData.h"
-
-#include "DataFactory.h"
-#include "Broadcaster.h"
 #include "OperationInfo.h"
-#include "Storage.h"
 
 namespace collab {
+
+
+class Broadcaster;
+class Storage;
+class StorageConfig;
 
 
 /**
@@ -29,7 +30,7 @@ class Room {
         Broadcaster&                    _broadcaster;
         std::unordered_set<int>         _users;
         std::vector<OperationInfo>      _operations;
-        int                             _currentHeadOperationID = 0;
+        int                             _operationHeadID = 0;
 
 
     // -------------------------------------------------------------------------
@@ -96,6 +97,7 @@ class Room {
     // -------------------------------------------------------------------------
 
     public:
+
         bool assignStorage(StorageConfig& config);
         bool hasStorage() const;
 
@@ -105,22 +107,27 @@ class Room {
     // -------------------------------------------------------------------------
 
     public:
-        bool receiveOperation(OperationInfo& op, const int userFromID);
+
+        /**
+         * Commit an operation in this room.
+         * Uses the information given inside OperationInfo.
+         * Check validity (Room, user in room etc).
+         *
+         * \param op    The new operation to commit in the room.
+         * \return True if successfully commited, otherwise, return false.
+         */
+        bool commitOperation(const OperationInfo& op);
 
 
     // -------------------------------------------------------------------------
-    // Verious
+    // Various
     // -------------------------------------------------------------------------
 
     public:
 
-        int getRoomID() const {
-            return _id;
-        }
+        int getRoomID() const;
 
-        static int getNextExpectedRoomID() {
-            return Room::idcounter + 1;
-        }
+        static int getNextExpectedRoomID();
 };
 
 

@@ -20,7 +20,13 @@ class CollabServer {
         Broadcaster&                    _broadcaster;
 
     public:
+        /**
+         * Create a new CollabServer component.
+         * Broadcaster is used for any callback methods CollabServer may
+         * emit whenever a method is applied.
+         */
         CollabServer(Broadcaster& broadcaster);
+
         ~CollabServer();
 
 

@@ -2,33 +2,21 @@
 
 #include <gtest/gtest.h>
 
+#include "collabserver/core/Broadcaster.h"
+#include "collabserver/core/DataFactory.h"
+
 namespace collab {
+
 
 /** Simple Mock Connector for Debug. */
 class MockConnector : public Broadcaster {
     public:
-        void sendRoomUserOperation(const OperationInfo& op, const int roomID,
-                                   const int userID) {
-        }
+        void sendOperation(const OperationInfo& op, const int dest) override {}
 };
 static MockConnector mockConnector;
 
 
-// -----------------------------------------------------------------------------
-// Room()
-// -----------------------------------------------------------------------------
-TEST(Room, roomConstructorTest) {
-    Room r(DataFactory::SIMPLE_GRAPH, mockConnector);
-}
-
-
-// -----------------------------------------------------------------------------
-// Room()
-// -----------------------------------------------------------------------------
-
-TEST(Room, addUserTest) {
-
-}
+// TODO
 
 
 } // End namespace

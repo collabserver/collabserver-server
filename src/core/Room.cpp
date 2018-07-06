@@ -3,6 +3,10 @@
 #include <utility> // std::pair
 #include <cassert>
 
+#include "collabserver/core/Broadcaster.h"
+#include "collabserver/core/DataFactory.h"
+#include "collabserver/core/Storage.h"
+
 namespace collab {
 
 
@@ -13,7 +17,6 @@ Room::Room(const int dataID, Broadcaster& broadcaster)
         : _id(++idcounter), _broadcaster(broadcaster) {
     _data = DataFactory::newDataByID(dataID);
     assert(_data != nullptr);
-
     if(_data == nullptr) {
         _data = DataFactory::newDataByID(DataFactory::DEFAULT_DATA);
     }
@@ -81,9 +84,8 @@ bool Room::assignStorage(StorageConfig& config) {
 // Operations
 // -----------------------------------------------------------------------------
 
-bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
+bool Room::commitOperation(const OperationInfo& op) {
     assert(_data != nullptr);
-
     if(_data == nullptr) {
         return false;
     }
@@ -93,31 +95,46 @@ bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
         return false;
     }
 
-    assert(_operations.capacity() > 0); // If false, you forgot to reserve
+    if(op.roomID != _id || !this->hasUser(op.userID)) {
+        return false;
+    }
 
     OperationInfo newOP = op;
-    newOP.opID = _currentHeadOperationID;
-    _currentHeadOperationID++;
+    newOP.opID = _operationHeadID;
+    _operationHeadID++;
 
+    assert(_operations.capacity() > 0); // If false, you forgot to reserve
     float load = _operations.size() / _operations.capacity();
     if(load > 0.90) {
         _operations.reserve(_operations.size() + 20); // 20 is arbitrary
     }
     _operations.emplace_back(newOP);
 
-    for(int userID : _users) {
+    for(const int userID : _users) {
         if(op.userID == userID) {
             continue;
         }
-        _broadcaster.sendRoomUserOperation(newOP, _id, userID);
+        _broadcaster.sendOperation(newOP, userID);
     }
 
-    if(_storage != nullptr) {
-        //TODO
-        //_storage->storeOperation(newOP);
+    if(this->hasStorage()) {
+        _storage->commitOperation(newOP);
     }
 
     return true;
+}
+
+
+// -----------------------------------------------------------------------------
+// Various
+// -----------------------------------------------------------------------------
+
+int Room::getRoomID() const {
+    return _id;
+}
+
+int Room::getNextExpectedRoomID() {
+    return Room::idcounter + 1;
 }
 
 

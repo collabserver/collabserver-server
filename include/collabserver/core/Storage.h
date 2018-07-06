@@ -1,7 +1,6 @@
 #pragma once
 
 #include "collabdata/custom/OperationObserver.h"
-
 #include "StorageConfig.h"
 
 namespace collab {
@@ -32,10 +31,11 @@ class Storage : public OperationObserver {
 
     public:
         Storage(StorageConfig c, const Room& r, CollabData& d, Broadcaster& b);
+        ~Storage();
 
     public:
+        void commitOperation(OperationInfo& op);
         void notifyOperation(const Operation& op) override;
-        void receiveOperation(OperationInfo& op);
 };
 
 
