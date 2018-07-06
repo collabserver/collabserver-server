@@ -3,13 +3,14 @@
 namespace collab {
 
 
-/***
+/**
  * \brief
  * Information and config for a storage service.
  */
 class StorageConfig {
     public:
         enum Mode {
+
             /**
              * In this mode, all operation applied on the CRDT CollabServer data
              * are also sent to the Storage. From the storage place, you will

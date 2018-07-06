@@ -14,9 +14,10 @@ namespace collab {
 class OperationInfo {
     public:
         std::stringstream buffer;   // Operation in serialized form
+        int opID;                   // Operation's unique ID
         int userID;                 // User that made this operation
         int typeID;                 // Operation's type
-        int opID;                   // Operation's unique ID
+        int roomID;                 // Room where operation is done
 
     public:
         OperationInfo() = default;

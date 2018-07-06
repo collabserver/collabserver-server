@@ -88,7 +88,7 @@ bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
         return false;
     }
 
-    bool isApplied = _data->receiveOperation(op.typeID, op.buffer);
+    bool isApplied = _data->applyExternOperation(op.buffer);
     if(!isApplied) {
         return false;
     }
@@ -113,7 +113,8 @@ bool Room::receiveOperation(OperationInfo& op, const int userFromID) {
     }
 
     if(_storage != nullptr) {
-        _storage->receiveOperation(newOP);
+        //TODO
+        //_storage->storeOperation(newOP);
     }
 
     return true;
