@@ -1,4 +1,4 @@
-#include "collabserver/network/MessageListener.h"
+#include "collabserver/network/Server.h"
 
 #include <zmq.hpp>
 
@@ -9,7 +9,7 @@
 namespace collab {
 
 
-void MessageListener::start() {
+void Server::start() {
     if(!this->m_isRunning) {
         this->m_isRunning = true;
 
@@ -33,7 +33,7 @@ void MessageListener::start() {
     }
 }
 
-void MessageListener::stop() {
+void Server::stop() {
     this->m_isRunning = false;
 }
 

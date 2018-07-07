@@ -1,16 +1,15 @@
-#include "collabserver/network/MessageListener.h"
-
 #include <exception>
 #include <iostream>
 
 #include "collabcommon/utils/Log.h"
+#include "collabserver/network/Server.h"
 
 
 int main(int argc, char** argv) {
     try {
         // TODO This is temporary test
         LOG << "DEBUG: Start server\n";
-        collab::MessageListener coco;
+        collab::Server coco;
         coco.start();
         LOG << "DEBUG: Stop server\n";
     }
