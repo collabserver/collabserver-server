@@ -14,6 +14,7 @@ set(collab_gitmodule_dir "${CMAKE_SOURCE_DIR}/gitmodules/")
 
 include("CMake/AddCompilerFlags.cmake")
 include("CMake/ExternalProjects/Collabdata.cmake")
+include("CMake/ExternalProjects/Collabcommon.cmake")
 
 
 # ------------------------------------------------------------------------------
@@ -37,8 +38,9 @@ file(GLOB_RECURSE srcFilesServer "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 add_executable(collabserver ${srcFilesServer})
 add_dependencies(collabserver collab-data-crdts)
-add_custom_target(runCollabServer collabserver)
+add_dependencies(collabserver collab-common)
+target_link_libraries(collabserver zmq collabdata collabcommon)
 
-target_link_libraries(collabserver zmq collabdata)
+add_custom_target(runCollabServer collabserver)
 
 
