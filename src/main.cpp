@@ -7,7 +7,7 @@
 
 
 int main(int argc, char** argv) {
-    collab::network::initializeNetwork();
+    collab::network::initNetwork();
 
     try {
         // TODO This is temporary test

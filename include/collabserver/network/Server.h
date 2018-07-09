@@ -8,7 +8,7 @@ namespace collab {
  */
 class Server {
     private:
-        bool m_isRunning = false;
+        bool _isRunning = false;
 
     public:
         Server() = default;

@@ -2,39 +2,44 @@
 
 #include <zmq.hpp>
 
+#include "collabcommon/network/Network.h"
+#include "collabcommon/network/ZMQSocket.h"
 #include "collabcommon/messaging/MessageFactory.h"
 #include "collabcommon/messaging/IMessage.h"
-#include "collabcommon/messaging/MessageTypes.h"
+
 
 namespace collab {
 
 
+class IMessage;
+
+
 void Server::start() {
-    if(!this->m_isRunning) {
-        this->m_isRunning = true;
+    if(_isRunning) {
+        return;
+    }
+    _isRunning = true;
 
-        // TODO To move outside + config
-        zmq::context_t context(1);
-        zmq::socket_t socket(context, ZMQ_REP);
-        socket.bind("tcp://*:5555");
+    ZMQSocketConfig config = {
+        ZMQ_REP,
+        network::g_context,
+        &(MessageFactory::getInstance())
+    };
 
-        while(this->m_isRunning) {
-            //LOG_DEBUG(0, "Waiting for message...");
-            zmq::message_t request;
-            socket.recv(&request);
+    ZMQSocket socket(config);
+    socket.bind("*", 1234);
 
-            //NetHelper::processMessage(static_cast<char*>(request.data()), request.size());
+    while(_isRunning) {
+        std::unique_ptr<IMessage> msg = socket.receiveMessage();
 
-            //TODO To update, for now, required by ZMQ_REP pattern.
-            zmq::message_t reply(11);
-            memcpy(reply.data(), "Acknowledge", 11);
-            socket.send(reply);
-        }
+        // TODO: Process
+        // TODO: Send response (Create debug tmp message)
+        //socket.sendMessage(msg);
     }
 }
 
 void Server::stop() {
-    this->m_isRunning = false;
+    this->_isRunning = false;
 }
 
 

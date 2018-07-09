@@ -31,6 +31,9 @@ Server for realtime collaboration.
 ```bash
 git clone --recursive https://github.com/CollabServer/collab-server.git
 cd collab-server
+
+# To pull, use
+git pull --recurse-submodules=on
 ```
 
 ### Build types
