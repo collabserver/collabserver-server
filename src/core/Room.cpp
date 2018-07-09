@@ -114,7 +114,7 @@ bool Room::commitOperation(const OperationInfo& op) {
         if(op.userID == userID) {
             continue;
         }
-        _broadcaster.sendOperation(newOP, userID);
+        _broadcaster.sendOperationToUser(newOP, userID);
     }
 
     if(this->hasStorage()) {

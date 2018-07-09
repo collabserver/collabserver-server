@@ -12,6 +12,12 @@ namespace collab {
  *
  * This may be used by the network component for instance, to broadcast events
  * from CollabServer. (Such as operation in room etc).
+ *
+ * \note
+ * Note about IDs:
+ * ID removes coupling between broadcaster and core business components.
+ * For instance, ID may be the user ID in business side, and a simple
+ * ID linked with a socket in network side.
  */
 class Broadcaster {
     protected:
@@ -29,16 +35,22 @@ class Broadcaster {
     public:
 
         /**
-         * Send operation to the destination.
+         * Send operation to the user.
          *
-         * ID removes coupling between broadcaster and core business components.
-         * For instance, this may be the user ID in business side, and a simple
-         * ID linked with a socket in network side.
-         *
-         * \param op    Operation to send.
-         * \param dest  ID where to send operation.
+         * \param op        Operation to send.
+         * \param userID    User recipient.
          */
-        virtual void sendOperation(const OperationInfo& op, const int dest) = 0;
+        virtual void sendOperationToUser(const OperationInfo& op,
+                                         const int userID) = 0;
+
+        /**
+         * Send operation to the storage.
+         *
+         * \param op        Operation to send.
+         * \param storageID ID where to send operation.
+         */
+        virtual void sendOperationToStorage(const OperationInfo& op,
+                                            const int storageID) = 0;
 };
 
 

@@ -11,7 +11,12 @@ namespace collab {
 /** Simple Mock Connector for Debug. */
 class MockConnector : public Broadcaster {
     public:
-        void sendOperation(const OperationInfo& op, const int dest) override {}
+        void sendOperationToUser(const OperationInfo& op,
+                                 const int dest) override {
+        }
+        void sendOperationToStorage(const OperationInfo& op,
+                                    const int dest) override {
+        }
 };
 static MockConnector mockConnector;
 

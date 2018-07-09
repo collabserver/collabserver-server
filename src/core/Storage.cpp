@@ -31,7 +31,7 @@ void Storage::commitOperation(OperationInfo& op) {
     if(_config.mode == StorageConfig::CRDT_OPERATIONS) {
         assert(_broadcaster != nullptr);
         // TODO
-        //_broadcaster->sendOperation(op);
+        //_broadcaster->sendOperationToStarge(op, _id);
     }
 }
 
