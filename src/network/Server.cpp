@@ -19,7 +19,7 @@ void Server::start() {
 
     ZMQSocketConfig config = {
         ZMQ_REP,
-        network::g_context,
+        &network::g_context,
         &(MessageFactory::getInstance())
     };
 
