@@ -1,7 +1,12 @@
 # Collab Server
 
 [![release-version](https://img.shields.io/badge/release-no--release-red.svg)]()
+[![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=master)](https://travis-ci.org/CollabServer/collab-server)
 [![license](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](https://github.com/CollabServer/collab-server/blob/dev/LICENSE.txt)
+
+| master | dev |
+| :-----: | :-----: |
+| [![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=master)](https://travis-ci.org/CollabServer/collab-server) | [![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=dev)](https://travis-ci.org/CollabServer/collab-server) |
 
 
 ## Overview
