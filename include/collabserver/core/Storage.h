@@ -35,7 +35,7 @@ class Storage : public OperationObserver {
 
     public:
         void commitOperation(OperationInfo& op);
-        void notifyOperation(const Operation& op) override;
+        void onOperation(const Operation& op) override;
 };
 
 

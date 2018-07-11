@@ -19,7 +19,7 @@ Storage::~Storage() {
     // TODO Remove from _data observers (But this is not implemented yet)
 }
 
-void Storage::notifyOperation(const Operation& op) {
+void Storage::onOperation(const Operation& op) {
     if(_config.mode == StorageConfig::LINEAR_OPERATIONS) {
         assert(_broadcaster != nullptr);
         // TODO
