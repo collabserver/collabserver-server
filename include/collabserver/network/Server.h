@@ -1,17 +1,35 @@
 #pragma once
 
+#include <cstdint>
+#include <string>
+
 namespace collab {
 
 
+struct ServerConfig {
+    uint16_t    port;
+    std::string address;
+};
+
+
 /**
- * Component that listen for message comming over the network.
+ * \brief
+ * Server for network communication.
+ *
+ * \par Default settings
+ *  - address: localhost
+ *  - port: 4242
  */
 class Server {
     private:
-        bool _isRunning = false;
+        bool        _isRunning  = false;
+        std::string _address    = "localhost";
+        uint16_t    _port       = 4242;
 
     public:
         Server() = default;
+        Server(const ServerConfig& config);
+        ~Server();
 
     public:
         void start();

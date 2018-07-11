@@ -7,14 +7,12 @@
 
 
 int main(int argc, char** argv) {
+    LOG << "Program starts\n";
     collab::network::initNetwork();
 
     try {
-        // TODO This is temporary test
-        LOG << "DEBUG: Start server\n";
         collab::Server coco;
         coco.start();
-        LOG << "DEBUG: Stop server\n";
     }
     catch(const std::exception& exception) {
         LOG << "Crashed with exception: " << exception.what() << std::endl;
@@ -26,6 +24,7 @@ int main(int argc, char** argv) {
     }
 
     collab::network::shutdownNetwork();
+    LOG << "Program ends\n";
 
     return 0;
 }
