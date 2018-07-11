@@ -17,6 +17,9 @@ matrix:
           compiler: clang
           env: BUILD_TYPE=Release VERBOSE=1
 
+install:
+    - sudo apt-get install libzmq3-dev libzmq3
+
 script: ./build.sh
 
 notifications:
