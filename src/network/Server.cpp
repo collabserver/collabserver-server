@@ -3,12 +3,10 @@
 #include <cassert>
 #include <zmq.hpp>
 
-#include "collabcommon/utils/Log.h"
-#include "collabcommon/network/Network.h"
-#include "collabcommon/network/ZMQSocket.h"
 #include "collabcommon/messaging/MessageFactory.h"
 #include "collabcommon/messaging/Message.h"
-
+#include "collabcommon/network/ZMQSocket.h"
+#include "collabcommon/utils/Log.h"
 
 namespace collab {
 
@@ -32,13 +30,18 @@ void Server::start() {
 
     ZMQSocketConfig config = {
         ZMQ_REP,
-        &network::g_context,
+        &g_context,
         &(MessageFactory::getInstance())
     };
 
-    LOG << "Connecting socket: (" << _address << ", " << _port << ")\n";
     ZMQSocket socket(config);
-    socket.bind(_address.c_str(), _port);
+    LOG << "Binding socket: (" << _address << ", " << _port << ")\n";
+    bool success = socket.bind(_address.c_str(), _port);
+    if(!success) {
+        LOG << "Unable to bind socket\n";
+        return;
+    }
+    LOG << "Socket successfully binded\n";
 
     while(_isRunning) {
         LOG << "Waiting for message\n";

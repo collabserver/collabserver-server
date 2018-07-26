@@ -1,14 +1,12 @@
 #include <exception>
 #include <iostream>
 
-#include "collabcommon/utils/Log.h"
 #include "collabserver/network/Server.h"
-#include "collabcommon/network/Network.h"
+#include "collabcommon/utils/Log.h"
 
 
 int main(int argc, char** argv) {
     LOG << "Program starts\n";
-    collab::network::initNetwork();
 
     try {
         collab::Server coco;
@@ -23,9 +21,7 @@ int main(int argc, char** argv) {
         return -100;
     }
 
-    collab::network::shutdownNetwork();
     LOG << "Program ends\n";
-
     return 0;
 }
 
