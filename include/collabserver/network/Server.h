@@ -17,13 +17,12 @@ struct ServerConfig {
  * Server for network communication.
  *
  * \par Default settings
- *  - address: localhost
  *  - port: 4242
  */
 class Server {
     private:
         bool        _isRunning  = false;
-        std::string _address    = "localhost";
+        std::string _address    = "*";
         uint16_t    _port       = 4242;
 
     public:

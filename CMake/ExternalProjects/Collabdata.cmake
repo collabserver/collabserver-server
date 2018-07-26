@@ -7,11 +7,12 @@ ExternalProject_Add(collab-data-crdts
     BINARY_DIR          "${CMAKE_BINARY_DIR}/collab-data-crdts-build/"
     INSTALL_COMMAND     ""
     TEST_COMMAND        ""
+    CMAKE_ARGS          "${CMAKE_BUILD_TYPE}"
 )
 
 add_library(collabdata STATIC IMPORTED)
 ExternalProject_Get_Property(collab-data-crdts BINARY_DIR)
-set_property(TARGET collabdata PROPERTY
-    IMPORTED_LOCATION "${BINARY_DIR}/libcollabdata.a")
+set_property(TARGET collabdata
+    PROPERTY IMPORTED_LOCATION "${BINARY_DIR}/libcollabdata.a")
 
 
