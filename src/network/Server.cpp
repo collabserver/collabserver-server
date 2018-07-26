@@ -36,11 +36,7 @@ void Server::start() {
 
     ZMQSocket socket(config);
     LOG << "Binding socket: (" << _address << ", " << _port << ")\n";
-    bool success = socket.bind(_address.c_str(), _port);
-    if(!success) {
-        LOG << "Unable to bind socket\n";
-        return;
-    }
+    socket.bind(_address.c_str(), _port);
     LOG << "Socket successfully binded\n";
 
     while(_isRunning) {
