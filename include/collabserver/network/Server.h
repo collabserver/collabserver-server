@@ -2,6 +2,10 @@
 
 #include <cstdint>
 #include <string>
+#include <memory> // unique_ptr
+
+#include "collabcommon/messaging/Message.h"
+#include "collabcommon/messaging/MessageList.h"
 
 namespace collab {
 
@@ -33,6 +37,11 @@ class Server {
     public:
         void start();
         void stop();
+
+    private:
+        void handleMessage(const Message& msg);
+        void handleMessage(const MsgDebug& msg);
+        void handleMessage(const MsgConnectionRequest& msg);
 };
 
 

@@ -1,3 +1,5 @@
+#include <csignal>
+#include <cstdlib>
 #include <exception>
 #include <iostream>
 
@@ -5,23 +7,33 @@
 #include "collabcommon/utils/Log.h"
 
 
+static collab::Server server;
+
+static void handleInterrupt(int i) {
+    LOG << "SIGINT received. Closing server...\n";
+    server.stop();
+}
+
 int main(int argc, char** argv) {
-    LOG << "Program starts\n";
+    signal(SIGINT, &handleInterrupt);
+
+    LOG << "Starts CollabServer\n";
 
     try {
-        collab::Server coco;
-        coco.start();
+        server.start();
     }
     catch(const std::exception& exception) {
+        server.stop();
         LOG << "Crashed with exception: " << exception.what() << std::endl;
-        return -99;
+        return EXIT_FAILURE;
     }
     catch(...) {
+        server.stop();
         LOG << "Crashed with unknown exception" << std::endl;
-        return -100;
+        return EXIT_FAILURE;
     }
 
-    LOG << "Program ends\n";
-    return 0;
+    LOG << "Close CollabServer\n";
+    return EXIT_SUCCESS;
 }
 

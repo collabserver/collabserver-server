@@ -4,7 +4,6 @@
 #include <zmq.hpp>
 
 #include "collabcommon/messaging/MessageFactory.h"
-#include "collabcommon/messaging/Message.h"
 #include "collabcommon/network/ZMQSocket.h"
 #include "collabcommon/utils/Log.h"
 
@@ -40,11 +39,9 @@ void Server::start() {
     LOG << "Socket successfully binded\n";
 
     while(_isRunning) {
-        LOG << "Waiting for message\n";
+        LOG << "Waiting for any message\n";
         std::unique_ptr<Message> msg = socket.receiveMessage();
-        LOG << "Message received\n";
-
-        // TODO: Process msg
+        this->handleMessage(*msg);
         socket.sendMessage(*msg); // TODO for now, simply echo the msg
     }
 
@@ -53,6 +50,30 @@ void Server::start() {
 
 void Server::stop() {
     this->_isRunning = false;
+}
+
+void Server::handleMessage(const Message& msg) {
+    switch(msg.getType()) {
+        case MessageFactory::MSG_CONNECTION_REQ:
+            this->handleMessage(static_cast<const MsgConnectionRequest&>(msg));
+            break;
+        case MessageFactory::MSG_DEBUG:
+            this->handleMessage(static_cast<const MsgDebug&>(msg));
+            break;
+        default:
+            LOG << "Bad message received (Unknown or invalid type: " << msg.getType() << ")\n";
+            break;
+    }
+}
+
+void Server::handleMessage(const MsgDebug& msg) {
+    LOG << "Message received (MsgDebug)\n";
+    // TODO
+}
+
+void Server::handleMessage(const MsgConnectionRequest& msg) {
+    LOG << "Message received (MsgConnectionRequest)\n";
+    // TODO
 }
 
 
