@@ -10,12 +10,26 @@
 namespace collab {
 
 
-Server::Server(const ServerConfig& config) {
+// TODO Tmp placed here
+static ZMQSocketConfig config = {
+    ZMQ_REP,
+    &g_context,
+    &(MessageFactory::getInstance())
+};
+static ZMQSocket socket(config);
+
+
+Server::Server() {
+    _collabserver = new CollabServer(*this);
+}
+
+Server::Server(const ServerConfig& config) : Server() {
     _port       = config.port;
 }
 
 Server::~Server() {
     this->stop();
+    delete _collabserver;
 }
 
 void Server::start() {
@@ -26,22 +40,16 @@ void Server::start() {
     _isRunning = true;
     LOG << "Starting network server\n";
 
-    ZMQSocketConfig config = {
-        ZMQ_REP,
-        &g_context,
-        &(MessageFactory::getInstance())
-    };
-
-    ZMQSocket socket(config);
     LOG << "Binding socket: (" << _address << ", " << _port << ")\n";
     socket.bind(_address.c_str(), _port);
     LOG << "Socket successfully binded\n";
 
     while(_isRunning) {
         LOG << "Waiting for any message\n";
-        std::unique_ptr<Message> msg = socket.receiveMessage();
+        Message* msg = socket.receiveMessage();
+        assert(msg != nullptr);
         this->handleMessage(*msg);
-        socket.sendMessage(*msg); // TODO for now, simply echo the msg
+        MessageFactory::getInstance().freeMessage(msg);
     }
 
     socket.unbind();
@@ -67,12 +75,16 @@ void Server::handleMessage(const Message& msg) {
 
 void Server::handleMessage(const MsgDebug& msg) {
     LOG << "Message received (MsgDebug)\n";
-    // TODO
+    LOG << "Debug content: " << msg.content();
 }
 
 void Server::handleMessage(const MsgConnectionRequest& msg) {
     LOG << "Message received (MsgConnectionRequest)\n";
-    // TODO
+    int id = _collabserver->createNewUser();
+    Message* response = nullptr;
+    response = MessageFactory::getInstance().newMessage(MessageFactory::MSG_CONNECTION_SUCCESS);
+    static_cast<MsgConnectionSuccess*>(response)->setUserID(id);
+    socket.sendMessage(*response);
 }
 
 

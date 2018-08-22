@@ -2,10 +2,10 @@
 
 #include <cstdint>
 #include <string>
-#include <memory> // unique_ptr
 
 #include "collabcommon/messaging/Message.h"
 #include "collabcommon/messaging/MessageList.h"
+#include "collabserver/core/Broadcaster.h"
 #include "collabserver/core/CollabServer.h"
 
 namespace collab {
@@ -23,14 +23,17 @@ struct ServerConfig {
  * \par Default settings
  *  - port: 4242
  */
-class Server {
+class Server : public Broadcaster {
     private:
-        bool            _isRunning  = false;
-        std::string     _address    = "*";
-        uint16_t        _port       = 4242;
+        bool            _isRunning      = false;
+        std::string     _address        = "*";
+        uint16_t        _port           = 4242;
+
+    private:
+        CollabServer*   _collabserver   = nullptr;
 
     public:
-        Server() = default;
+        Server();;
         Server(const ServerConfig& config);
         ~Server();
 
@@ -42,6 +45,12 @@ class Server {
         void handleMessage(const Message& msg);
         void handleMessage(const MsgDebug& msg);
         void handleMessage(const MsgConnectionRequest& msg);
+
+    private:
+        void sendOperationToUser(const OperationInfo& op,
+                                 const int userID) {}
+        void sendOperationToStorage(const OperationInfo& op,
+                                    const int storageID) {}
 };
 
 
