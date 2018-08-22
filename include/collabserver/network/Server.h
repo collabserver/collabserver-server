@@ -6,13 +6,13 @@
 
 #include "collabcommon/messaging/Message.h"
 #include "collabcommon/messaging/MessageList.h"
+#include "collabserver/core/CollabServer.h"
 
 namespace collab {
 
 
 struct ServerConfig {
     uint16_t    port;
-    std::string address;
 };
 
 
@@ -25,9 +25,9 @@ struct ServerConfig {
  */
 class Server {
     private:
-        bool        _isRunning  = false;
-        std::string _address    = "*";
-        uint16_t    _port       = 4242;
+        bool            _isRunning  = false;
+        std::string     _address    = "*";
+        uint16_t        _port       = 4242;
 
     public:
         Server() = default;

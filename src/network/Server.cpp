@@ -11,7 +11,6 @@ namespace collab {
 
 
 Server::Server(const ServerConfig& config) {
-    _address    = config.address;
     _port       = config.port;
 }
 
