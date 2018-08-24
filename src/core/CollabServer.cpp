@@ -1,5 +1,7 @@
 #include "collabserver/core/CollabServer.h"
 
+#include <utility> // std::pair
+
 #include "collabcommon/utils/Log.h"
 
 namespace collab {
@@ -55,14 +57,22 @@ bool CollabServer::hasUser(const int id) const {
     return _users.count(id) == 1;
 }
 
+User* CollabServer::findUser(const int id) {
+    auto user_it = _users.find(id);
+    if(user_it == _users.end()) {
+        return nullptr;
+    }
+    return &(user_it->second);
+}
+
 
 // -----------------------------------------------------------------------------
 // Rooms
 // -----------------------------------------------------------------------------
 
-int CollabServer::createNewRoom(const int dataID) {
+int CollabServer::createNewRoom() {
     const int id = Room::getNextExpectedRoomID();
-    _rooms.emplace(std::make_pair(id, Room(dataID, _broadcaster)));
+    _rooms.emplace(std::make_pair(id, Room(_broadcaster)));
     return id;
 }
 
@@ -86,6 +96,14 @@ int CollabServer::getNbRooms() const {
 
 bool CollabServer::hasRoom(const int id) const {
     return _rooms.count(id) == 1;
+}
+
+Room* CollabServer::findRoom(const int id) {
+    auto room_it = _rooms.find(id);
+    if(room_it == _rooms.end()) {
+        return nullptr;
+    }
+    return &(room_it->second);
 }
 
 

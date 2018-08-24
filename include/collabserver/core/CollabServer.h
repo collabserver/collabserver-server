@@ -1,10 +1,10 @@
 #pragma once
 
 #include <unordered_map>
-#include <utility>
 
-#include "User.h"
 #include "Broadcaster.h"
+#include "Room.h"
+#include "User.h"
 
 namespace collab {
 
@@ -47,6 +47,7 @@ class CollabServer {
         /**
          * Remove a created user from the current CollabServer.
          * If no user for this ID, returns false.
+         * If user is in a room, he is removed from the room.
          *
          * \param id ID of the user to remove.
          * \return True if successfully removed, otherwise, return false.
@@ -68,6 +69,14 @@ class CollabServer {
          */
         bool hasUser(const int id) const;
 
+        /**
+         * Get user from its ID.
+         *
+         * \param id ID of the user to find.
+         * \return Pointer to the user data or nullptr if no user for this id.
+         */
+        User* findUser(const int id);
+
 
     // -------------------------------------------------------------------------
     // Rooms
@@ -76,14 +85,16 @@ class CollabServer {
     public:
 
         /**
-         * Create a new room for given collab data type.
+         * Create a new room of collaboration.
+         * The room ID is required by users to join the room.
          *
          * \return ID of the created room.
          */
-        int createNewRoom(const int dataID);
+        int createNewRoom();
 
         /**
-         * Remove a room. The room must be empty.
+         * Remove a room.
+         * The room must be empty.
          *
          * \param id The unique ID of the room.
          * \return True if successfully deleted, otherwise, return false.
@@ -104,6 +115,14 @@ class CollabServer {
          * \return True if is in CollabServer, otherwise, return false.
          */
         bool hasRoom(const int id) const;
+
+        /**
+         * Get room from its ID.
+         *
+         * \param id ID of the room to find.
+         * \return Pointer to the room data or nullptr if no room for this id.
+         */
+        Room* findRoom(const int id);
 };
 
 

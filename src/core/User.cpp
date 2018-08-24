@@ -33,14 +33,6 @@ bool User::leaveCurrentRoom() {
     return false;
 }
 
-int User::getUserID() const {
-    return _id;
-};
-
-bool User::isUserUgly() const {
-    return (_id % 42) != 0;
-}
-
 
 } // End namespace
 

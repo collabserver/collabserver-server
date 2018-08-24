@@ -13,6 +13,10 @@ class Broadcaster;
 
 
 /**
+ * \deprecated
+ * Storage is a cancelled feature for now (May be added later.)
+ *
+ *
  * \brief
  * Element in charge of actual CollabData storage.
  *

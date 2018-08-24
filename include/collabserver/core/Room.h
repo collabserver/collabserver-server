@@ -1,16 +1,12 @@
 #pragma once
 
 #include <unordered_set>
+#include <vector>
 
-#include "collabdata/custom/CollabData.h"
+#include "Broadcaster.h"
 #include "OperationInfo.h"
 
 namespace collab {
-
-
-class Broadcaster;
-class Storage;
-class StorageConfig;
 
 
 /**
@@ -24,12 +20,10 @@ class Room {
     private:
         static int idcounter;
 
-        const int                       _id;
-        CollabData*                     _data = nullptr;
-        Storage*                        _storage = nullptr;
-        Broadcaster&                    _broadcaster;
-        std::unordered_set<int>         _users;
+        int                             _id;
         std::vector<OperationInfo>      _operations;
+        std::unordered_set<int>         _users;
+        Broadcaster&                    _broadcaster;
         int                             _operationHeadID = 0;
 
 
@@ -38,8 +32,7 @@ class Room {
     // -------------------------------------------------------------------------
 
     public:
-        Room(const int dataID, Broadcaster& broadcaster);
-        ~Room();
+        Room(Broadcaster& broadcaster);
 
 
     // -------------------------------------------------------------------------
@@ -64,6 +57,7 @@ class Room {
          *
          * \warning
          * This only removes user ID from room set of users.
+         * This DOES NOT update the user's current room.
          *
          * \param id ID of the user to remove.
          */
@@ -93,16 +87,6 @@ class Room {
 
 
     // -------------------------------------------------------------------------
-    // Storage
-    // -------------------------------------------------------------------------
-
-    public:
-
-        bool assignStorage(StorageConfig& config);
-        bool hasStorage() const;
-
-
-    // -------------------------------------------------------------------------
     // Operations
     // -------------------------------------------------------------------------
 
@@ -112,6 +96,7 @@ class Room {
          * Commit an operation in this room.
          * Uses the information given inside OperationInfo.
          * Check validity (Room, user in room etc).
+         * Broadcast this operation to all registered users.
          *
          * \param op    The new operation to commit in the room.
          * \return True if successfully commited, otherwise, return false.
@@ -125,9 +110,9 @@ class Room {
 
     public:
 
-        int getRoomID() const;
+        int getRoomID() const { return _id; }
+        static int getNextExpectedRoomID() { return Room::idcounter + 1; }
 
-        static int getNextExpectedRoomID();
 };
 
 

@@ -1,11 +1,7 @@
 #include "collabserver/core/Room.h"
 
-#include <utility> // std::pair
 #include <cassert>
-
-#include "collabserver/core/Broadcaster.h"
-#include "collabserver/core/DataFactory.h"
-#include "collabserver/core/Storage.h"
+#include <utility> // std::pair
 
 namespace collab {
 
@@ -13,24 +9,10 @@ namespace collab {
 int Room::idcounter = 0;
 
 
-Room::Room(const int dataID, Broadcaster& broadcaster)
-        : _id(++idcounter), _broadcaster(broadcaster) {
-    _data = DataFactory::newDataByID(dataID);
-    assert(_data != nullptr);
-    if(_data == nullptr) {
-        _data = DataFactory::newDataByID(DataFactory::DEFAULT_DATA);
-    }
-
-    // Reserve values are totally arbitrary here.
-    _users.reserve(15);
+Room::Room(Broadcaster& broadcaster) : _broadcaster(broadcaster) {
+    _id = ++idcounter;
+    _users.reserve(15); // Reserve values are totally arbitrary here.
     _operations.reserve(100);
-}
-
-Room::~Room() {
-    DataFactory::releaseData(_data);
-    if(_storage != nullptr) {
-        delete _storage;
-    }
 }
 
 
@@ -61,41 +43,12 @@ int Room::getNbUsers() const {
 
 
 // -----------------------------------------------------------------------------
-// Storage
-// -----------------------------------------------------------------------------
-
-bool Room::hasStorage() const {
-    return _storage != nullptr;
-}
-
-bool Room::assignStorage(StorageConfig& config) {
-    if(_storage != nullptr) {
-        return false;
-    }
-    _storage = new Storage(config, *this, *_data, _broadcaster);
-    if(_storage == nullptr) {
-        return false;
-    }
-    return true;
-}
-
-
-// -----------------------------------------------------------------------------
 // Operations
 // -----------------------------------------------------------------------------
 
 bool Room::commitOperation(const OperationInfo& op) {
-    assert(_data != nullptr);
-    if(_data == nullptr) {
-        return false;
-    }
-
-    bool isApplied = _data->applyExternOperation(op.buffer);
-    if(!isApplied) {
-        return false;
-    }
-
     if(op.roomID != _id || !this->hasUser(op.userID)) {
+        assert(false); // It's your fault ugly rabbit!
         return false;
     }
 
@@ -110,6 +63,7 @@ bool Room::commitOperation(const OperationInfo& op) {
     }
     _operations.emplace_back(newOP);
 
+    // TODO: change this with a broadcast
     for(const int userID : _users) {
         if(op.userID == userID) {
             continue;
@@ -117,24 +71,7 @@ bool Room::commitOperation(const OperationInfo& op) {
         _broadcaster.sendOperationToUser(newOP, userID);
     }
 
-    if(this->hasStorage()) {
-        _storage->commitOperation(newOP);
-    }
-
     return true;
-}
-
-
-// -----------------------------------------------------------------------------
-// Various
-// -----------------------------------------------------------------------------
-
-int Room::getRoomID() const {
-    return _id;
-}
-
-int Room::getNextExpectedRoomID() {
-    return Room::idcounter + 1;
 }
 
 

@@ -4,6 +4,10 @@ namespace collab {
 
 
 /**
+ * \deprecated
+ * Storage is a cancelled feature for now (May be added later.)
+ *
+ *
  * \brief
  * Information and config for a storage service.
  */

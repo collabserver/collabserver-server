@@ -17,10 +17,12 @@ class User {
         const int   _id;
         Room*       _currentRoom = nullptr;
 
+
     public:
 
         /** Creates a new user and set its unique local ID. */
         User();
+
 
     public:
 
@@ -42,12 +44,15 @@ class User {
          */
         bool leaveCurrentRoom();
 
+
+    public:
+
         /**
          * Returns ID of this user in the collab instance.
          *
          * \return User ID.
          */
-        int getUserID() const;
+        int getUserID() const { return _id; }
 
         /**
          * Good job! You just found my beautiful / stupid easter egg!
@@ -57,7 +62,8 @@ class User {
          * \param id User id.
          * \return True if this user is ugly! (Burk!)
          */
-        bool isUserUgly() const;
+        bool isUserUgly() const { return (_id % 42) != 0; }
+
 };
 
 
