@@ -12,7 +12,7 @@ namespace collab {
 
 
 struct ServerConfig {
-    uint16_t    port;
+    uint16_t port;
 };
 
 
@@ -43,14 +43,18 @@ class Server : public Broadcaster {
 
     private:
         void handleMessage(const Message& msg);
-        void handleMessage(const MsgDebug& msg);
         void handleMessage(const MsgConnectionRequest& msg);
+        void handleMessage(const MsgDisconnectRequest& msg);
+        void handleMessage(const MsgCreaDataVolatileRequest& msg);
+        void handleMessage(const MsgJoinDataRequest& msg);
+        void handleMessage(const MsgLeaveDataRequest& msg);
+        void handleMessage(const MsgDebug& msg);
 
     private:
         void sendOperationToUser(const OperationInfo& op,
-                                 const int userID) {}
+                                 const int userID) override {}
         void sendOperationToStorage(const OperationInfo& op,
-                                    const int storageID) {}
+                                    const int storageID) override {}
 };
 
 

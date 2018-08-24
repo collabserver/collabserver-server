@@ -7,15 +7,18 @@
 #include "collabcommon/utils/Log.h"
 
 
-static collab::Server server;
+static collab::Server* server_ptr = nullptr;
 
 static void handleInterrupt(int i) {
     LOG << "SIGINT received. Closing server...\n";
-    server.stop();
+    server_ptr->stop();
 }
 
 int main(int argc, char** argv) {
     signal(SIGINT, &handleInterrupt);
+
+    collab::Server server;
+    server_ptr = &server;
 
     LOG << "Starts CollabServer\n";
 
