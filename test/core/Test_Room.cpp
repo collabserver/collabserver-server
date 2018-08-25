@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 #include "collabserver/core/Broadcaster.h"
-#include "collabserver/core/DataFactory.h"
+#include "collabserver/core/OperationInfo.h"
 
 namespace collab {
 
