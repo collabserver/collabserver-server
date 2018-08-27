@@ -84,8 +84,8 @@ void Server::handleMessage(const Message& msg) {
             break;
 
         // Data
-        case MessageFactory::MSG_CREA_DATA_VOLATILE_REQUEST:
-            this->handleMessage(static_cast<const MsgCreaDataVolatileRequest&>(msg));
+        case MessageFactory::MSG_CREA_DATA_REQUEST:
+            this->handleMessage(static_cast<const MsgCreaDataRequest&>(msg));
             break;
         case MessageFactory::MSG_JOIN_DATA_REQUEST:
             this->handleMessage(static_cast<const MsgJoinDataRequest&>(msg));
@@ -136,8 +136,8 @@ void Server::handleMessage(const MsgDisconnectRequest& msg) {
     factory.freeMessage(response);
 }
 
-void Server::handleMessage(const MsgCreaDataVolatileRequest& msg) {
-    LOG << "Message received (MsgCreaDataVolatileRequest)\n";
+void Server::handleMessage(const MsgCreaDataRequest& msg) {
+    LOG << "Message received (MsgCreaDataRequest)\n";
 }
 
 void Server::handleMessage(const MsgJoinDataRequest& msg) {

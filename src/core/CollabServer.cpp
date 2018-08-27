@@ -2,20 +2,16 @@
 
 #include <utility> // std::pair
 
-#include "collabcommon/utils/Log.h"
-
 namespace collab {
 
 
 CollabServer::CollabServer(Broadcaster& carrot) : _broadcaster(carrot) {
-    LOG << "Create core::CollabServer\n";
     // I choose arbitrary numbers. Reserves x users and rooms.
     _users.reserve(20);
     _rooms.reserve(10);
 }
 
 CollabServer::~CollabServer() {
-    LOG << "Destroy core::CollabServer\n";
     for(auto& user_it : _users) {
         this->deleteUser(user_it.second.getUserID());
     }
