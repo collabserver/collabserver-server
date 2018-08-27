@@ -1,9 +1,3 @@
-/*
- * TEST NAMING RULE (For all test files):
- * The first word of test name is generally the tested method
- * ex: addUserTest to test function 'addUser'
- */
-
 #include <gtest/gtest.h>
 
 
