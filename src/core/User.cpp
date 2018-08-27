@@ -5,9 +5,10 @@ namespace collab {
 
 int User::idcounter = 0;
 
-User::User() : _id(++idcounter) {
-    // Nothing else to do (Or nothing else matter)
+User::~User() {
+    this->leaveCurrentRoom();
 }
+
 
 bool User::joinRoom(Room& room) {
     if(_currentRoom != nullptr) {
@@ -31,6 +32,11 @@ bool User::leaveCurrentRoom() {
         return true;
     }
     return false;
+}
+
+bool User::isInRoom(const Room& room) const {
+    return _currentRoom != nullptr
+           && room.getRoomID() == _currentRoom->getRoomID();
 }
 
 

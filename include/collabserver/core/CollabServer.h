@@ -38,11 +38,10 @@ class CollabServer {
 
         /**
          * Create a new user in the CollabServer.
-         * Return the associated ID for this user.
          *
-         * \return ID of the newly created user.
+         * \return Created user or nullptr if error.
          */
-        int createNewUser();
+        const User* createNewUser();
 
         /**
          * Remove a created user from the current CollabServer.
@@ -70,10 +69,52 @@ class CollabServer {
         bool hasUser(const int id) const;
 
         /**
+         * Check whether the given user (By ID) is in the room (By ID).
+         *
+         * \param userID ID of the user.
+         * \param roomID ID of the room.
+         * \return True if user is in room, otherwise, returns false.
+         */
+        bool isUserInRoom(const int userID, const int roomID) const;
+
+        /**
+         * Check whether this user is in a room.
+         *
+         * \return True if user is currently in a room, otherwise, return false.
+         */
+        bool isUserInAnyRoom(const int userID) const;
+
+        /**
+         * Given user join the given room. (Using ID for both).
+         * User and room must exist.
+         * User must be in no room yet.
+         *
+         * \param userID ID of the user to add in the room.
+         * \param roomID ID of the room where to place user.
+         * \return True if successfully added in room, otherwise, return false.
+         */
+        bool userJoinRoom(const int userID, const int roomID);
+
+        /**
+         * Make the given user (By ID) leave its current room.
+         * Returns false if user was not in a room yet.
+         *
+         * \return True if successfully left, otherwise, return false.
+         */
+        bool userLeaveCurrentRoom(const int userID);
+
+        /**
          * Get user from its ID.
          *
          * \param id ID of the user to find.
          * \return Pointer to the user data or nullptr if no user for this id.
+         */
+        const User* findUser(const int id) const;
+
+    private:
+
+        /**
+         * \copydoc CollabServer::findUser
          */
         User* findUser(const int id);
 
@@ -86,11 +127,10 @@ class CollabServer {
 
         /**
          * Create a new room of collaboration.
-         * The room ID is required by users to join the room.
          *
-         * \return ID of the created room.
+         * \return The newly created room or nullptr if error.
          */
-        int createNewRoom();
+        const Room* createNewRoom();
 
         /**
          * Remove a room.
@@ -121,6 +161,13 @@ class CollabServer {
          *
          * \param id ID of the room to find.
          * \return Pointer to the room data or nullptr if no room for this id.
+         */
+        const Room* findRoom(const int id) const;
+
+    private:
+
+        /**
+         * \copydoc CollabServer::findRoom
          */
         Room* findRoom(const int id);
 };

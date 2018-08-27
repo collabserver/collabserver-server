@@ -21,7 +21,8 @@ class User {
     public:
 
         /** Creates a new user and set its unique local ID. */
-        User();
+        User() : _id(++idcounter) {}
+        ~User();
 
 
     public:
@@ -29,7 +30,7 @@ class User {
         /**
          * Join an existing room of collaboration.
          * Does nothing if user already in a room.
-         * This also add user in the room
+         * This also add user in the room.
          *
          * \param room Reference to the room that user joins.
          * \param bool True if successfully joined, otherwise, return false.
@@ -48,6 +49,20 @@ class User {
     public:
 
         /**
+         * Check whether user is in the given room.
+         *
+         * \return True if is in this room, otherwise, return false.
+         */
+        bool isInRoom(const Room& room) const;
+
+        /**
+         * Check whether user is in a room.
+         *
+         * \return True if in a room, otherwise, return false.
+         */
+        bool isInAnyRoom() const { return _currentRoom != nullptr; }
+
+        /**
          * Returns ID of this user in the collab instance.
          *
          * \return User ID.
@@ -63,7 +78,6 @@ class User {
          * \return True if this user is ugly! (Burk!)
          */
         bool isUserUgly() const { return (_id % 42) != 0; }
-
 };
 
 

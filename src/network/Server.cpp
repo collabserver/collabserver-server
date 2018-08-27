@@ -109,15 +109,22 @@ void Server::handleMessage(const Message& msg) {
 void Server::handleMessage(const MsgConnectionRequest& msg) {
     LOG << "Message received (MsgConnectionRequest)\n";
     MessageFactory& factory = MessageFactory::getInstance();
-    int userID = _collabserver->createNewUser();
-    // TODO Check if error creating user (ex: Server full)
 
-    Message* response = nullptr;
-    response = factory.newMessage(MessageFactory::MSG_CONNECTION_SUCCESS);
+    const User* user = _collabserver->createNewUser();
 
-    static_cast<MsgConnectionSuccess*>(response)->setUserID(userID);
-    local_socket->sendMessage(*response);
-
+    Message* response;
+    if(user != nullptr) {
+        int userID = user->getUserID();
+        response = factory.newMessage(MessageFactory::MSG_CONNECTION_SUCCESS);
+        static_cast<MsgConnectionSuccess*>(response)->setUserID(userID);
+        local_socket->sendMessage(*response);
+        LOG << "OK: New user successfully (ID = " << userID << ")\n";
+    }
+    else {
+        LOG << "ERROR: Unable to create a new user in CollabServer\n";
+        response = factory.newMessage(MessageFactory::MSG_ERROR);
+        local_socket->sendMessage(*response);
+    }
     factory.freeMessage(response);
 }
 
@@ -126,26 +133,89 @@ void Server::handleMessage(const MsgDisconnectRequest& msg) {
     MessageFactory& factory = MessageFactory::getInstance();
 
     int userID = static_cast<MsgDisconnectRequest>(msg).getUserID();
-    _collabserver->deleteUser(userID);
-    // TODO Check if error deleting user
+    bool success = _collabserver->deleteUser(userID);
 
     Message* response = nullptr;
-    response = factory.newMessage(MessageFactory::MSG_DISCONNECT_SUCCESS);
-    local_socket->sendMessage(*response);
-
+    if(success) {
+        LOG << "OK: User disconnect successfully (ID = " << userID << ")\n";
+        response = factory.newMessage(MessageFactory::MSG_DISCONNECT_SUCCESS);
+        local_socket->sendMessage(*response);
+    }
+    else {
+        LOG << "OK: Unable to disconnect user (ID = " << userID << ")\n";
+        response = factory.newMessage(MessageFactory::MSG_ERROR);
+        local_socket->sendMessage(*response);
+    }
     factory.freeMessage(response);
 }
 
 void Server::handleMessage(const MsgCreaDataRequest& msg) {
     LOG << "Message received (MsgCreaDataRequest)\n";
+    MessageFactory& factory = MessageFactory::getInstance();
+
+    int userID = static_cast<MsgCreaDataRequest>(msg).getUserID();
+    const Room* room = _collabserver->createNewRoom();
+    int roomID = (room != nullptr) ? room->getRoomID() : -1;
+
+    Message* response = nullptr;
+    if(room != nullptr && _collabserver->userJoinRoom(userID, roomID)) {
+        response = factory.newMessage(MessageFactory::MSG_CREA_DATA_SUCCESS);
+        static_cast<MsgCreaDataSuccess*>(response)->setDataID(roomID);
+        local_socket->sendMessage(*response);
+        LOG << "OK: Room successfully created (ID = " << roomID << ")\n";
+    }
+    else {
+        LOG << "ERROR: Unable to create a new room\n";
+        response = factory.newMessage(MessageFactory::MSG_ERROR);
+        local_socket->sendMessage(*response);
+    }
+
+    factory.freeMessage(response);
 }
 
 void Server::handleMessage(const MsgJoinDataRequest& msg) {
     LOG << "Message received (MsgJoinDataRequest)\n";
+    MessageFactory& factory = MessageFactory::getInstance();
+
+    int userID = static_cast<MsgJoinDataRequest>(msg).getUserID();
+    int roomID = static_cast<MsgJoinDataRequest>(msg).getDataID();
+    bool success = _collabserver->userJoinRoom(userID, roomID);
+
+    Message* response = nullptr;
+    if(success) {
+        response = factory.newMessage(MessageFactory::MSG_JOIN_DATA_SUCCESS);
+        local_socket->sendMessage(*response);
+        LOG << "OK: User (ID = " << userID << ") successfully joined room\n";
+    }
+    else {
+        LOG << "ERROR: User (ID = " << userID << ") is unable to join room\n";
+        response = factory.newMessage(MessageFactory::MSG_ERROR);
+        local_socket->sendMessage(*response);
+    }
+
+    factory.freeMessage(response);
 }
 
 void Server::handleMessage(const MsgLeaveDataRequest& msg) {
     LOG << "Message received (MsgLeaveDataRequest)\n";
+    MessageFactory& factory = MessageFactory::getInstance();
+
+    int userID = static_cast<MsgLeaveDataRequest>(msg).getUserID();
+    bool success = _collabserver->userLeaveCurrentRoom(userID);
+
+    Message* response = nullptr;
+    if(success) {
+        response = factory.newMessage(MessageFactory::MSG_LEAVE_DATA_SUCCESS);
+        local_socket->sendMessage(*response);
+        LOG << "OK: User (ID = " << userID << ") successfully left room\n";
+    }
+    else {
+        LOG << "ERROR: User (ID = " << userID << ") is unable to leave room\n";
+        response = factory.newMessage(MessageFactory::MSG_ERROR);
+        local_socket->sendMessage(*response);
+    }
+
+    factory.freeMessage(response);
 }
 
 void Server::handleMessage(const MsgDebug& msg) {
