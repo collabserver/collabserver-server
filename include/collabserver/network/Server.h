@@ -53,8 +53,6 @@ class Server : public Broadcaster {
     private:
         void sendOperationToUser(const OperationInfo& op,
                                  const int userID) override {}
-        void sendOperationToStorage(const OperationInfo& op,
-                                    const int storageID) override {}
 };
 
 

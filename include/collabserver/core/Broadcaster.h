@@ -41,15 +41,6 @@ class Broadcaster {
          */
         virtual void sendOperationToUser(const OperationInfo& op,
                                          const int userID) = 0;
-
-        /**
-         * Send operation to the storage.
-         *
-         * \param op        Operation to send.
-         * \param storageID ID where to send operation.
-         */
-        virtual void sendOperationToStorage(const OperationInfo& op,
-                                            const int storageID) = 0;
 };
 
 
