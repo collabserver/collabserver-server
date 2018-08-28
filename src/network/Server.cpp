@@ -223,6 +223,13 @@ void Server::handleMessage(const MsgDebug& msg) {
     LOG << "Debug content: " << msg.getContent();
 }
 
+void Server::sendOperationToUser(const OperationInfo& op, int id) {
+    LOG << "Sending operation (" << op.opTypeID << ") to user (ID="<< id << ")\n";
+}
+
+void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
+    LOG << "Broadcasting operation ("<< op.opTypeID <<") to user ("<< id <<")\n";
+}
 
 } // End namespace
 

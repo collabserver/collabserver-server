@@ -1,66 +1,52 @@
 #pragma once
 
-#include <cassert>
-
-#include "Room.h"
-
 namespace collab {
+
+class Room;
 
 
 /**
  * \brief
- * User registered in current Collab instance.
+ * Describe a user registered in the CollabServer.
+ *
+ * A user has a unique ID for the running instance and may be placed in a room.
+ * User may be in one room at the time.
  */
 class User {
+    public:
+        static int  USER_ID_COUNTER;
+
     private:
-        static int  idcounter;
         const int   _id;
-        Room*       _currentRoom = nullptr;
-
-
-    public:
-
-        /** Creates a new user and set its unique local ID. */
-        User() : _id(++idcounter) {}
-        ~User();
+        Room*       _room = nullptr;
 
 
     public:
 
         /**
-         * Join an existing room of collaboration.
-         * Does nothing if user already in a room.
-         * This also add user in the room.
-         *
-         * \param room Reference to the room that user joins.
-         * \param bool True if successfully joined, otherwise, return false.
+         * Creates a new user and set its unique local ID.
          */
-        bool joinRoom(Room& room);
+        User() : _id(++USER_ID_COUNTER) {}
 
         /**
-         * Leave current room.
-         * Does nothing if was not in a room already and return false.
+         * Set pointer to the current room where user is collaborating.
+         * Not check is done, this simply set, regardless the previous value.
          *
-         * \return True if successfully left, otherwise, return false.
+         * \param room Reference to the room to set.
          */
-        bool leaveCurrentRoom();
-
-
-    public:
+        void setRoom(Room* room) { _room = room; }
 
         /**
-         * Check whether user is in the given room.
+         * Get the room pointer where user is or nullptr if no room set.
          *
-         * \return True if is in this room, otherwise, return false.
+         * \return Pointer to the room or nullptr.
          */
-        bool isInRoom(const Room& room) const;
+        Room* getRoom() { return _room; }
 
         /**
-         * Check whether user is in a room.
-         *
-         * \return True if in a room, otherwise, return false.
+         * \copydoc User::getRoom
          */
-        bool isInAnyRoom() const { return _currentRoom != nullptr; }
+        const Room* getRoom() const { return _room; }
 
         /**
          * Returns ID of this user in the collab instance.

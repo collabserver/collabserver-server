@@ -3,41 +3,10 @@
 namespace collab {
 
 
-int User::idcounter = 0;
-
-User::~User() {
-    this->leaveCurrentRoom();
-}
+int User::USER_ID_COUNTER = 0;
 
 
-bool User::joinRoom(Room& room) {
-    if(_currentRoom != nullptr) {
-        return false;
-    }
-    bool added = room.addUser(_id);
-    if(added) {
-        _currentRoom = &room;
-        return true;
-    }
-    return false;
-}
-
-bool User::leaveCurrentRoom() {
-    if(_currentRoom == nullptr) {
-        return false;
-    }
-    bool removed = _currentRoom->removeUser(_id);
-    if(removed) {
-        _currentRoom = nullptr;
-        return true;
-    }
-    return false;
-}
-
-bool User::isInRoom(const Room& room) const {
-    return _currentRoom != nullptr
-           && room.getRoomID() == _currentRoom->getRoomID();
-}
+// This is empty... like the bottle of beer late at night.
 
 
 } // End namespace

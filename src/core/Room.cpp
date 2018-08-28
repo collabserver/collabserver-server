@@ -6,11 +6,12 @@
 namespace collab {
 
 
-int Room::idcounter = 0;
+int Room::ROOM_ID_COUNTER = 0;
 
 
-Room::Room(Broadcaster& broadcaster) : _broadcaster(broadcaster) {
-    _id = ++idcounter;
+Room::Room(Broadcaster& broadcaster) :
+  _id(++ROOM_ID_COUNTER),
+  _broadcaster(broadcaster) {
     _users.reserve(15); // Reserve values are totally arbitrary here.
     _operations.reserve(100);
 }
@@ -20,25 +21,32 @@ Room::Room(Broadcaster& broadcaster) : _broadcaster(broadcaster) {
 // Users management
 // -----------------------------------------------------------------------------
 
-bool Room::addUser(const int id) {
-    auto result = _users.emplace(id);
-    return result.second;
+bool Room::addUser(User& user) {
+    auto result = _users.emplace(user.getUserID());
+    bool added = result.second;
+    if(added) {
+        user.setRoom(this);
+        for(auto op : _operations) {
+            _broadcaster.sendOperationToUser(op, user.getUserID());
+        }
+    }
+    return added;
 }
 
-bool Room::removeUser(const int id) {
-    return _users.erase(id) == 1;
+bool Room::removeUser(User& user) {
+    bool removed = _users.erase(user.getUserID()) == 1;
+    if(removed) {
+        user.setRoom(nullptr);
+    }
+    return removed;
 }
 
 bool Room::hasUser(const int id) const {
     return _users.find(id) != _users.end();
 }
 
-bool Room::isEmpty() const {
-    return _users.empty();
-}
-
-int Room::getNbUsers() const {
-    return _users.size();
+bool Room::hasUser(const User& user) const {
+    return _users.find(user.getUserID()) != _users.end();
 }
 
 
@@ -53,23 +61,16 @@ bool Room::commitOperation(const OperationInfo& op) {
     }
 
     OperationInfo newOP = op;
-    newOP.opID = _operationHeadID;
-    _operationHeadID++;
+    newOP.opID = _operations.size() + 1;
+    _operations.emplace_back(newOP);
 
-    assert(_operations.capacity() > 0); // If false, you forgot to reserve
+    assert(_operations.capacity() > 1); // If false, you forgot to reserve
     float load = _operations.size() / _operations.capacity();
     if(load > 0.90) {
         _operations.reserve(_operations.size() + 20); // 20 is arbitrary
     }
-    _operations.emplace_back(newOP);
 
-    // TODO: change this with a broadcast
-    for(const int userID : _users) {
-        if(op.userID == userID) {
-            continue;
-        }
-        _broadcaster.sendOperationToUser(newOP, userID);
-    }
+    _broadcaster.broadcastOperationToRoom(newOP, _id);
 
     return true;
 }

@@ -36,11 +36,18 @@ class Broadcaster {
         /**
          * Send operation to the user.
          *
-         * \param op        Operation to send.
-         * \param userID    User recipient.
+         * \param op    Operation to send.
+         * \param id    ID of the recipient user.
          */
-        virtual void sendOperationToUser(const OperationInfo& op,
-                                         const int userID) = 0;
+        virtual void sendOperationToUser(const OperationInfo& op, int id) = 0;
+
+        /**
+         * Broadcast the operation to all users in a room.
+         *
+         * \param op    Operation to send.
+         * \param id    Room ID where to send operation.
+         */
+        virtual void broadcastOperationToRoom(const OperationInfo& op, int id) = 0;
 };
 
 

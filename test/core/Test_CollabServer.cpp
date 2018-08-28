@@ -10,6 +10,7 @@ namespace collab {
 class MockBroadcaster : public Broadcaster {
     public:
         void sendOperationToUser(const OperationInfo& op, const int userID) {}
+        void broadcastOperationToRoom(const OperationInfo& op, const int roomID) {}
 };
 static MockBroadcaster local_mockBroadcaster;
 

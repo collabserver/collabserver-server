@@ -20,13 +20,19 @@ class CollabServer {
         Broadcaster&                    _broadcaster;
 
     public:
+
         /**
          * Create a new CollabServer component.
          * Broadcaster is used for any callback methods CollabServer may
          * emit whenever a method is applied.
+         *
+         * \param broadcaster Concret broadcaster to use with this CollabServer.
          */
         CollabServer(Broadcaster& broadcaster);
 
+        /**
+         * Delete all rooms and all users.
+         */
         ~CollabServer();
 
 
@@ -58,7 +64,7 @@ class CollabServer {
          *
          * \return Number of users.
          */
-        int getNbUsers() const;
+        int getNbUsers() const { return _users.size(); }
 
         /**
          * Check whether user is in CollabServer.
@@ -66,7 +72,7 @@ class CollabServer {
          * \param id The user ID to search for.
          * \return True if is in CollabServer, otherwise, return false.
          */
-        bool hasUser(const int id) const;
+        bool hasUser(const int id) const { return _users.count(id) == 1; }
 
         /**
          * Check whether the given user (By ID) is in the room (By ID).
@@ -85,9 +91,9 @@ class CollabServer {
         bool isUserInAnyRoom(const int userID) const;
 
         /**
-         * Given user join the given room. (Using ID for both).
+         * Try to add a user to a room (Using IDs).
          * User and room must exist.
-         * User must be in no room yet.
+         * User must not be in room yet.
          *
          * \param userID ID of the user to add in the room.
          * \param roomID ID of the room where to place user.
@@ -96,7 +102,7 @@ class CollabServer {
         bool userJoinRoom(const int userID, const int roomID);
 
         /**
-         * Make the given user (By ID) leave its current room.
+         * Tries to remove a user from its current room.
          * Returns false if user was not in a room yet.
          *
          * \return True if successfully left, otherwise, return false.
@@ -104,7 +110,7 @@ class CollabServer {
         bool userLeaveCurrentRoom(const int userID);
 
         /**
-         * Get user from its ID.
+         * Get user by its ID.
          *
          * \param id ID of the user to find.
          * \return Pointer to the user data or nullptr if no user for this id.
@@ -126,7 +132,7 @@ class CollabServer {
     public:
 
         /**
-         * Create a new room of collaboration.
+         * Create a new room of collaboration in the CollabServer.
          *
          * \return The newly created room or nullptr if error.
          */
@@ -146,7 +152,7 @@ class CollabServer {
          *
          * \return Number of rooms.
          */
-        int getNbRooms() const;
+        int getNbRooms() const { return _rooms.size(); }
 
         /**
          * Check whether room is in CollabServer.
@@ -154,7 +160,7 @@ class CollabServer {
          * \param id The room ID to search for.
          * \return True if is in CollabServer, otherwise, return false.
          */
-        bool hasRoom(const int id) const;
+        bool hasRoom(const int id) const { return _rooms.count(id) == 1; }
 
         /**
          * Get room from its ID.

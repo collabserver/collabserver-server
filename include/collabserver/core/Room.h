@@ -5,6 +5,7 @@
 
 #include "Broadcaster.h"
 #include "OperationInfo.h"
+#include "User.h"
 
 namespace collab {
 
@@ -14,17 +15,14 @@ namespace collab {
  * Room of collaboration.
  */
 class Room {
-    // -------------------------------------------------------------------------
-    // Data
-    // -------------------------------------------------------------------------
-    private:
-        static int idcounter;
+    public:
+        static int ROOM_ID_COUNTER;
 
-        int                             _id;
+    private:
+        const int                       _id;
         std::vector<OperationInfo>      _operations;
         std::unordered_set<int>         _users;
         Broadcaster&                    _broadcaster;
-        int                             _operationHeadID = 0;
 
 
     // -------------------------------------------------------------------------
@@ -43,47 +41,23 @@ class Room {
 
         /**
          * Add user in this room.
+         * If user is already in a room, do nothing and return false.
+         * This also set the user room.
          *
-         * \warning
-         * This simply add user id in the room set of IDs.
-         * This DOES NOT update the user's current room.
-         *
-         * \param id ID of the user to add.
+         * \param user Reference to the user to add in room.
+         * \return True if successfully added, otherwise, return false.
          */
-        bool addUser(const int id);
+        bool addUser(User& user);
 
         /**
          * Remove user from this room.
+         * Do nothing if user was not in this room and return false.
+         * This also set the user room.
          *
-         * \warning
-         * This only removes user ID from room set of users.
-         * This DOES NOT update the user's current room.
-         *
-         * \param id ID of the user to remove.
+         * \param user Reference to the user to remove from the room.
+         * \return True if successfully removed, otherwise, return false.
          */
-        bool removeUser(const int id);
-
-        /**
-         * Check whether user is in room.
-         *
-         * \param id User id.
-         * \return True if user is in this room, otherwise, return false.
-         */
-        bool hasUser(const int id) const;
-
-        /**
-         * Check whether this room is empty.
-         *
-         * \return True if empty, otherwise, return false.
-         */
-        bool isEmpty() const;
-
-        /**
-         * Returns number of users in this room.
-         *
-         * \param Number of users.
-         */
-        int getNbUsers() const;
+        bool removeUser(User& user);
 
 
     // -------------------------------------------------------------------------
@@ -110,9 +84,42 @@ class Room {
 
     public:
 
-        int getRoomID() const { return _id; }
-        static int getNextExpectedRoomID() { return Room::idcounter + 1; }
+        /**
+         * Check whether the given user (By ID) is in room.
+         *
+         * \param id User id.
+         * \return True if user is in this room, otherwise, return false.
+         */
+        bool hasUser(const int id) const;
 
+        /**
+         * Check whether the given user (By reference) is in room.
+         *
+         * \param user Reference to the user to check.
+         * \return True if user is in this room, otherwise, return false.
+         */
+        bool hasUser(const User& user) const;
+
+        /**
+         * Check whether this room is empty.
+         *
+         * \return True if empty, otherwise, return false.
+         */
+        bool isEmpty() const { return _users.empty(); }
+
+        /**
+         * Returns number of users in this room.
+         *
+         * \param Number of users.
+         */
+        int getNbUsers() const { return _users.size(); }
+
+        /**
+         * Get room ID. (Unique in the server instance).
+         *
+         * \return Room ID.
+         */
+        int getRoomID() const { return _id; }
 };
 
 

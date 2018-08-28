@@ -26,8 +26,8 @@ CollabServer::~CollabServer() {
 // -----------------------------------------------------------------------------
 
 const User* CollabServer::createNewUser() {
-    User coco; // Tmp copy but that's ok
-    auto it = _users.insert(std::make_pair(coco.getUserID(), coco));
+    const int id = User::USER_ID_COUNTER + 1;
+    auto it = _users.insert(std::make_pair(id, User()));
     return &(it.first->second);
 }
 
@@ -37,8 +37,9 @@ bool CollabServer::deleteUser(const int id) {
         return false;
     }
     User& user = it->second;
-    if(user.isInAnyRoom()) {
-        bool success = user.leaveCurrentRoom();
+    Room* room = user.getRoom();
+    if(room != nullptr) {
+        bool success = room->removeUser(user);
         if(!success) {
             return false;
         }
@@ -46,21 +47,13 @@ bool CollabServer::deleteUser(const int id) {
     return _users.erase(id) == 1;
 }
 
-int CollabServer::getNbUsers() const {
-    return _users.size();
-}
-
-bool CollabServer::hasUser(const int id) const {
-    return _users.count(id) == 1;
-}
-
 bool CollabServer::isUserInRoom(const int userID, const int roomID) const {
     const User* user = this->findUser(userID);
     const Room* room = this->findRoom(roomID);
-    if(user == nullptr || room == nullptr) {
+    if(user == nullptr || room == nullptr || user->getRoom() == nullptr) {
         return false;
     }
-    return user->isInRoom(*room);
+    return user->getRoom()->getRoomID() == roomID;
 }
 
 bool CollabServer::isUserInAnyRoom(const int userID) const {
@@ -68,7 +61,7 @@ bool CollabServer::isUserInAnyRoom(const int userID) const {
     if(user == nullptr) {
         return false;
     }
-    return user->isInAnyRoom();
+    return user->getRoom() != nullptr;
 }
 
 bool CollabServer::userJoinRoom(const int userID, const int roomID) {
@@ -77,15 +70,15 @@ bool CollabServer::userJoinRoom(const int userID, const int roomID) {
     if(user == nullptr || room == nullptr) {
         return false;
     }
-    return user->joinRoom(*room);
+    return room->addUser(*user);
 }
 
 bool CollabServer::userLeaveCurrentRoom(const int userID) {
     User* user = this->findUser(userID);
-    if(user == nullptr) {
+    if(user == nullptr || user->getRoom() == nullptr) {
         return false;
     }
-    return user->leaveCurrentRoom();
+    return user->getRoom()->removeUser(*user);
 }
 
 const User* CollabServer::findUser(const int id) const {
@@ -110,7 +103,7 @@ User* CollabServer::findUser(const int id) {
 // -----------------------------------------------------------------------------
 
 const Room* CollabServer::createNewRoom() {
-    const int id = Room::getNextExpectedRoomID();
+    const int id = Room::ROOM_ID_COUNTER + 1;
     auto it = _rooms.emplace(std::make_pair(id, Room(_broadcaster)));
     return &(it.first->second);
 }
@@ -127,14 +120,6 @@ bool CollabServer::deleteRoom(const int id) {
     }
 
     return _rooms.erase(id) == 1;
-}
-
-int CollabServer::getNbRooms() const {
-    return _rooms.size();
-}
-
-bool CollabServer::hasRoom(const int id) const {
-    return _rooms.count(id) == 1;
 }
 
 const Room* CollabServer::findRoom(const int id) const {
