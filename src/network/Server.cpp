@@ -51,8 +51,8 @@ void Server::start() {
     if(_isRunning) { return; }
     _isRunning = true;
     LOG << "Starting network server\n";
-    LOG << "Binding REP socket: (" << _address << ", " << _port << ")...\n";
-    LOG << "Binding PUB socket: (" << _address << ", " << INTERNAL_PUB_PORT << ")...\n";
+    LOG << "Binding REP socket: (" << _address << ", " << _port << ")\n";
+    LOG << "Binding PUB socket: (" << _address << ", " << INTERNAL_PUB_PORT << ")\n";
     local_socketREP->bind(_address.c_str(), _port);
     local_socketPUB->bind(_address.c_str(), INTERNAL_PUB_PORT);
     LOG << "Sockets successfully binded\n";
@@ -111,8 +111,7 @@ void Server::handleMessage(const Message& msg) {
             break;
 
         default:
-            LOG << "Bad message received "
-                << "(Unknown or invalid type: " << msg.getType() << ")\n";
+            LOG << "Unknown msg or invalid type: " << msg.getType() << "\n";
             break;
     }
 }
@@ -126,10 +125,10 @@ void Server::handleMessage(const MsgConnectionRequest& msg) {
     Message* response;
     if(user != nullptr) {
         int userID = user->getUserID();
+        LOG << "(UserID=" << userID << "): New user successfully created\n";
         response = factory.newMessage(MessageFactory::MSG_CONNECTION_SUCCESS);
         static_cast<MsgConnectionSuccess*>(response)->setUserID(userID);
         local_socketREP->sendMessage(*response);
-        LOG << "OK: New user successfully (ID = " << userID << ")\n";
     }
     else {
         LOG << "ERROR: Unable to create a new user in CollabServer\n";
@@ -148,12 +147,12 @@ void Server::handleMessage(const MsgDisconnectRequest& msg) {
 
     Message* response = nullptr;
     if(success) {
-        LOG << "OK: User disconnect successfully (ID = " << userID << ")\n";
+        LOG << "(UserID=" << userID << "): User successfully disconnect\n";
         response = factory.newMessage(MessageFactory::MSG_DISCONNECT_SUCCESS);
         local_socketREP->sendMessage(*response);
     }
     else {
-        LOG << "OK: Unable to disconnect user (ID = " << userID << ")\n";
+        LOG << "(UserID=" << userID << "): Unable to disconnect user\n";
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
@@ -170,13 +169,13 @@ void Server::handleMessage(const MsgCreaDataRequest& msg) {
 
     Message* response = nullptr;
     if(room != nullptr && _collabserver->userJoinRoom(userID, roomID)) {
+        LOG << "(RoomID=" << roomID << "): Room successfully created by user (userID=" << userID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_CREA_DATA_SUCCESS);
         static_cast<MsgCreaDataSuccess*>(response)->setDataID(roomID);
         local_socketREP->sendMessage(*response);
-        LOG << "OK: Room successfully created (ID = " << roomID << ")\n";
     }
     else {
-        LOG << "ERROR: Unable to create a new room\n";
+        LOG << "(UserID=" << userID << "): Unable to create new room\n";
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
@@ -194,12 +193,12 @@ void Server::handleMessage(const MsgJoinDataRequest& msg) {
 
     Message* response = nullptr;
     if(success) {
+        LOG << "(UserID=" << userID << "): User successfully joined room (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_JOIN_DATA_SUCCESS);
         local_socketREP->sendMessage(*response);
-        LOG << "OK: User (ID = " << userID << ") successfully joined room\n";
     }
     else {
-        LOG << "ERROR: User (ID = " << userID << ") is unable to join room\n";
+        LOG << "(UserID=" << userID << "): Unable to join room (RoomID=" << roomID << "\n";
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
@@ -216,12 +215,12 @@ void Server::handleMessage(const MsgLeaveDataRequest& msg) {
 
     Message* response = nullptr;
     if(success) {
+        LOG << "(UserID=" << userID << "): Successfully left his room\n";
         response = factory.newMessage(MessageFactory::MSG_LEAVE_DATA_SUCCESS);
         local_socketREP->sendMessage(*response);
-        LOG << "OK: User (ID = " << userID << ") successfully left room\n";
     }
     else {
-        LOG << "ERROR: User (ID = " << userID << ") is unable to leave room\n";
+        LOG << "(UserID=" << userID << "): Unable to left his room\n";
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
@@ -239,6 +238,7 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
     OperationInfo op;
     op.userID = userID;
     op.roomID = roomID;
+    // TODO To finish
     //op.buffer.str(static_cast<MsgRoomOperation>(msg).getOperationBuffer().str();
 
     bool success = _collabserver->commitOperationInRoom(op, roomID);
@@ -246,10 +246,12 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
     Message* response = nullptr;
     if(success) {
         // REP Pattern require a response, even if I don't really need here.
+        LOG << "(UserID=" << userID << "): Successfully send operation (RoomID" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_EMPTY);
         local_socketREP->sendMessage(*response);
     }
     else {
+        LOG << "(UserID=" << userID << "): Unable to send operation (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
@@ -264,6 +266,8 @@ void Server::handleMessage(const MsgUgly& msg) {
     int userID = static_cast<MsgUgly>(msg).getUserID();
     bool isUgly = _collabserver->isUserUgly(userID);
 
+    LOG << "(UserID=" << userID << "): isUgly response = " << isUgly << "\n";
+
     Message* response = factory.newMessage(MessageFactory::MSG_UGLY);
     static_cast<MsgUgly*>(response)->setResponse(isUgly);
     local_socketREP->sendMessage(*response);
@@ -272,8 +276,9 @@ void Server::handleMessage(const MsgUgly& msg) {
 }
 
 void Server::sendOperationToUser(const OperationInfo& op, int id) {
-    LOG << "Sending operation to user (ID = " << id << ")\n";
     MessageFactory& factory = MessageFactory::getInstance();
+
+    LOG << "(UserID=" << id << "): Sending operation to user\n";
 
     Message* msg = nullptr;
     msg = factory.newMessage(MessageFactory::MSG_DEBUG); // TODO TMP
@@ -282,8 +287,9 @@ void Server::sendOperationToUser(const OperationInfo& op, int id) {
 }
 
 void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
-    LOG << "Broadcasting operation to room (ID = " << id << ")\n";
     MessageFactory& factory = MessageFactory::getInstance();
+
+    LOG << "(RoomID=" << id << "): Broadcasting operation in room\n";
 
     Message* msg = nullptr;
     msg = factory.newMessage(MessageFactory::MSG_DEBUG); // TODO TMP
