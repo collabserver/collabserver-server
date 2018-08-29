@@ -48,7 +48,8 @@ class Server : public Broadcaster {
         void handleMessage(const MsgCreaDataRequest& msg);
         void handleMessage(const MsgJoinDataRequest& msg);
         void handleMessage(const MsgLeaveDataRequest& msg);
-        void handleMessage(const MsgDebug& msg);
+        void handleMessage(const MsgRoomOperation& msg);
+        void handleMessage(const MsgUgly& msg);
 
     private:
         void sendOperationToUser(const OperationInfo& op, int id) override;

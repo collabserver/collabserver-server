@@ -81,6 +81,11 @@ bool CollabServer::userLeaveCurrentRoom(const int userID) {
     return user->getRoom()->removeUser(*user);
 }
 
+bool CollabServer::isUserUgly(const int userID) {
+    User* user = this->findUser(userID);
+    return (user != nullptr) ? user->isUserUgly() : true;
+}
+
 const User* CollabServer::findUser(const int id) const {
     auto user_it = _users.find(id);
     if(user_it == _users.end()) {

@@ -100,9 +100,14 @@ void Server::handleMessage(const Message& msg) {
             this->handleMessage(static_cast<const MsgLeaveDataRequest&>(msg));
             break;
 
+        // Room
+        case MessageFactory::MSG_ROOM_OPERATION:
+            this->handleMessage(static_cast<const MsgRoomOperation&>(msg));
+            break;
+
         // Various
-        case MessageFactory::MSG_DEBUG:
-            this->handleMessage(static_cast<const MsgDebug&>(msg));
+        case MessageFactory::MSG_UGLY:
+            this->handleMessage(static_cast<const MsgUgly&>(msg));
             break;
 
         default:
@@ -224,9 +229,37 @@ void Server::handleMessage(const MsgLeaveDataRequest& msg) {
     factory.freeMessage(response);
 }
 
-void Server::handleMessage(const MsgDebug& msg) {
-    LOG << "Message received (MsgDebug)\n";
-    LOG << "Debug content: " << msg.getContent();
+void Server::handleMessage(const MsgRoomOperation& msg) {
+    LOG << "Message received (MsgRoomOperation)\n";
+    MessageFactory& factory = MessageFactory::getInstance();
+
+    int userID = static_cast<MsgRoomOperation>(msg).getUserID();
+    int roomID = static_cast<MsgRoomOperation>(msg).getRoomID();
+
+    //const Room* room = _collabserver->findRoom(roomID);
+
+    Message* response = nullptr;
+    if(!_collabserver->isUserInRoom(userID, roomID)) {
+        response = factory.newMessage(MessageFactory::MSG_ERROR);
+        local_socketREP->sendMessage(*response);
+    }
+
+    // TODO
+
+    factory.freeMessage(response);
+}
+
+void Server::handleMessage(const MsgUgly& msg) {
+    LOG << "Message received (MsgUgly)\n";
+    MessageFactory& factory = MessageFactory::getInstance();
+
+    int userID = static_cast<MsgUgly>(msg).getUserID();
+    bool isUgly = _collabserver->isUserUgly(userID);
+
+    Message* response = factory.newMessage(MessageFactory::MSG_UGLY);
+    static_cast<MsgUgly>(msg).setResponse(isUgly);
+    local_socketREP->sendMessage(*response);
+    factory.freeMessage(response);
 }
 
 void Server::sendOperationToUser(const OperationInfo& op, int id) {

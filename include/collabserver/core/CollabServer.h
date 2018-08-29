@@ -109,6 +109,8 @@ class CollabServer {
          */
         bool userLeaveCurrentRoom(const int userID);
 
+        bool isUserUgly(const int userID);
+
         /**
          * Get user by its ID.
          *
