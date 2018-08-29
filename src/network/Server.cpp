@@ -233,18 +233,26 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
     LOG << "Message received (MsgRoomOperation)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
-    int userID = static_cast<MsgRoomOperation>(msg).getUserID();
-    int roomID = static_cast<MsgRoomOperation>(msg).getRoomID();
+    int userID = static_cast<const MsgRoomOperation>(msg).getUserID();
+    int roomID = static_cast<const MsgRoomOperation>(msg).getRoomID();
 
-    //const Room* room = _collabserver->findRoom(roomID);
+    OperationInfo op;
+    op.userID = userID;
+    op.roomID = roomID;
+    //op.buffer.str(static_cast<MsgRoomOperation>(msg).getOperationBuffer().str();
+
+    bool success = _collabserver->commitOperationInRoom(op, roomID);
 
     Message* response = nullptr;
-    if(!_collabserver->isUserInRoom(userID, roomID)) {
+    if(success) {
+        // REP Pattern require a response, even if I don't really need here.
+        response = factory.newMessage(MessageFactory::MSG_EMPTY);
+        local_socketREP->sendMessage(*response);
+    }
+    else {
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
-
-    // TODO
 
     factory.freeMessage(response);
 }
@@ -264,7 +272,7 @@ void Server::handleMessage(const MsgUgly& msg) {
 }
 
 void Server::sendOperationToUser(const OperationInfo& op, int id) {
-    LOG << "Sending operation (" << op.opTypeID << ") to user (ID="<< id << ")\n";
+    LOG << "Sending operation to user (ID = " << id << ")\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
     Message* msg = nullptr;
@@ -274,7 +282,7 @@ void Server::sendOperationToUser(const OperationInfo& op, int id) {
 }
 
 void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
-    LOG << "Broadcasting operation ("<< op.opTypeID <<") to user ("<< id <<")\n";
+    LOG << "Broadcasting operation to room (ID = " << id << ")\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
     Message* msg = nullptr;
@@ -282,6 +290,7 @@ void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
     // TODO Operation msg
     factory.freeMessage(msg);
 }
+
 
 } // End namespace
 

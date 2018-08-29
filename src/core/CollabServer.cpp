@@ -127,6 +127,14 @@ bool CollabServer::deleteRoom(const int id) {
     return _rooms.erase(id) == 1;
 }
 
+bool CollabServer::commitOperationInRoom(const OperationInfo& op, const int id) {
+    Room* room = this->findRoom(id);
+    if(room == nullptr) {
+        return false;
+    }
+    return room->commitOperation(op);
+}
+
 const Room* CollabServer::findRoom(const int id) const {
     auto room_it = _rooms.find(id);
     if(room_it == _rooms.end()) {

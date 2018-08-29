@@ -61,7 +61,6 @@ bool Room::commitOperation(const OperationInfo& op) {
     }
 
     OperationInfo newOP = op;
-    newOP.opID = _operations.size() + 1;
     _operations.emplace_back(newOP);
 
     assert(_operations.capacity() > 1); // If false, you forgot to reserve

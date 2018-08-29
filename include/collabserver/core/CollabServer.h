@@ -109,6 +109,13 @@ class CollabServer {
          */
         bool userLeaveCurrentRoom(const int userID);
 
+        /**
+         * Check whether this user is ugly.
+         * (Yeah, this is the super useful method.)
+         *
+         * \param id ID of the user to check.
+         * \return True if is ugly (According to server).
+         */
         bool isUserUgly(const int userID);
 
         /**
@@ -148,6 +155,16 @@ class CollabServer {
          * \return True if successfully deleted, otherwise, return false.
          */
         bool deleteRoom(const int id);
+
+        /**
+         * Commit an operation to the given room.
+         * Do nothing if invalid data.
+         *
+         * \param op Reference to the operation to commit.
+         * \param roomID ID of the room where to commit operation.
+         * \return True if successfully committed, otherwise, return false.
+         */
+        bool commitOperationInRoom(const OperationInfo& op, const int roomID);
 
         /**
          * Returns the current number of rooms in the CollabServer
