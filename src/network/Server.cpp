@@ -257,8 +257,9 @@ void Server::handleMessage(const MsgUgly& msg) {
     bool isUgly = _collabserver->isUserUgly(userID);
 
     Message* response = factory.newMessage(MessageFactory::MSG_UGLY);
-    static_cast<MsgUgly>(msg).setResponse(isUgly);
+    static_cast<MsgUgly*>(response)->setResponse(isUgly);
     local_socketREP->sendMessage(*response);
+
     factory.freeMessage(response);
 }
 
