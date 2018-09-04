@@ -60,8 +60,7 @@ bool Room::commitOperation(const OperationInfo& op) {
         return false;
     }
 
-    OperationInfo newOP = op;
-    _operations.emplace_back(newOP);
+    _operations.emplace_back(op);
 
     assert(_operations.capacity() > 1); // If false, you forgot to reserve
     float load = _operations.size() / _operations.capacity();
@@ -69,7 +68,7 @@ bool Room::commitOperation(const OperationInfo& op) {
         _operations.reserve(_operations.size() + 20); // 20 is arbitrary
     }
 
-    _broadcaster.broadcastOperationToRoom(newOP, _id);
+    _broadcaster.broadcastOperationToRoom(op, _id);
 
     return true;
 }

@@ -198,7 +198,7 @@ void Server::handleMessage(const MsgJoinDataRequest& msg) {
         local_socketREP->sendMessage(*response);
     }
     else {
-        LOG << "(UserID=" << userID << "): Unable to join room (RoomID=" << roomID << "\n";
+        LOG << "(UserID=" << userID << "): Unable to join room (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
@@ -246,7 +246,7 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
     Message* response = nullptr;
     if(success) {
         // REP Pattern require a response, even if I don't really need here.
-        LOG << "(UserID=" << userID << "): Successfully send operation (RoomID" << roomID << ")\n";
+        LOG << "(UserID=" << userID << "): Successfully sent operation (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_EMPTY);
         local_socketREP->sendMessage(*response);
     }
