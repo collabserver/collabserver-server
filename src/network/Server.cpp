@@ -13,8 +13,6 @@ namespace collab {
 static ZMQSocket* local_socketREP = nullptr;
 static ZMQSocket* local_socketPUB = nullptr;
 
-static const int INTERNAL_PUB_PORT = 4243;
-
 
 Server::Server() {
     ZMQSocketConfig configREP = { ZMQ_REP, &(MessageFactory::getInstance()) };
@@ -53,9 +51,9 @@ void Server::start() {
 
     LOG << "Starting network server\n";
     LOG << "Binding REP socket: (" << _address << ", " << _port << ")\n";
-    LOG << "Binding PUB socket: (" << _address << ", " << INTERNAL_PUB_PORT << ")\n";
+    LOG << "Binding PUB socket: (" << _address << ", " << COLLAB_SOCKET_SUB_PORT << ")\n";
     local_socketREP->bind(_address.c_str(), _port);
-    local_socketPUB->bind(_address.c_str(), INTERNAL_PUB_PORT);
+    local_socketPUB->bind(_address.c_str(), COLLAB_SOCKET_SUB_PORT);
     LOG << "Sockets successfully binded\n";
 
     while(_isRunning) {

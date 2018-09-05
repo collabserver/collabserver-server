@@ -7,6 +7,7 @@
 #include "collabcommon/messaging/MessageList.h"
 #include "collabserver/core/Broadcaster.h"
 #include "collabserver/core/CollabServer.h"
+#include "collabcommon/utils/constants.h"
 
 namespace collab {
 
@@ -27,7 +28,7 @@ class Server : public Broadcaster {
     private:
         bool            _isRunning      = false;
         std::string     _address        = "*";
-        uint16_t        _port           = 4242;
+        uint16_t        _port           = COLLAB_DEFAULT_SERVER_PORT;
 
     private:
         CollabServer*   _collabserver   = nullptr;
