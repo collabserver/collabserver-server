@@ -52,8 +52,7 @@ file(GLOB_RECURSE srcFilesTests "${CMAKE_SOURCE_DIR}/test/*.cpp")
 file(GLOB_RECURSE srcFilesCore "${CMAKE_SOURCE_DIR}/src/core/*.cpp")
 
 add_executable(tests ${srcFilesTests} ${srcFilesCore})
-add_dependencies(tests collab-data-crdts)
-target_link_libraries(tests gtest collabdata)
+target_link_libraries(tests gtest )
 add_test(NAME googletests COMMAND tests)
 add_custom_target(runAllTests tests)
 
