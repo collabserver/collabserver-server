@@ -50,6 +50,7 @@ void Server::start() {
 
     if(_isRunning) { return; }
     _isRunning = true;
+
     LOG << "Starting network server\n";
     LOG << "Binding REP socket: (" << _address << ", " << _port << ")\n";
     LOG << "Binding PUB socket: (" << _address << ", " << INTERNAL_PUB_PORT << ")\n";
@@ -58,18 +59,19 @@ void Server::start() {
     LOG << "Sockets successfully binded\n";
 
     while(_isRunning) {
-        LOG << "Waiting for any message... \n";
+        LOG << "Waiting for any message...\n";
         Message* msg = local_socketREP->receiveMessage();
         assert(msg != nullptr);
         this->handleMessage(*msg);
         MessageFactory::getInstance().freeMessage(msg);
     }
 
-    LOG << "Unbinding socket...\n";
+    LOG << "Unbinding sockets\n";
     local_socketREP->unbind();
 }
 
 void Server::stop() {
+    LOG << "Server stop requested\n";
     this->_isRunning = false;
 }
 
@@ -111,7 +113,7 @@ void Server::handleMessage(const Message& msg) {
             break;
 
         default:
-            LOG << "Unknown msg or invalid type: " << msg.getType() << "\n";
+            LOG << "Unknown msg or invalid type (TypeID=" << msg.getType() << ")\n";
             break;
     }
 }
@@ -169,7 +171,7 @@ void Server::handleMessage(const MsgCreaDataRequest& msg) {
 
     Message* response = nullptr;
     if(room != nullptr && _collabserver->userJoinRoom(userID, roomID)) {
-        LOG << "(RoomID=" << roomID << "): Room successfully created by user (userID=" << userID << ")\n";
+        LOG << "(UserID=" << userID << "): Room successfully created (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_CREA_DATA_SUCCESS);
         static_cast<MsgCreaDataSuccess*>(response)->setDataID(roomID);
         local_socketREP->sendMessage(*response);
@@ -246,12 +248,12 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
     Message* response = nullptr;
     if(success) {
         // REP Pattern require a response, even if I don't really need here.
-        LOG << "(UserID=" << userID << "): Successfully sent operation (RoomID=" << roomID << ")\n";
+        LOG << "(UserID=" << userID << "): Successfully broadcasted operation (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_EMPTY);
         local_socketREP->sendMessage(*response);
     }
     else {
-        LOG << "(UserID=" << userID << "): Unable to send operation (RoomID=" << roomID << ")\n";
+        LOG << "(UserID=" << userID << "): Unable to broadcast operation (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_ERROR);
         local_socketREP->sendMessage(*response);
     }
@@ -278,22 +280,28 @@ void Server::handleMessage(const MsgUgly& msg) {
 void Server::sendOperationToUser(const OperationInfo& op, int id) {
     MessageFactory& factory = MessageFactory::getInstance();
 
-    LOG << "(UserID=" << id << "): Sending operation to user\n";
+    LOG << "(UserID=" << id << "): Sending operation from room (RoomID=" << op.roomID << ")\n";
 
     Message* msg = nullptr;
+
+    // TODO Send operation on the SUB socket
     msg = factory.newMessage(MessageFactory::MSG_DEBUG); // TODO TMP
-    // TODO Operation msg
+    local_socketPUB->sendMessage(*msg);
+
     factory.freeMessage(msg);
 }
 
 void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
     MessageFactory& factory = MessageFactory::getInstance();
 
-    LOG << "(RoomID=" << id << "): Broadcasting operation in room\n";
+    LOG << "(UserID=" << op.userID << "): Broadcasting operation in room (roomID=" << id << ")\n";
 
     Message* msg = nullptr;
-    msg = factory.newMessage(MessageFactory::MSG_DEBUG); // TODO TMP
-    // TODO Operation msg
+
+    // TODO Send operation on the SUB socket
+    msg = factory.newMessage(MessageFactory::MSG_DEBUG);
+    local_socketPUB->sendMessage(*msg);
+
     factory.freeMessage(msg);
 }
 
