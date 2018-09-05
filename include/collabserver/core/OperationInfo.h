@@ -14,15 +14,17 @@ namespace collab {
 class OperationInfo {
     public:
         std::string buffer;     // Operation in serialized form
-        int userID;             // User that made this operation
         int roomID;             // Room where operation is done
+        int userID;             // User that made this operation
+        int opTypeID;           // ID of the operation type
 
     public:
         OperationInfo() = default;
         OperationInfo(const OperationInfo& info) {
-            buffer  = info.buffer;
-            userID  = info.userID;
-            roomID  = info.roomID;
+            roomID      = info.roomID;
+            userID      = info.userID;
+            opTypeID    = info.opTypeID;
+            buffer      = info.buffer;
         }
 };
 

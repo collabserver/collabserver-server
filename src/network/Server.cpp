@@ -247,15 +247,15 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
     LOG << "Message received (MsgRoomOperation)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
-    std::string opBuffer;
-    opBuffer = static_cast<const MsgRoomOperation>(msg).getOperationBuffer();
-    int userID = static_cast<const MsgRoomOperation>(msg).getUserID();
-    int roomID = static_cast<const MsgRoomOperation>(msg).getRoomID();
-
     OperationInfo op;
-    op.userID = userID;
-    op.roomID = roomID;
-    op.buffer = opBuffer;
+    op.roomID   = static_cast<const MsgRoomOperation>(msg).getRoomID();
+    op.userID   = static_cast<const MsgRoomOperation>(msg).getUserID();
+    op.opTypeID = static_cast<const MsgRoomOperation>(msg).getOpTypeID();
+    op.buffer   = static_cast<const MsgRoomOperation>(msg).getOperationBuffer();
+
+    // It's just aliases for visibility
+    const int roomID = op.roomID;
+    const int userID = op.userID;
 
     bool success = _collabserver->commitOperationInRoom(op, roomID);
 
@@ -308,11 +308,10 @@ void Server::sendOperationToUser(const OperationInfo& op, int id) {
 
     Message* msg = factory.newMessage(MessageFactory::MSG_ROOM_OPERATION);
 
-    // TODO: Add user id at beginning or something (For SUB subscription)
-
-    static_cast<MsgRoomOperation*>(msg)->setUserID(op.userID);
     static_cast<MsgRoomOperation*>(msg)->setRoomID(op.roomID);
-    static_cast<MsgRoomOperation*>(msg)->getOperationBuffer() = op.buffer;
+    static_cast<MsgRoomOperation*>(msg)->setUserID(op.userID);
+    static_cast<MsgRoomOperation*>(msg)->setOpTypeID(op.opTypeID);
+    static_cast<MsgRoomOperation*>(msg)->setOperationBuffer(op.buffer);
 
     local_socketPUB->sendMessage(*msg);
 
@@ -326,9 +325,10 @@ void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
 
     Message* msg = factory.newMessage(MessageFactory::MSG_ROOM_OPERATION);
 
-    static_cast<MsgRoomOperation*>(msg)->setUserID(op.userID);
     static_cast<MsgRoomOperation*>(msg)->setRoomID(op.roomID);
-    static_cast<MsgRoomOperation*>(msg)->getOperationBuffer() = op.buffer;
+    static_cast<MsgRoomOperation*>(msg)->setUserID(op.userID);
+    static_cast<MsgRoomOperation*>(msg)->setOpTypeID(op.opTypeID);
+    static_cast<MsgRoomOperation*>(msg)->setOperationBuffer(op.buffer);
 
     local_socketPUB->sendMessage(*msg);
 
