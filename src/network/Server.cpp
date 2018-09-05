@@ -118,6 +118,11 @@ void Server::handleMessage(const Message& msg) {
     }
 }
 
+
+// -----------------------------------------------------------------------------
+// Message handling (Connection msg)
+// -----------------------------------------------------------------------------
+
 void Server::handleMessage(const MsgConnectionRequest& msg) {
     LOG << "Message received (MsgConnectionRequest)\n";
     MessageFactory& factory = MessageFactory::getInstance();
@@ -160,6 +165,11 @@ void Server::handleMessage(const MsgDisconnectRequest& msg) {
     }
     factory.freeMessage(response);
 }
+
+
+// -----------------------------------------------------------------------------
+// Message handling (Data msg)
+// -----------------------------------------------------------------------------
 
 void Server::handleMessage(const MsgCreaDataRequest& msg) {
     LOG << "Message received (MsgCreaDataRequest)\n";
@@ -230,24 +240,30 @@ void Server::handleMessage(const MsgLeaveDataRequest& msg) {
     factory.freeMessage(response);
 }
 
+
+// -----------------------------------------------------------------------------
+// Message handling (Room msg)
+// -----------------------------------------------------------------------------
+
 void Server::handleMessage(const MsgRoomOperation& msg) {
     LOG << "Message received (MsgRoomOperation)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
+    std::string opBuffer;
+    opBuffer = static_cast<const MsgRoomOperation>(msg).getOperationBuffer();
     int userID = static_cast<const MsgRoomOperation>(msg).getUserID();
     int roomID = static_cast<const MsgRoomOperation>(msg).getRoomID();
 
     OperationInfo op;
     op.userID = userID;
     op.roomID = roomID;
-    // TODO To finish
-    //op.buffer.str(static_cast<MsgRoomOperation>(msg).getOperationBuffer().str();
+    op.buffer = opBuffer;
 
     bool success = _collabserver->commitOperationInRoom(op, roomID);
 
     Message* response = nullptr;
     if(success) {
-        // REP Pattern require a response, even if I don't really need here.
+        // DevNote: REP Pattern requires a response, here, this is a dummy response.
         LOG << "(UserID=" << userID << "): Successfully broadcasted operation (RoomID=" << roomID << ")\n";
         response = factory.newMessage(MessageFactory::MSG_EMPTY);
         local_socketREP->sendMessage(*response);
@@ -260,6 +276,11 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
 
     factory.freeMessage(response);
 }
+
+
+// -----------------------------------------------------------------------------
+// Message handling (Various msg)
+// -----------------------------------------------------------------------------
 
 void Server::handleMessage(const MsgUgly& msg) {
     LOG << "Message received (MsgUgly)\n";
@@ -277,15 +298,24 @@ void Server::handleMessage(const MsgUgly& msg) {
     factory.freeMessage(response);
 }
 
+
+// -----------------------------------------------------------------------------
+// Broadcaster methods
+// -----------------------------------------------------------------------------
+
 void Server::sendOperationToUser(const OperationInfo& op, int id) {
     MessageFactory& factory = MessageFactory::getInstance();
 
     LOG << "(UserID=" << id << "): Sending operation from room (RoomID=" << op.roomID << ")\n";
 
-    Message* msg = nullptr;
+    Message* msg = factory.newMessage(MessageFactory::MSG_ROOM_OPERATION);
 
-    // TODO Send operation on the SUB socket
-    msg = factory.newMessage(MessageFactory::MSG_DEBUG); // TODO TMP
+    // TODO: Add user id at beginning or something (For SUB subscription)
+
+    static_cast<MsgRoomOperation*>(msg)->setUserID(op.userID);
+    static_cast<MsgRoomOperation*>(msg)->setRoomID(op.roomID);
+    static_cast<MsgRoomOperation*>(msg)->getOperationBuffer() = op.buffer;
+
     local_socketPUB->sendMessage(*msg);
 
     factory.freeMessage(msg);
@@ -296,10 +326,12 @@ void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
 
     LOG << "(UserID=" << op.userID << "): Broadcasting operation in room (roomID=" << id << ")\n";
 
-    Message* msg = nullptr;
+    Message* msg = factory.newMessage(MessageFactory::MSG_ROOM_OPERATION);
 
-    // TODO Send operation on the SUB socket
-    msg = factory.newMessage(MessageFactory::MSG_DEBUG);
+    static_cast<MsgRoomOperation*>(msg)->setUserID(op.userID);
+    static_cast<MsgRoomOperation*>(msg)->setRoomID(op.roomID);
+    static_cast<MsgRoomOperation*>(msg)->getOperationBuffer() = op.buffer;
+
     local_socketPUB->sendMessage(*msg);
 
     factory.freeMessage(msg);
