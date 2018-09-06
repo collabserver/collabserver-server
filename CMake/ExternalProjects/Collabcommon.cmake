@@ -1,6 +1,7 @@
 # ------------------------------------------------------------------------------
 # Project collab-common (gitsubmodule)
 # ------------------------------------------------------------------------------
+
 include(ExternalProject)
 ExternalProject_Add(collab-common
     SOURCE_DIR          "${collab_gitmodule_dir}/collab-common/"

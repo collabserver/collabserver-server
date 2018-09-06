@@ -17,16 +17,6 @@ include("CMake/ExternalProjects/Collabcommon.cmake")
 
 
 # ------------------------------------------------------------------------------
-# Tests
-# ------------------------------------------------------------------------------
-option(collab_tests "Build Tests" OFF)
-if(collab_tests)
-    message(STATUS "Build tests")
-    include("CMake/AddTests.cmake")
-endif()
-
-
-# ------------------------------------------------------------------------------
 # Server executable
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")
@@ -40,5 +30,16 @@ add_dependencies(collabserver collab-common)
 target_link_libraries(collabserver collabcommon zmq)
 
 add_custom_target(runCollabServer collabserver)
+
+
+# ------------------------------------------------------------------------------
+# Tests
+# ------------------------------------------------------------------------------
+option(collab_tests "Build Tests" OFF)
+
+if(collab_tests)
+    message(STATUS "Build tests")
+    include("CMake/AddTests.cmake")
+endif()
 
 
