@@ -199,8 +199,17 @@ void Server::handleMessage(const MsgJoinDataRequest& msg) {
 
     int userID = static_cast<MsgJoinDataRequest>(msg).getUserID();
     int roomID = static_cast<MsgJoinDataRequest>(msg).getDataID();
-    bool success = _collabserver->userJoinRoom(userID, roomID);
 
+    // DevNote: WARNING
+    // This is because of zmq behavior that says the first SUB message
+    // is ALWAYS LOST! (According to zmq documentation).
+    // See zguide.zeromq.org/page:all#Getting-the-Message-Out
+    // This is why I send this totally dummy message first
+    Message* tmpMsg = factory.newMessage(MessageFactory::MSG_EMPTY);
+    local_socketPUB->sendMessage(*tmpMsg);
+    factory.freeMessage(tmpMsg);
+
+    bool success = _collabserver->userJoinRoom(userID, roomID);
     Message* response = nullptr;
     if(success) {
         LOG << "(UserID=" << userID << "): User successfully joined room (RoomID=" << roomID << ")\n";
