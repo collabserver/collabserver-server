@@ -240,6 +240,27 @@ void Server::handleMessage(const MsgLeaveDataRequest& msg) {
 
 
 // -----------------------------------------------------------------------------
+// Message handling (Various msg)
+// -----------------------------------------------------------------------------
+
+void Server::handleMessage(const MsgUgly& msg) {
+    LOG << "Message received (MsgUgly)\n";
+    MessageFactory& factory = MessageFactory::getInstance();
+
+    int userID = static_cast<MsgUgly>(msg).getUserID();
+    bool isUgly = _collabserver->isUserUgly(userID);
+
+    LOG << "(UserID=" << userID << "): isUgly response = " << isUgly << "\n";
+
+    Message* response = factory.newMessage(MessageFactory::MSG_UGLY);
+    static_cast<MsgUgly*>(response)->setResponse(isUgly);
+    local_socketREP->sendMessage(*response);
+
+    factory.freeMessage(response);
+}
+
+
+// -----------------------------------------------------------------------------
 // Message handling (Room msg)
 // -----------------------------------------------------------------------------
 
@@ -277,34 +298,13 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
 
 
 // -----------------------------------------------------------------------------
-// Message handling (Various msg)
-// -----------------------------------------------------------------------------
-
-void Server::handleMessage(const MsgUgly& msg) {
-    LOG << "Message received (MsgUgly)\n";
-    MessageFactory& factory = MessageFactory::getInstance();
-
-    int userID = static_cast<MsgUgly>(msg).getUserID();
-    bool isUgly = _collabserver->isUserUgly(userID);
-
-    LOG << "(UserID=" << userID << "): isUgly response = " << isUgly << "\n";
-
-    Message* response = factory.newMessage(MessageFactory::MSG_UGLY);
-    static_cast<MsgUgly*>(response)->setResponse(isUgly);
-    local_socketREP->sendMessage(*response);
-
-    factory.freeMessage(response);
-}
-
-
-// -----------------------------------------------------------------------------
 // Broadcaster methods
 // -----------------------------------------------------------------------------
 
 void Server::sendOperationToUser(const OperationInfo& op, int id) {
     MessageFactory& factory = MessageFactory::getInstance();
 
-    LOG << "(UserID=" << id << "): Sending operation from room (RoomID=" << op.roomID << ")\n";
+    LOG << "(RoomID=" << op.roomID << "): Sending operation to user (UserID=" << id << ")\n";
 
     Message* msg = factory.newMessage(MessageFactory::MSG_ROOM_OPERATION);
 
