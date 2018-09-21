@@ -6,12 +6,12 @@
 namespace collab {
 
 
-int Room::ROOM_ID_COUNTER = 0;
+unsigned int Room::ROOM_ID_COUNTER = 0;
 
 
 Room::Room(Broadcaster& broadcaster) :
-  _id(++ROOM_ID_COUNTER),
-  _broadcaster(broadcaster) {
+        _id(++ROOM_ID_COUNTER),
+        _broadcaster(broadcaster) {
     _users.reserve(15); // Reserve values are totally arbitrary here.
     _operations.reserve(100);
 }
@@ -41,7 +41,7 @@ bool Room::removeUser(User& user) {
     return removed;
 }
 
-bool Room::hasUser(const int id) const {
+bool Room::hasUser(const unsigned int id) const {
     return _users.find(id) != _users.end();
 }
 

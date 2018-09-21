@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef> // std::size_t
 #include <unordered_set>
 #include <vector>
 
@@ -16,13 +17,13 @@ namespace collab {
  */
 class Room {
     public:
-        static int ROOM_ID_COUNTER;
+        static unsigned int ROOM_ID_COUNTER;
 
     private:
-        const int                       _id;
-        std::vector<OperationInfo>      _operations;
-        std::unordered_set<int>         _users;
-        Broadcaster&                    _broadcaster;
+        const unsigned int                  _id;
+        std::vector<OperationInfo>          _operations;
+        std::unordered_set<unsigned int>    _users;
+        Broadcaster&                        _broadcaster;
 
 
     // -------------------------------------------------------------------------
@@ -90,7 +91,7 @@ class Room {
          * \param id User id.
          * \return True if user is in this room, otherwise, return false.
          */
-        bool hasUser(const int id) const;
+        bool hasUser(const unsigned int id) const;
 
         /**
          * Check whether the given user (By reference) is in room.
@@ -112,14 +113,14 @@ class Room {
          *
          * \param Number of users.
          */
-        int getNbUsers() const { return _users.size(); }
+        std::size_t getNbUsers() const { return _users.size(); }
 
         /**
          * Get room ID. (Unique in the server instance).
          *
          * \return Room ID.
          */
-        int getRoomID() const { return _id; }
+        unsigned int getRoomID() const { return _id; }
 };
 
 

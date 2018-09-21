@@ -53,8 +53,8 @@ class Server : public Broadcaster {
         void handleMessage(const MsgUgly& msg);
 
     private:
-        void sendOperationToUser(const OperationInfo& op, int id) override;
-        void broadcastOperationToRoom(const OperationInfo& op, int id) override;
+        void sendOperationToUser(const OperationInfo& op, unsigned int id) override;
+        void broadcastOperationToRoom(const OperationInfo& op, unsigned int id) override;
 };
 
 

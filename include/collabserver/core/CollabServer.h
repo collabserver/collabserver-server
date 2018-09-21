@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef> // For std::size_t
 #include <unordered_map>
 
 #include "Broadcaster.h"
@@ -12,12 +13,16 @@ namespace collab {
 /**
  * \brief
  * The famous collaborative server component where all rooms are located.
+ *
+ * This is the entry point to deal with 'core' components and features
+ * such as adding, removing user or room.
  */
 class CollabServer {
     private:
-        std::unordered_map<int, User>   _users;
-        std::unordered_map<int, Room>   _rooms;
-        Broadcaster&                    _broadcaster;
+
+        std::unordered_map<unsigned int, User>  _users;
+        std::unordered_map<unsigned int, Room>  _rooms;
+        Broadcaster&                            _broadcaster;
 
     public:
 
@@ -37,7 +42,7 @@ class CollabServer {
 
 
     // -------------------------------------------------------------------------
-    // Users
+    // Users management
     // -------------------------------------------------------------------------
 
     public:
@@ -45,7 +50,7 @@ class CollabServer {
         /**
          * Create a new user in the CollabServer.
          *
-         * \return Created user or nullptr if error.
+         * \return Pointer to created user or nullptr if error.
          */
         const User* createNewUser();
 
@@ -57,14 +62,14 @@ class CollabServer {
          * \param id ID of the user to remove.
          * \return True if successfully removed, otherwise, return false.
          */
-        bool deleteUser(const int id);
+        bool deleteUser(const unsigned int id);
 
         /**
          * Returns the current number of users on this CollabServer.
          *
          * \return Number of users.
          */
-        int getNbUsers() const { return _users.size(); }
+        std::size_t getNbUsers() const { return _users.size(); }
 
         /**
          * Check whether user is in CollabServer.
@@ -72,7 +77,7 @@ class CollabServer {
          * \param id The user ID to search for.
          * \return True if is in CollabServer, otherwise, return false.
          */
-        bool hasUser(const int id) const { return _users.count(id) == 1; }
+        bool hasUser(const unsigned int id) const { return _users.count(id) == 1; }
 
         /**
          * Check whether the given user (By ID) is in the room (By ID).
@@ -81,14 +86,14 @@ class CollabServer {
          * \param roomID ID of the room.
          * \return True if user is in room, otherwise, returns false.
          */
-        bool isUserInRoom(const int userID, const int roomID) const;
+        bool isUserInRoom(const unsigned int userID, const unsigned int roomID) const;
 
         /**
          * Check whether this user is in a room.
          *
          * \return True if user is currently in a room, otherwise, return false.
          */
-        bool isUserInAnyRoom(const int userID) const;
+        bool isUserInAnyRoom(const unsigned int userID) const;
 
         /**
          * Try to add a user to a room (Using IDs).
@@ -99,7 +104,7 @@ class CollabServer {
          * \param roomID ID of the room where to place user.
          * \return True if successfully added in room, otherwise, return false.
          */
-        bool userJoinRoom(const int userID, const int roomID);
+        bool userJoinRoom(const unsigned int userID, const unsigned int roomID);
 
         /**
          * Tries to remove a user from its current room.
@@ -107,7 +112,7 @@ class CollabServer {
          *
          * \return True if successfully left, otherwise, return false.
          */
-        bool userLeaveCurrentRoom(const int userID);
+        bool userLeaveCurrentRoom(const unsigned int userID);
 
         /**
          * Check whether this user is ugly.
@@ -116,7 +121,7 @@ class CollabServer {
          * \param id ID of the user to check.
          * \return True if is ugly (According to server).
          */
-        bool isUserUgly(const int userID);
+        bool isUserUgly(const unsigned int userID);
 
         /**
          * Get user by its ID.
@@ -124,14 +129,18 @@ class CollabServer {
          * \param id ID of the user to find.
          * \return Pointer to the user data or nullptr if no user for this id.
          */
-        const User* findUser(const int id) const;
+        const User* findUser(const unsigned int id) const;
 
     private:
+
+        // DevNote: user should not be able to modify User directly but only
+        // through CollabServer, therefore this method is only for internal
+        // use and should be private.
 
         /**
          * \copydoc CollabServer::findUser
          */
-        User* findUser(const int id);
+        User* findUser(const unsigned int id);
 
 
     // -------------------------------------------------------------------------
@@ -143,7 +152,7 @@ class CollabServer {
         /**
          * Create a new room of collaboration in the CollabServer.
          *
-         * \return The newly created room or nullptr if error.
+         * \return Pointer to the newly created room or nullptr if error.
          */
         const Room* createNewRoom();
 
@@ -154,7 +163,7 @@ class CollabServer {
          * \param id The unique ID of the room.
          * \return True if successfully deleted, otherwise, return false.
          */
-        bool deleteRoom(const int id);
+        bool deleteRoom(const unsigned int id);
 
         /**
          * Commit an operation to the given room.
@@ -164,14 +173,15 @@ class CollabServer {
          * \param roomID ID of the room where to commit operation.
          * \return True if successfully committed, otherwise, return false.
          */
-        bool commitOperationInRoom(const OperationInfo& op, const int roomID);
+        bool commitOperationInRoom(const OperationInfo& op,
+                                   const unsigned int roomID);
 
         /**
          * Returns the current number of rooms in the CollabServer
          *
          * \return Number of rooms.
          */
-        int getNbRooms() const { return _rooms.size(); }
+        std::size_t getNbRooms() const { return _rooms.size(); }
 
         /**
          * Check whether room is in CollabServer.
@@ -179,7 +189,7 @@ class CollabServer {
          * \param id The room ID to search for.
          * \return True if is in CollabServer, otherwise, return false.
          */
-        bool hasRoom(const int id) const { return _rooms.count(id) == 1; }
+        bool hasRoom(const unsigned int id) const { return _rooms.count(id) == 1; }
 
         /**
          * Get room from its ID.
@@ -187,14 +197,18 @@ class CollabServer {
          * \param id ID of the room to find.
          * \return Pointer to the room data or nullptr if no room for this id.
          */
-        const Room* findRoom(const int id) const;
+        const Room* findRoom(const unsigned int id) const;
 
     private:
+
+        // DevNote: user should not be able to modify room directly but only
+        // through CollabServer, therefore this method is only for internal
+        // use and should be private.
 
         /**
          * \copydoc CollabServer::findRoom
          */
-        Room* findRoom(const int id);
+        Room* findRoom(const unsigned int id);
 };
 
 

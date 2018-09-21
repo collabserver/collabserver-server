@@ -129,7 +129,7 @@ void Server::handleMessage(const MsgConnectionRequest& msg) {
 
     Message* response;
     if(user != nullptr) {
-        int userID = user->getUserID();
+        unsigned int userID = user->getUserID();
         LOG << "(UserID=" << userID << "): New user successfully created\n";
         response = factory.newMessage(MessageFactory::MSG_CONNECTION_SUCCESS);
         static_cast<MsgConnectionSuccess*>(response)->setUserID(userID);
@@ -147,7 +147,7 @@ void Server::handleMessage(const MsgDisconnectRequest& msg) {
     LOG << "Message received (MsgDisconnectRequest)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
-    int userID = static_cast<MsgDisconnectRequest>(msg).getUserID();
+    unsigned int userID = static_cast<MsgDisconnectRequest>(msg).getUserID();
     bool success = _collabserver->deleteUser(userID);
 
     Message* response = nullptr;
@@ -173,9 +173,9 @@ void Server::handleMessage(const MsgCreaDataRequest& msg) {
     LOG << "Message received (MsgCreaDataRequest)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
-    int userID = static_cast<MsgCreaDataRequest>(msg).getUserID();
+    unsigned int userID = static_cast<MsgCreaDataRequest>(msg).getUserID();
     const Room* room = _collabserver->createNewRoom();
-    int roomID = (room != nullptr) ? room->getRoomID() : -1;
+    unsigned int roomID = (room != nullptr) ? room->getRoomID() : -1;
 
     Message* response = nullptr;
     if(room != nullptr && _collabserver->userJoinRoom(userID, roomID)) {
@@ -197,8 +197,8 @@ void Server::handleMessage(const MsgJoinDataRequest& msg) {
     LOG << "Message received (MsgJoinDataRequest)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
-    int userID = static_cast<MsgJoinDataRequest>(msg).getUserID();
-    int roomID = static_cast<MsgJoinDataRequest>(msg).getDataID();
+    unsigned int userID = static_cast<MsgJoinDataRequest>(msg).getUserID();
+    unsigned int roomID = static_cast<MsgJoinDataRequest>(msg).getDataID();
 
     bool success = _collabserver->userJoinRoom(userID, roomID);
     Message* response = nullptr;
@@ -220,7 +220,7 @@ void Server::handleMessage(const MsgLeaveDataRequest& msg) {
     LOG << "Message received (MsgLeaveDataRequest)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
-    int userID = static_cast<MsgLeaveDataRequest>(msg).getUserID();
+    unsigned int userID = static_cast<MsgLeaveDataRequest>(msg).getUserID();
     bool success = _collabserver->userLeaveCurrentRoom(userID);
 
     Message* response = nullptr;
@@ -247,7 +247,7 @@ void Server::handleMessage(const MsgUgly& msg) {
     LOG << "Message received (MsgUgly)\n";
     MessageFactory& factory = MessageFactory::getInstance();
 
-    int userID = static_cast<MsgUgly>(msg).getUserID();
+    unsigned int userID = static_cast<MsgUgly>(msg).getUserID();
     bool isUgly = _collabserver->isUserUgly(userID);
 
     LOG << "(UserID=" << userID << "): isUgly response = " << isUgly << "\n";
@@ -275,8 +275,8 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
     op.buffer   = static_cast<const MsgRoomOperation>(msg).getOperationBuffer();
 
     // It's just aliases for visibility
-    const int roomID = op.roomID;
-    const int userID = op.userID;
+    const unsigned int roomID = op.roomID;
+    const unsigned int userID = op.userID;
 
     bool success = _collabserver->commitOperationInRoom(op, roomID);
 
@@ -301,7 +301,7 @@ void Server::handleMessage(const MsgRoomOperation& msg) {
 // Broadcaster methods
 // -----------------------------------------------------------------------------
 
-void Server::sendOperationToUser(const OperationInfo& op, int id) {
+void Server::sendOperationToUser(const OperationInfo& op, unsigned int id) {
     MessageFactory& factory = MessageFactory::getInstance();
 
     LOG << "(RoomID=" << op.roomID << "): Sending operation to user (UserID=" << id << ")\n";
@@ -318,7 +318,7 @@ void Server::sendOperationToUser(const OperationInfo& op, int id) {
     factory.freeMessage(msg);
 }
 
-void Server::broadcastOperationToRoom(const OperationInfo& op, int id) {
+void Server::broadcastOperationToRoom(const OperationInfo& op, unsigned int id) {
     MessageFactory& factory = MessageFactory::getInstance();
 
     LOG << "(UserID=" << op.userID << "): Broadcasting operation in room (roomID=" << id << ")\n";

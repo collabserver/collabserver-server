@@ -26,12 +26,12 @@ CollabServer::~CollabServer() {
 // -----------------------------------------------------------------------------
 
 const User* CollabServer::createNewUser() {
-    const int id = User::USER_ID_COUNTER + 1;
+    const unsigned int id = User::USER_ID_COUNTER + 1;
     auto it = _users.insert(std::make_pair(id, User()));
     return &(it.first->second);
 }
 
-bool CollabServer::deleteUser(const int id) {
+bool CollabServer::deleteUser(const unsigned int id) {
     auto it = _users.find(id);
     if(it == _users.end()) {
         return false;
@@ -47,7 +47,8 @@ bool CollabServer::deleteUser(const int id) {
     return _users.erase(id) == 1;
 }
 
-bool CollabServer::isUserInRoom(const int userID, const int roomID) const {
+bool CollabServer::isUserInRoom(const unsigned int userID,
+                                const unsigned int roomID) const {
     const User* user = this->findUser(userID);
     const Room* room = this->findRoom(roomID);
     if(user == nullptr || room == nullptr || user->getRoom() == nullptr) {
@@ -56,7 +57,7 @@ bool CollabServer::isUserInRoom(const int userID, const int roomID) const {
     return user->getRoom()->getRoomID() == roomID;
 }
 
-bool CollabServer::isUserInAnyRoom(const int userID) const {
+bool CollabServer::isUserInAnyRoom(const unsigned int userID) const {
     const User* user = this->findUser(userID);
     if(user == nullptr) {
         return false;
@@ -64,7 +65,7 @@ bool CollabServer::isUserInAnyRoom(const int userID) const {
     return user->getRoom() != nullptr;
 }
 
-bool CollabServer::userJoinRoom(const int userID, const int roomID) {
+bool CollabServer::userJoinRoom(const unsigned int userID, const unsigned int roomID) {
     User* user = this->findUser(userID);
     Room* room = this->findRoom(roomID);
     if(user == nullptr || room == nullptr) {
@@ -73,7 +74,7 @@ bool CollabServer::userJoinRoom(const int userID, const int roomID) {
     return room->addUser(*user);
 }
 
-bool CollabServer::userLeaveCurrentRoom(const int userID) {
+bool CollabServer::userLeaveCurrentRoom(const unsigned int userID) {
     User* user = this->findUser(userID);
     if(user == nullptr || user->getRoom() == nullptr) {
         return false;
@@ -81,12 +82,12 @@ bool CollabServer::userLeaveCurrentRoom(const int userID) {
     return user->getRoom()->removeUser(*user);
 }
 
-bool CollabServer::isUserUgly(const int userID) {
+bool CollabServer::isUserUgly(const unsigned int userID) {
     User* user = this->findUser(userID);
     return (user != nullptr) ? user->isUserUgly() : true;
 }
 
-const User* CollabServer::findUser(const int id) const {
+const User* CollabServer::findUser(const unsigned int id) const {
     auto user_it = _users.find(id);
     if(user_it == _users.end()) {
         return nullptr;
@@ -94,7 +95,7 @@ const User* CollabServer::findUser(const int id) const {
     return &(user_it->second);
 }
 
-User* CollabServer::findUser(const int id) {
+User* CollabServer::findUser(const unsigned int id) {
     auto user_it = _users.find(id);
     if(user_it == _users.end()) {
         return nullptr;
@@ -108,12 +109,12 @@ User* CollabServer::findUser(const int id) {
 // -----------------------------------------------------------------------------
 
 const Room* CollabServer::createNewRoom() {
-    const int id = Room::ROOM_ID_COUNTER + 1;
+    const unsigned int id = Room::ROOM_ID_COUNTER + 1;
     auto it = _rooms.emplace(std::make_pair(id, Room(_broadcaster)));
     return &(it.first->second);
 }
 
-bool CollabServer::deleteRoom(const int id) {
+bool CollabServer::deleteRoom(const unsigned int id) {
     auto it = _rooms.find(id);
     if(it == _rooms.end()) {
         return false;
@@ -127,7 +128,8 @@ bool CollabServer::deleteRoom(const int id) {
     return _rooms.erase(id) == 1;
 }
 
-bool CollabServer::commitOperationInRoom(const OperationInfo& op, const int id) {
+bool CollabServer::commitOperationInRoom(const OperationInfo& op,
+                                         const unsigned int id) {
     Room* room = this->findRoom(id);
     if(room == nullptr) {
         return false;
@@ -135,7 +137,7 @@ bool CollabServer::commitOperationInRoom(const OperationInfo& op, const int id) 
     return room->commitOperation(op);
 }
 
-const Room* CollabServer::findRoom(const int id) const {
+const Room* CollabServer::findRoom(const unsigned int id) const {
     auto room_it = _rooms.find(id);
     if(room_it == _rooms.end()) {
         return nullptr;
@@ -143,7 +145,7 @@ const Room* CollabServer::findRoom(const int id) const {
     return &(room_it->second);
 }
 
-Room* CollabServer::findRoom(const int id) {
+Room* CollabServer::findRoom(const unsigned int id) {
     auto room_it = _rooms.find(id);
     if(room_it == _rooms.end()) {
         return nullptr;

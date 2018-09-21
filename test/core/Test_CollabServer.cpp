@@ -9,8 +9,13 @@ namespace collab {
 
 class MockBroadcaster : public Broadcaster {
     public:
-        void sendOperationToUser(const OperationInfo& op, const int userID) {}
-        void broadcastOperationToRoom(const OperationInfo& op, const int roomID) {}
+        void sendOperationToUser(const OperationInfo& op,
+                                 const unsigned int userID) override {
+        }
+
+        void broadcastOperationToRoom(const OperationInfo& op,
+                                      const unsigned int roomID) override {
+        }
 };
 static MockBroadcaster local_mockBroadcaster;
 
@@ -63,8 +68,8 @@ TEST(CollabServer, deleteUser_addDell) {
 
     const User* u1 = server.createNewUser();
     const User* u2 = server.createNewUser();
-    int u1_id = u1->getUserID();
-    int u2_id = u2->getUserID();
+    unsigned int u1_id = u1->getUserID();
+    unsigned int u2_id = u2->getUserID();
     ASSERT_EQ(server.getNbUsers(), 2);
 
     server.deleteUser(u1_id);
@@ -80,8 +85,8 @@ TEST(CollabServer, deleteUser_duplicateAndInvalidID) {
 
     const User* u1 = server.createNewUser();
     const User* u2 = server.createNewUser();
-    int u1_id = u1->getUserID();
-    int u2_id = u2->getUserID();
+    unsigned int u1_id = u1->getUserID();
+    unsigned int u2_id = u2->getUserID();
     ASSERT_EQ(server.getNbUsers(), 2);
 
     ASSERT_FALSE(server.deleteUser(-32));

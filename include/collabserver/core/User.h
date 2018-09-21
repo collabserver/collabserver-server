@@ -14,11 +14,11 @@ class Room;
  */
 class User {
     public:
-        static int  USER_ID_COUNTER;
+        static unsigned int USER_ID_COUNTER;
 
     private:
-        const int   _id;
-        Room*       _room = nullptr;
+        const unsigned int   _id;
+        Room*               _room = nullptr;
 
 
     public:
@@ -53,7 +53,7 @@ class User {
          *
          * \return User ID.
          */
-        int getUserID() const { return _id; }
+        unsigned int getUserID() const { return _id; }
 
         /**
          * Good job! You just found my beautiful / stupid easter egg!
