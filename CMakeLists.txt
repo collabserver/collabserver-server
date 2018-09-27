@@ -7,21 +7,23 @@ endif()
 
 
 # ------------------------------------------------------------------------------
-# Various
+# Dependencies / Misc
 # ------------------------------------------------------------------------------
-set(collab_dependency_dir "${CMAKE_SOURCE_DIR}/dependencies/")
-set(collab_gitmodule_dir "${CMAKE_SOURCE_DIR}/gitmodules/")
-
 include("CMake/AddCompilerFlags.cmake")
-include("CMake/ExternalProjects/Collabcommon.cmake")
+include("CMake/AddDependencies.cmake")
+
+# Internal dependencies (Submodules compiled with server executable)
+set(COLLAB_GITMODULE_DIR "${CMAKE_SOURCE_DIR}/gitmodules/")
+
+include("CMake/ExternalProjects/CollabCommon.cmake")
+include_directories("${COLLAB_GITMODULE_DIR}/collab-data-crdts/include")
+include_directories("${COLLAB_GITMODULE_DIR}/collab-common/include")
 
 
 # ------------------------------------------------------------------------------
 # Server executable
 # ------------------------------------------------------------------------------
 include_directories("${CMAKE_SOURCE_DIR}/include")
-include_directories("${collab_gitmodule_dir}/collab-data-crdts/include")
-include_directories("${collab_gitmodule_dir}/collab-common/include")
 
 file(GLOB_RECURSE srcFilesServer "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
@@ -35,9 +37,9 @@ add_custom_target(runCollabServer collabserver)
 # ------------------------------------------------------------------------------
 # Tests
 # ------------------------------------------------------------------------------
-option(collab_tests "Build Tests" OFF)
+option(COLLAB_TESTS "Build Tests" OFF)
 
-if(collab_tests)
+if(COLLAB_TESTS)
     message(STATUS "Build tests")
     include("CMake/AddTests.cmake")
 endif()

@@ -8,7 +8,8 @@ mkdir build || true
 cd build
 
 cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-      -Dcollab_tests=ON \
+      -DCOLLAB_DEPENDENCIES_DOWNLOAD=ON \
+      -DCOLLAB_TESTS=ON \
       ..
 
 make
