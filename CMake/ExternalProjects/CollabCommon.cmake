@@ -4,7 +4,7 @@
 
 include(ExternalProject)
 ExternalProject_Add(collab-common
-    SOURCE_DIR          "${COLLAB_GITMODULE_DIR}/collab-common/"
+    SOURCE_DIR          "${COLLAB_GITMODULES_DIR}/collab-common/"
     BINARY_DIR          "${CMAKE_BINARY_DIR}/collab-common-build/"
     INSTALL_COMMAND     ""
     TEST_COMMAND        ""

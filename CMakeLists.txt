@@ -13,11 +13,11 @@ include("CMake/AddCompilerFlags.cmake")
 include("CMake/AddDependencies.cmake")
 
 # Internal dependencies (Submodules compiled with server executable)
-set(COLLAB_GITMODULE_DIR "${CMAKE_SOURCE_DIR}/gitmodules/")
+set(COLLAB_GITMODULES_DIR "${CMAKE_SOURCE_DIR}/gitmodules/")
 
 include("CMake/ExternalProjects/CollabCommon.cmake")
-include_directories("${COLLAB_GITMODULE_DIR}/collab-data-crdts/include")
-include_directories("${COLLAB_GITMODULE_DIR}/collab-common/include")
+include_directories("${COLLAB_GITMODULES_DIR}/collab-data-crdts/include")
+include_directories("${COLLAB_GITMODULES_DIR}/collab-common/include")
 
 
 # ------------------------------------------------------------------------------
