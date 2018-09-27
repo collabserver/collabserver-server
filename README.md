@@ -11,70 +11,107 @@
 
 ## Overview
 Server for realtime collaboration.
-> Work in progress...
+Deals with user connection and collaborative rooms.
+The server doesn't know anything about the exact data type.
 
 
-## Requirements
+## Features
+- User connections
+    - Connect user to the server
+    - Disconnect user from the server
+- Collaborative Room
+    - Enter: user enter the collab room.
+      Receive previous operations and start collaborating on the data.
+    - Leave: user leave the collab room and doesn't receive updates anymore.
+    - Create: create a new room of collaboration.
+    - Delete: remove room of collaboration from server.
+
+> A Collab Room is a current instance of collaboration with several users
+> on one data. Data is any data that implements `CollabData` and has one or more
+> possible `Operation` (See `collab-data-crdts` project).
+> A room is simply a list of operations applied on the data. The server
+> deals with the broadcasting system and ensure all users in room receive
+> all operations.
+
+
+## Build instructions (CMake)
+
+### Requirements
 - C++11
 - `pragma once` support
+- Tested with gcc 4.8.4
+- Tested with clang 5.0.0
 - Tested only on Linux. Not support certified for Mac and Windows
 
+### Dependencies
+All dependencies are automatically downloaded by CMake and placed in a folder
+named `dependencies`.
+You may move this folder in another place later and request CMake not to
+download dependencies anymore (**See CMake options**).
 
-## Dependencies
-> Dependencies marked with *(CMake)* are automatically downloaded by CMake
-> script and placed in *dependencies* folder.
-> Others must be installed manually (Generally system-wide install).
+If you are using a custom permanent location for your dependencies, a convenient
+solution is to set the environment variable `COLLAB_DEPENDENCIES_DIR` with this path.
+CMake will use this one as the default location (Except if a custom path is
+given as CMake parameter).
+
+- [GoogleTest](https://github.com/google/googletest) (Only required for tests)
+
+### Manual dependencies (System Wide)
+These dependencies must be installed system-wide and are not downloaded by CMake.
+Check the instruction specific to your operating system for further information.
+(Ex: `pacman -S zeromq` on ArchLinux)
+
 - [ZeroMQ](http://zeromq.org/) (**Must be installed system-wide**)
+
+### Git submodules
+These are used internally by collab-server and are compiled along with collab-server.
+You may work on the submodules from this project.
+
 - [collab-common](https://github.com/CollabServer/collab-common.git) (CMake)
 - [collab-data-crdts](https://github.com/CollabServer/collab-data-crdts.git) (CMake)
-- [GoogleTest](https://github.com/google/googletest) (CMake)
 
-
-## Build instructions
-
-### Clone project with dependencies
 ```bash
+# To clone project with submodules
 git clone --recursive https://github.com/CollabServer/collab-server.git
 cd collab-server
 
-# To pull, use
+# To pull also submodules
 git pull --recurse-submodules=on
 ```
 
-### Build types
-- CMake build types (ex: `-DCMAKE_BUILD_TYPE=Debug`):
-    - Debug
-    - Release
-    - RelWithDebInfo
-    - MinSizeRel
+### CMake options
+| Name | Description |
+| --- | --- |
+| COLLAB_DEPENDENCIES_DIR | (STRING) Path to a directory where to find all dependencies (By default, uses current cmake build) |
+| COLLAB_DEPENDENCIES_DOWNLOAD | (ON/OFF) Set ON to also download dependencies at cmake time. This is useful the first time you setup the project. Dependencies are placed in COLLAB_DEPENDENCIES_DIR. (By default: OFF).|
+| COLLAB_TESTS | (ON/OFF) Set ON to build unit tests |
+| CMAKE_BUILD_TYPE | Debug, Release, RelWithDebInfo, MinSizeRel |
 
-### Build and run server with CMake
-#### Manual build instructions
+
+### Build and run server (CMake)
 ```bash
+# Manual
 mkdir build
 cd build
-cmake ..
-make -j4
+cmake -DCOLLAB_DEPENDENCIES_DOWNLOAD=ON ..
+make -j2
 make runCollabServer
-```
-#### Script build instructions
-```bash
+
+# Script
 ./build.sh
 cd build
 make runCollabServer
 ```
 
-### Build and run tests with CMake
-#### Manual build tests instructions
+### Build and run tests (CMake)
 ```bash
 mkdir build
 cd build
-cmake -Dcollab_tests=ON ..
-make -j4
+cmake -DCOLLAB_TESTS=ON -DCOLLAB_DEPENDENCIES_DOWNLOAD=ON ..
+make -j2
 make runAllTests
-```
-#### Script build tests instructions
-```bash
+
+# Script
 ./build.sh
 # Tests should start by default.
 # If not, follow the manual instructions
