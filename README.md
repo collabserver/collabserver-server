@@ -1,8 +1,7 @@
 # Collab Server
 
-[![release-version](https://img.shields.io/badge/release-no--release-red.svg)]()
-[![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=master)](https://travis-ci.org/CollabServer/collab-server)
 [![license](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](https://github.com/CollabServer/collab-server/blob/dev/LICENSE.txt)
+[![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=master)](https://travis-ci.org/CollabServer/collab-server)
 
 | master | dev |
 | :-----: | :-----: |
@@ -10,28 +9,29 @@
 
 
 ## Overview
-Server for realtime collaboration.
-Deals with user connection and collaborative rooms.
-The server doesn't know anything about the exact data type.
+Server for realtime collaboration on any `CollabData`.
 
 
 ## Features
-- User connections
+- Users
     - Connect user to the server
     - Disconnect user from the server
-- Collaborative Room
+- Room (Collaborative Room)
     - Enter: user enter the collab room.
-      Receive previous operations and start collaborating on the data.
     - Leave: user leave the collab room and doesn't receive updates anymore.
     - Create: create a new room of collaboration.
     - Delete: remove room of collaboration from server.
 
-> A Collab Room is a current instance of collaboration with several users
-> on one data. Data is any data that implements `CollabData` and has one or more
-> possible `Operation` (See `collab-data-crdts` project).
-> A room is simply a list of operations applied on the data. The server
-> deals with the broadcasting system and ensure all users in room receive
-> all operations.
+**Collaborative Room (User point of view)**:
+A Collaborative room is a current instance of collaboration where several users
+are working on the same Data. The data itself is any implementation of
+`CollabData` interface with a set of `Operation` implemented (See `collab-data-crdts`).
+
+**Collaborative Room (In server)**:
+The server doesn't know anything about the concrete data implementation.
+A room only store the list of operations applied since the beginning.
+The server deals with the broadcasting system and ensure that all users in a
+room receive each operations.
 
 
 ## Build instructions (CMake)
@@ -88,7 +88,7 @@ git pull --recurse-submodules=on
 | CMAKE_BUILD_TYPE | Debug, Release, RelWithDebInfo, MinSizeRel |
 
 
-### Build and run server (CMake)
+### Build and run server with CMake
 ```bash
 # Manual
 mkdir build
@@ -97,24 +97,24 @@ cmake -DCOLLAB_DEPENDENCIES_DOWNLOAD=ON ..
 make -j2
 make runCollabServer
 
-# Script
+# Using script
 ./build.sh
 cd build
 make runCollabServer
 ```
 
-### Build and run tests (CMake)
+### Build and run tests with CMake
 ```bash
+# Manual
 mkdir build
 cd build
-cmake -DCOLLAB_TESTS=ON -DCOLLAB_DEPENDENCIES_DOWNLOAD=ON ..
+cmake -DCOLLAB_DEPENDENCIES_DOWNLOAD=ON -DCOLLAB_TESTS=ON ..
 make -j2
 make runAllTests
 
-# Script
+# Using script
 ./build.sh
-# Tests should start by default.
-# If not, follow the manual instructions
+# Tests should start by default. If not, follow the manual instructions
 ```
 
 
