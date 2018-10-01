@@ -31,7 +31,7 @@ add_executable(collabserver ${srcFilesServer})
 add_dependencies(collabserver collab-common)
 target_link_libraries(collabserver collabcommon zmq)
 
-add_custom_target(runCollabServer collabserver)
+add_custom_target(run collabserver)
 
 
 # ------------------------------------------------------------------------------
