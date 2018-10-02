@@ -23,43 +23,39 @@ project.
     - Install system-wide dependencies if required
     - Build collab-server (See build instructions)
 1. Start CollabServer
-    - Open a console
-    - Run the collabserver executable
+    - Open a console and run collabserver executable
     - Logs are displayed here (User connection, disconnection etc...)
     - Ctrl+C to stop server.
+1. Connect users
+    - User implements `collab-client-interface` to connect with Server
+    - Server port is 4242
+    - Local IP is localhost
+    - `collab-grapheditor` is an example of user
 
 
 # Features
 - Users
     - Connection
     - Disconnection
-- Room (Collaborative Room)
-    - Enter: user enter the collab room.
-    - Leave: user leave the collab room and doesn't receive updates anymore.
-    - Create: create a new room of collaboration.
-    - Delete: remove room of collaboration from server.
-
-**Collaborative Room (User point of view)**:
-A Collaborative room is a current instance of collaboration where several users
-are working on the same Data. The data itself is any implementation of
-`CollabData` interface with a set of `Operation` implemented (See `collab-data-crdts`).
-
-**Collaborative Room (In server)**:
-The server doesn't know anything about the concrete data implementation.
-A room only store the list of operations applied since the beginning.
-The server deals with the broadcasting system and ensure that all users in a
-room receive each operations.
+    - Enter room
+    - Leave room
+    - Create room
+    - Delete room
+- Collaborative Room
+    - **User point of view**:
+    a Collaborative room is a current instance of collaboration where several
+    users are working on the same Data. The data itself is any implementation
+    of `CollabData` interface with a set of `Operation` implemented
+    (See `collab-data-crdts`).
+    - **In server**:
+    the server doesn't know anything about the concrete data implementation.
+    A room only store the list of operations applied since the beginning.
+    The server deals with the broadcasting system and ensure that all users in
+    a room receive each operations.
 
 
 # Build on Linux (CMake)
-
-| CMake option Name | Description |
-| --- | --- |
-| COLLAB_DEPENDENCIES_DIR | (STRING) Path to a directory where to find all dependencies (By default, uses current cmake build) |
-| COLLAB_DEPENDENCIES_DOWNLOAD | (ON/OFF) Set ON to also download dependencies at cmake time. This is useful the first time you setup the project. Dependencies are placed in COLLAB_DEPENDENCIES_DIR. (By default: OFF).|
-| COLLAB_TESTS | (ON/OFF) Set ON to build unit tests |
-| CMAKE_BUILD_TYPE | Debug, Release, RelWithDebInfo, MinSizeRel |
-
+**Build executable**
 ```bash
 # Warning: Install system-wide dependencies
 # Be sure you have all requirements
@@ -91,14 +87,23 @@ make runAllTests
 ./build.sh
 ```
 
+**CMake options**
+
+| CMake option Name | Description |
+| --- | --- |
+| COLLAB_DEPENDENCIES_DIR | (STRING) Path to a directory where to find all dependencies (By default, uses current cmake build) |
+| COLLAB_DEPENDENCIES_DOWNLOAD | (ON/OFF) Set ON to also download dependencies at cmake time. This is useful the first time you setup the project. Dependencies are placed in COLLAB_DEPENDENCIES_DIR. (By default: OFF).|
+| COLLAB_TESTS | (ON/OFF) Set ON to build unit tests |
+| CMAKE_BUILD_TYPE | Debug, Release, RelWithDebInfo, MinSizeRel |
+
 
 # Requirements
 - C++11
 - `pragma once` support
 - Tested with gcc 4.8.4
 - Tested with clang 5.0.0
-- Tested only on Linux. Not support certified for Mac and Windows
-- CMake
+- Tested only on Linux. **Not support certified for Mac and Windows**
+- CMake (2.8.2 or higher)
 
 
 # Dependencies
@@ -122,6 +127,12 @@ make runAllTests
 **Option: use environment variable for dependencies path**
 > If `COLLAB_DEPENDENCIES_DIR` environment variable is set, CMake will use
 > it as the current dependencies path.
+
+
+# Generate Documentation
+1. Install [Doxygen](https://www.stack.nl/~dimitri/doxygen/)
+1. `doxygen Doxyfile`
+1. Files are placed in `doc` folder
 
 
 # Contribution

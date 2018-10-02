@@ -1,6 +1,6 @@
-# ------------------------------------------------------------------------------
-# Project collab-common (gitsubmodule)
-# ------------------------------------------------------------------------------
+cmake_minimum_required(VERSION 2.8.2 FATAL_ERROR)
+
+project(collab-common-download NONE)
 
 include(ExternalProject)
 ExternalProject_Add(collab-common
