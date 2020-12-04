@@ -1,29 +1,19 @@
-#include "collabserver/core/CollabServer.h"
-
 #include <gtest/gtest.h>
 
 #include "collabserver/core/Broadcaster.h"
+#include "collabserver/core/CollabServer.h"
 
 namespace collab {
 
-
 class MockBroadcaster : public Broadcaster {
-    public:
-        void sendOperationToUser(const OperationInfo& op,
-                                 const unsigned int userID) override {
-        }
+   public:
+    void sendOperationToUser(const OperationInfo& op, const unsigned int userID) override {}
 
-        void broadcastOperationToRoom(const OperationInfo& op,
-                                      const unsigned int roomID) override {
-        }
+    void broadcastOperationToRoom(const OperationInfo& op, const unsigned int roomID) override {}
 };
 static MockBroadcaster local_mockBroadcaster;
 
-
-TEST(CollabServer, constructor) {
-    CollabServer server = CollabServer(local_mockBroadcaster);
-}
-
+TEST(CollabServer, constructor) { CollabServer server = CollabServer(local_mockBroadcaster); }
 
 // -----------------------------------------------------------------------------
 // CreateNewUser
@@ -56,7 +46,6 @@ TEST(CollabServer, createNewUser_returnType) {
     ASSERT_TRUE(u1->getUserID() != u2->getUserID());
     ASSERT_TRUE(u2->getUserID() != u3->getUserID());
 }
-
 
 // -----------------------------------------------------------------------------
 // DeleteUser
@@ -106,7 +95,6 @@ TEST(CollabServer, deleteUser_duplicateAndInvalidID) {
     ASSERT_EQ(server.getNbUsers(), 0);
 }
 
-
 // -----------------------------------------------------------------------------
 // isUserInRoom
 // -----------------------------------------------------------------------------
@@ -126,7 +114,4 @@ TEST(CollabServer, isUserInRoom) {
     ASSERT_TRUE(server.isUserInRoom(u1->getUserID(), r1->getRoomID()));
 }
 
-
-} // End namespace
-
-
+}  // namespace collab

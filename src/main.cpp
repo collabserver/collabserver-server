@@ -3,9 +3,8 @@
 #include <exception>
 #include <iostream>
 
-#include "collabserver/network/Server.h"
 #include "collabcommon/utils/Log.h"
-
+#include "collabserver/network/Server.h"
 
 static collab::Server* server_ptr = nullptr;
 
@@ -24,13 +23,11 @@ int main(int argc, char** argv) {
 
     try {
         server.start();
-    }
-    catch(const std::exception& exception) {
+    } catch (const std::exception& exception) {
         server.stop();
         LOG << "Crashed with exception: " << exception.what() << std::endl;
         return EXIT_FAILURE;
-    }
-    catch(...) {
+    } catch (...) {
         server.stop();
         LOG << "Crashed with unknown exception" << std::endl;
         return EXIT_FAILURE;
@@ -39,4 +36,3 @@ int main(int argc, char** argv) {
     LOG << "Close CollabServer\n";
     return EXIT_SUCCESS;
 }
-

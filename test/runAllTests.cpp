@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-
 /*
  * Start your engiiiiines!!! Yeah!
  * Let's hope they will all pass! (And they will! Yes yes!)

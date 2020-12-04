@@ -4,7 +4,6 @@ namespace collab {
 
 class Room;
 
-
 /**
  * \brief
  * Describe a user registered in the CollabServer.
@@ -13,60 +12,55 @@ class Room;
  * User may be in one room at the time.
  */
 class User {
-    public:
-        static unsigned int USER_ID_COUNTER;
+   public:
+    static unsigned int USER_ID_COUNTER;
 
-    private:
-        const unsigned int   _id;
-        Room*               _room = nullptr;
+   private:
+    const unsigned int _id;
+    Room* _room = nullptr;
 
+   public:
+    /**
+     * Creates a new user and set its unique local ID.
+     */
+    User() : _id(++USER_ID_COUNTER) {}
 
-    public:
+    /**
+     * Set pointer to the current room where user is collaborating.
+     * Not check is done, this simply set, regardless the previous value.
+     *
+     * \param room Reference to the room to set.
+     */
+    void setRoom(Room* room) { _room = room; }
 
-        /**
-         * Creates a new user and set its unique local ID.
-         */
-        User() : _id(++USER_ID_COUNTER) {}
+    /**
+     * Get the room pointer where user is or nullptr if no room set.
+     *
+     * \return Pointer to the room or nullptr.
+     */
+    Room* getRoom() { return _room; }
 
-        /**
-         * Set pointer to the current room where user is collaborating.
-         * Not check is done, this simply set, regardless the previous value.
-         *
-         * \param room Reference to the room to set.
-         */
-        void setRoom(Room* room) { _room = room; }
+    /**
+     * \copydoc User::getRoom
+     */
+    const Room* getRoom() const { return _room; }
 
-        /**
-         * Get the room pointer where user is or nullptr if no room set.
-         *
-         * \return Pointer to the room or nullptr.
-         */
-        Room* getRoom() { return _room; }
+    /**
+     * Returns ID of this user in the collab instance.
+     *
+     * \return User ID.
+     */
+    unsigned int getUserID() const { return _id; }
 
-        /**
-         * \copydoc User::getRoom
-         */
-        const Room* getRoom() const { return _room; }
-
-        /**
-         * Returns ID of this user in the collab instance.
-         *
-         * \return User ID.
-         */
-        unsigned int getUserID() const { return _id; }
-
-        /**
-         * Good job! You just found my beautiful / stupid easter egg!
-         * Check whether this user is actually Ugly!
-         * This is probably one of the most important method in the whole code!
-         *
-         * \param id User id.
-         * \return True if this user is ugly! (Burk!)
-         */
-        bool isUserUgly() const { return (_id % 42) != 0; }
+    /**
+     * Good job! You just found my beautiful / stupid easter egg!
+     * Check whether this user is actually Ugly!
+     * This is probably one of the most important method in the whole code!
+     *
+     * \param id User id.
+     * \return True if this user is ugly! (Burk!)
+     */
+    bool isUserUgly() const { return (_id % 42) != 0; }
 };
 
-
-} // End namespace
-
-
+}  // namespace collab
