@@ -7,12 +7,10 @@ set -v
 mkdir build || true
 cd build
 
-cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-      -DCOLLAB_DEPENDENCIES_DOWNLOAD=ON \
-      -DCOLLAB_TESTS=ON \
+cmake -DCMAKE_BUILD_TYPE=${ENV_BUILD_TYPE} \
+      -DCOLLABSERVER_TESTS=ON \
       ..
 
 make
 make runAllTests
-
 
