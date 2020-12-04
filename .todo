@@ -1,0 +1,16 @@
+# Uses vscode TODO+ for nice highlight
+# https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus
+
+Cleanup:
+    ☐ Add clang-format
+    ☐ Apply clang-format on the whole project
+    ☐ Fix gitmodules with renamed version of the projects
+    ☐ Rename `include/collabserver` to `include/collabserver/server`
+    ☐ Rename `namespace collabserver` to `namespace collabserver`
+    ☐ Update CMake to place dependencies in the folder `extern`
+    ☐ Update CMake with cleaned up version
+    ☐ Update all pointers with safer type (e.g., `std::unique_ptr`)
+    ☐ Update Travis CI
+Readme:
+    ☐ Update README with a custom logo
+    ☐ Update README with valid markdown
