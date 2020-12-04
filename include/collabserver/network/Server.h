@@ -1,16 +1,16 @@
 #pragma once
 
-#include <cstdint>
-#include <string>
-
 #include <collabserver/network/messaging/Message.h>
 #include <collabserver/network/messaging/MessageList.h>
+
+#include <cstdint>
+#include <string>
 
 #include "collabserver/core/Broadcaster.h"
 #include "collabserver/core/CollabServer.h"
 #include "collabserver/utils/constants.h"
 
-namespace collab {
+namespace collabserver {
 
 struct ServerConfig {
     uint16_t port;
@@ -56,4 +56,4 @@ class Server : public Broadcaster {
     void broadcastOperationToRoom(const OperationInfo& op, unsigned int id) override;
 };
 
-}  // namespace collab
+}  // namespace collabserver

@@ -2,7 +2,7 @@
 
 #include <utility>  // std::pair
 
-namespace collab {
+namespace collabserver {
 
 CollabServer::CollabServer(Broadcaster& carrot) : _broadcaster(carrot) {
     // I choose arbitrary numbers. Reserves x users and rooms.
@@ -148,4 +148,4 @@ Room* CollabServer::findRoom(const unsigned int id) {
     return &(room_it->second);
 }
 
-}  // namespace collab
+}  // namespace collabserver

@@ -8,7 +8,7 @@
 #include "OperationInfo.h"
 #include "User.h"
 
-namespace collab {
+namespace collabserver {
 
 /**
  * \brief
@@ -115,4 +115,4 @@ class Room {
     unsigned int getRoomID() const { return _id; }
 };
 
-}  // namespace collab
+}  // namespace collabserver

@@ -3,10 +3,10 @@
 #include <exception>
 #include <iostream>
 
-#include "collabserver/utils/Log.h"
 #include "collabserver/network/Server.h"
+#include "collabserver/utils/Log.h"
 
-static collab::Server* server_ptr = nullptr;
+static collabserver::Server* server_ptr = nullptr;
 
 static void handleInterrupt(int i) {
     LOG << "SIGINT received. Closing server...\n";
@@ -16,7 +16,7 @@ static void handleInterrupt(int i) {
 int main(int argc, char** argv) {
     signal(SIGINT, &handleInterrupt);
 
-    collab::Server server;
+    collabserver::Server server;
     server_ptr = &server;
 
     LOG << "Starts CollabServer\n";

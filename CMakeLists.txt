@@ -21,7 +21,6 @@ endif()
 message(STATUS "BUILD_TYPE for ${PROJECT_NAME}: ${CMAKE_BUILD_TYPE}")
 
 
-
 # Dependencies
 message(STATUS "Adding dependencies for ${PROJECT_NAME}")
 include_directories("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-datatypes/include")
@@ -35,7 +34,7 @@ include_directories("${PROJECT_SOURCE_DIR}/include")
 file(GLOB_RECURSE srcFilesServer "${PROJECT_SOURCE_DIR}/src/*.cpp")
 add_executable(${PROJECT_NAME} ${srcFilesServer})
 target_link_libraries(${PROJECT_NAME} collabserver-network-lib)
-add_custom_target(run collabserver)
+add_custom_target(run collabserver-server)
 
 
 # TODO googletests to re-integrate

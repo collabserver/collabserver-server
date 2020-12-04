@@ -7,7 +7,7 @@
 #include "Room.h"
 #include "User.h"
 
-namespace collab {
+namespace collabserver {
 
 /**
  * \brief
@@ -201,4 +201,4 @@ class CollabServer {
     Room* findRoom(const unsigned int id);
 };
 
-}  // namespace collab
+}  // namespace collabserver

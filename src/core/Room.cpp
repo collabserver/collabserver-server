@@ -3,7 +3,7 @@
 #include <cassert>
 #include <utility>  // std::pair
 
-namespace collab {
+namespace collabserver {
 
 unsigned int Room::ROOM_ID_COUNTER = 0;
 
@@ -63,4 +63,4 @@ bool Room::commitOperation(const OperationInfo& op) {
     return true;
 }
 
-}  // namespace collab
+}  // namespace collabserver

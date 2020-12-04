@@ -2,7 +2,7 @@
 
 #include "OperationInfo.h"
 
-namespace collab {
+namespace collabserver {
 
 /**
  * \brief
@@ -48,4 +48,4 @@ class Broadcaster {
     virtual void broadcastOperationToRoom(const OperationInfo& op, unsigned int id) = 0;
 };
 
-}  // namespace collab
+}  // namespace collabserver

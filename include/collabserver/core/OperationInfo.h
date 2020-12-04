@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace collab {
+namespace collabserver {
 
 /**
  * \brief
@@ -25,4 +25,4 @@ class OperationInfo {
     }
 };
 
-}  // namespace collab
+}  // namespace collabserver

@@ -3,7 +3,7 @@
 #include "collabserver/core/Broadcaster.h"
 #include "collabserver/core/CollabServer.h"
 
-namespace collab {
+namespace collabserver {
 
 class MockBroadcaster : public Broadcaster {
    public:
@@ -114,4 +114,4 @@ TEST(CollabServer, isUserInRoom) {
     ASSERT_TRUE(server.isUserInRoom(u1->getUserID(), r1->getRoomID()));
 }
 
-}  // namespace collab
+}  // namespace collabserver

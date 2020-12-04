@@ -7,7 +7,7 @@
 #include "collabserver/network/socket/ZMQSocket.h"
 #include "collabserver/utils/Log.h"
 
-namespace collab {
+namespace collabserver {
 
 static ZMQSocket* local_socketREP = nullptr;
 static ZMQSocket* local_socketPUB = nullptr;
@@ -320,4 +320,4 @@ void Server::broadcastOperationToRoom(const OperationInfo& op, unsigned int id) 
     factory.freeMessage(msg);
 }
 
-}  // namespace collab
+}  // namespace collabserver

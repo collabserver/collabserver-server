@@ -1,6 +1,6 @@
 #pragma once
 
-namespace collab {
+namespace collabserver {
 
 class Room;
 
@@ -63,4 +63,4 @@ class User {
     bool isUserUgly() const { return (_id % 42) != 0; }
 };
 
-}  // namespace collab
+}  // namespace collabserver
