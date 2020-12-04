@@ -1,7 +1,5 @@
 # Personal ignore
 build/
-build-release/
-build-debug/
 doc/
 .syntastic_cpp_config
 .ycm_extra_conf.py
