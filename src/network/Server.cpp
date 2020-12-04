@@ -3,9 +3,9 @@
 #include <cassert>
 #include <zmq.hpp>
 
-#include "collabcommon/messaging/MessageFactory.h"
-#include "collabcommon/network/ZMQSocket.h"
-#include "collabcommon/utils/Log.h"
+#include "collabserver/network/messaging/MessageFactory.h"
+#include "collabserver/network/socket/ZMQSocket.h"
+#include "collabserver/utils/Log.h"
 
 namespace collab {
 

@@ -24,6 +24,8 @@ message(STATUS "BUILD_TYPE for ${PROJECT_NAME}: ${CMAKE_BUILD_TYPE}")
 
 # Dependencies
 message(STATUS "Adding dependencies for ${PROJECT_NAME}")
+include_directories("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-datatypes/include")
+include_directories("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-network/include")
 add_subdirectory("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-datatypes")
 add_subdirectory("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-network")
 

@@ -3,11 +3,12 @@
 #include <cstdint>
 #include <string>
 
-#include "collabcommon/messaging/Message.h"
-#include "collabcommon/messaging/MessageList.h"
-#include "collabcommon/utils/constants.h"
+#include <collabserver/network/messaging/Message.h>
+#include <collabserver/network/messaging/MessageList.h>
+
 #include "collabserver/core/Broadcaster.h"
 #include "collabserver/core/CollabServer.h"
+#include "collabserver/utils/constants.h"
 
 namespace collab {
 
@@ -33,7 +34,6 @@ class Server : public Broadcaster {
 
    public:
     Server();
-    ;
     Server(const ServerConfig& config);
     ~Server();
 

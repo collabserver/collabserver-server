@@ -3,7 +3,7 @@
 #include <exception>
 #include <iostream>
 
-#include "collabcommon/utils/Log.h"
+#include "collabserver/utils/Log.h"
 #include "collabserver/network/Server.h"
 
 static collab::Server* server_ptr = nullptr;

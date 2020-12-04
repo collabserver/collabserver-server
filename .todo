@@ -10,6 +10,7 @@ Cleanup:
     ☐ Update CMake with cleaned up version
     ☐ Update all pointers with safer type (e.g., `std::unique_ptr`)
     ✔ Update Travis CI @done(20-12-04 04:11)
+    ☐ Update User so that he doesn't know about his room (use Room instead)
 Readme:
     ☐ Update README with a custom logo
     ☐ Update README with valid markdown
