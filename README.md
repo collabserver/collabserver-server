@@ -1,11 +1,11 @@
 # Collab Server
 
-[![license](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](https://github.com/CollabServer/collab-server/blob/dev/LICENSE.txt)
-[![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=master)](https://travis-ci.org/CollabServer/collab-server)
+[![license](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](https://github.com/CollabServer/collabserver-server/blob/dev/LICENSE.txt)
+[![Build Status](https://travis-ci.org/CollabServer/collabserver-server.svg?branch=master)](https://travis-ci.org/CollabServer/collabserver-server)
 
 | master | dev |
 | :-----: | :-----: |
-| [![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=master)](https://travis-ci.org/CollabServer/collab-server) | [![Build Status](https://travis-ci.org/CollabServer/collab-server.svg?branch=dev)](https://travis-ci.org/CollabServer/collab-server) |
+| [![Build Status](https://travis-ci.org/CollabServer/collabserver-server.svg?branch=master)](https://travis-ci.org/CollabServer/collabserver-server) | [![Build Status](https://travis-ci.org/CollabServer/collabserver-server.svg?branch=dev)](https://travis-ci.org/CollabServer/collabserver-server) |
 
 
 # Overview
@@ -15,13 +15,13 @@ project.
 
 # Getting Started
 1. Clone project with submodules
-    - Clone with recursive: `git clone --recursive https://github.com/CollabServer/collab-server.git`
+    - Clone with recursive: `git clone --recursive https://github.com/CollabServer/collabserver-server.git`
     - To pull changes from submodules, uses: `git pull --recurse-submodules=on`
     - For further informations about submodules, check the [official Git documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 1. Setup CollabServer
     - Be sure you have all the system-wide dependencies and requirements
     - Install system-wide dependencies if required
-    - Build collab-server (See build instructions)
+    - Build collabserver-server (See build instructions)
 1. Start CollabServer
     - Open a console and run collabserver executable
     - Logs are displayed here (User connection, disconnection etc...)
