@@ -2,15 +2,18 @@
 # https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus
 
 Cleanup:
-    ☐ Add clang-format
-    ☐ Apply clang-format on the whole project
     ☐ Fix gitmodules with renamed version of the projects
     ☐ Rename `include/collabserver` to `include/collabserver/server`
     ☐ Rename `namespace collabserver` to `namespace collabserver`
+    ☐ Rename all `collab-server` to `collabserver-server`
     ☐ Update CMake to place dependencies in the folder `extern`
     ☐ Update CMake with cleaned up version
     ☐ Update all pointers with safer type (e.g., `std::unique_ptr`)
-    ☐ Update Travis CI
+    ✔ Update Travis CI @done(20-12-04 04:11)
 Readme:
     ☐ Update README with a custom logo
     ☐ Update README with valid markdown
+
+Archive:
+  ✔ Add clang-format @done(20-12-04 04:11) @project(Cleanup)
+  ✔ Apply clang-format on the whole project @done(20-12-04 04:11) @project(Cleanup)
