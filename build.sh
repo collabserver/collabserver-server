@@ -12,5 +12,5 @@ cmake -DCMAKE_BUILD_TYPE=${ENV_BUILD_TYPE} \
       ..
 
 make
-make runAllTests
+make runTests
 

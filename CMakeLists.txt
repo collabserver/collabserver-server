@@ -37,24 +37,24 @@ target_link_libraries(${PROJECT_NAME} collabserver-network-lib)
 add_custom_target(run collabserver-server)
 
 
-# TODO googletests to re-integrate
-## Tests
-#option(COLLABSERVER_SERVER_TESTS "Build Tests" OFF)
-#if(COLLABSERVER_SERVER_TESTS)
-#    message(STATUS "Build tests for ${PROJECT_NAME}")
-#    enable_testing()
-#
-#    include_directories("${PROJECT_SOURCE_DIR}/include/")
-#    file(GLOB_RECURSE srcFilesTests "${PROJECT_SOURCE_DIR}/tests/*.cpp")
-#    file(GLOB_RECURSE srcFilesCore "${PROJECT_SOURCE_DIR}/src/core/*.cpp")
-#    add_executable(${PROJECT_NAME}-tests ${srcFilesTests} ${srcFilesCore})
-#
-#    # Googletest dependency
-#    include_directories("${PROJECT_SOURCE_DIR}/extern/googletest/googletest/include/")
-#    add_subdirectory("${PROJECT_SOURCE_DIR}/extern/googletest-1.10.0")
-#    target_link_libraries(${PROJECT_NAME}-tests gtest)
-#
-#    add_test(NAME googletests COMMAND ${PROJECT_NAME}-tests)
-#    add_custom_target(runTests ${PROJECT_NAME}-tests)
-#endif()
+# Tests
+option(COLLABSERVER_SERVER_TESTS "Build Tests" OFF)
+if(COLLABSERVER_SERVER_TESTS)
+    message(STATUS "Build tests for ${PROJECT_NAME}")
+    enable_testing()
+
+    include_directories("${PROJECT_SOURCE_DIR}/include/")
+    file(GLOB_RECURSE srcFilesTests "${PROJECT_SOURCE_DIR}/tests/*.cpp")
+    file(GLOB_RECURSE srcFilesCore "${PROJECT_SOURCE_DIR}/src/core/*.cpp")
+    add_executable(${PROJECT_NAME}-tests ${srcFilesTests} ${srcFilesCore})
+
+    # Googletest dependency
+    include_directories("${PROJECT_SOURCE_DIR}/extern/googletest/googletest/include/")
+    add_subdirectory("${PROJECT_SOURCE_DIR}/extern/googletest-1.10.0")
+    target_link_libraries(${PROJECT_NAME}-tests gtest)
+
+    # Tests target
+    add_test(NAME googletests COMMAND ${PROJECT_NAME}-tests)
+    add_custom_target(runTests ${PROJECT_NAME}-tests)
+endif()
 
