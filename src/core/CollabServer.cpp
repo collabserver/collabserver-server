@@ -1,4 +1,4 @@
-#include "collabserver/core/CollabServer.h"
+#include "collabserver/server/core/CollabServer.h"
 
 #include <utility>  // std::pair
 

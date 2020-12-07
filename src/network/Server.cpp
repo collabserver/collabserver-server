@@ -1,11 +1,11 @@
-#include "collabserver/network/Server.h"
+#include "collabserver/server/network/Server.h"
 
 #include <cassert>
 #include <zmq.hpp>
 
 #include "collabserver/network/messaging/MessageFactory.h"
 #include "collabserver/network/socket/ZMQSocket.h"
-#include "collabserver/utils/Log.h"
+#include "collabserver/server/utils/Log.h"
 
 namespace collabserver {
 

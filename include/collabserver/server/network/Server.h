@@ -1,14 +1,13 @@
 #pragma once
 
-#include <collabserver/network/messaging/Message.h>
-#include <collabserver/network/messaging/MessageList.h>
-
 #include <cstdint>
 #include <string>
 
-#include "collabserver/core/Broadcaster.h"
-#include "collabserver/core/CollabServer.h"
-#include "collabserver/utils/constants.h"
+#include "collabserver/network/messaging/Message.h"
+#include "collabserver/network/messaging/MessageList.h"
+#include "collabserver/server/core/Broadcaster.h"
+#include "collabserver/server/core/CollabServer.h"
+#include "collabserver/server/utils/constants.h"
 
 namespace collabserver {
 

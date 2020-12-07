@@ -2,17 +2,17 @@
 # https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus
 
 Cleanup:
-    ☐ Rename `include/collabserver` to `include/collabserver/server`
-    ✔ Rename all `collab-server` to `collabserver-server` @done(20-12-04 23:20)
+    ✔ Rename `include/collabserver` to `include/collabserver/server` @done(20-12-07 22:48)
     ☐ Update all pointers with safer type (e.g., `std::unique_ptr`)
     ☐ Update CMake to build googletests
     ☐ Update User so that he doesn't know about his room (use Room instead)
-    ✔ Rename `test` to `tests` @done(20-12-07 22:40)
 Readme:
     ☐ Update README with a custom logo
     ☐ Update README with valid markdown
 
 Archive:
+  ✔ Rename all `collab-server` to `collabserver-server` @done(20-12-04 23:20) @project(Cleanup)
+  ✔ Rename `test` to `tests` @done(20-12-07 22:40) @project(Cleanup)
   ✔ Fix gitmodules with renamed version of the projects @done(20-12-04 23:06) @project(Cleanup)
   ✔ Rename `namespace collab` to `namespace collabserver` @done(20-12-04 23:06) @project(Cleanup)
   ✔ Update CMake to place dependencies in the folder `extern` @done(20-12-04 23:07) @project(Cleanup)
