@@ -2,15 +2,20 @@
 # https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus
 
 Cleanup:
-    ✔ Rename `include/collabserver` to `include/collabserver/server` @done(20-12-07 22:48)
     ☐ Update all pointers with safer type (e.g., `std::unique_ptr`)
     ☐ Update CMake to build googletests
+    ☐ Remove gitsubmodule `collabserver-datatypes` for it is not used
+    ☐ Renam `core` to `room`
+Upgrade:
+    ☐ Integrate elephantlogger for logs
     ☐ Update User so that he doesn't know about his room (use Room instead)
+    ☐ Update rooms id to use UUID that users can easily share
 Readme:
     ☐ Update README with a custom logo
-    ☐ Update README with valid markdown
 
 Archive:
+  ✔ Update README with valid markdown @done(20-12-07 23:18) @project(Readme)
+  ✔ Rename `include/collabserver` to `include/collabserver/server` @done(20-12-07 22:48) @project(Cleanup)
   ✔ Rename all `collab-server` to `collabserver-server` @done(20-12-04 23:20) @project(Cleanup)
   ✔ Rename `test` to `tests` @done(20-12-07 22:40) @project(Cleanup)
   ✔ Fix gitmodules with renamed version of the projects @done(20-12-04 23:06) @project(Cleanup)
