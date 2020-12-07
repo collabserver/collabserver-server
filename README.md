@@ -98,7 +98,7 @@ make run
 # Build the tests
 mkdir build
 cd build
-cmake -DCOLLABSERVER_TESTS=ON ..
+cmake -DCOLLABSERVER_SERVER_TESTS=ON ..
 make
 make runAllTests
 
@@ -108,7 +108,7 @@ make runAllTests
 
 | CMake option | Description |
 | --- | --- |
-| COLLABSERVER_TESTS | (ON / OFF) Set ON to build unit tests |
+| COLLABSERVER_SERVER_TESTS | (ON / OFF) Set ON to build unit tests |
 | CMAKE_BUILD_TYPE | Debug, Release, RelWithDebInfo, MinSizeRel |
 
 ## Generate Documentation

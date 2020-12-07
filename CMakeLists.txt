@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(collabserver-server)
-message(STATUS "[${PROJECT_NAME}] Building project")
+message(STATUS "Building project ${PROJECT_NAME}")
 
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
     message(FATAL_ERROR "in-source build not allowed. Use another directory.")
@@ -39,8 +39,8 @@ add_custom_target(run collabserver-server)
 
 # TODO googletests to re-integrate
 ## Tests
-#option(COLLABSERVER_TESTS "Build Tests" OFF)
-#if(COLLABSERVER_TESTS)
+#option(COLLABSERVER_SERVER_TESTS "Build Tests" OFF)
+#if(COLLABSERVER_SERVER_TESTS)
 #    message(STATUS "Build tests for ${PROJECT_NAME}")
 #    enable_testing()
 #
@@ -55,6 +55,6 @@ add_custom_target(run collabserver-server)
 #    target_link_libraries(${PROJECT_NAME}-tests gtest)
 #
 #    add_test(NAME googletests COMMAND ${PROJECT_NAME}-tests)
-#    add_custom_target(runAllTests ${PROJECT_NAME}-tests)
+#    add_custom_target(runTests ${PROJECT_NAME}-tests)
 #endif()
 
