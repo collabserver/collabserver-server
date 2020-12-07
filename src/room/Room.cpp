@@ -1,4 +1,4 @@
-#include "collabserver/server/core/Room.h"
+#include "collabserver/server/room/Room.h"
 
 #include <cassert>
 #include <utility>  // std::pair

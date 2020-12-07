@@ -5,8 +5,8 @@
 
 #include "collabserver/network/messaging/Message.h"
 #include "collabserver/network/messaging/MessageList.h"
-#include "collabserver/server/core/Broadcaster.h"
-#include "collabserver/server/core/CollabServer.h"
+#include "collabserver/server/room/Broadcaster.h"
+#include "collabserver/server/room/CollabServer.h"
 #include "collabserver/server/utils/constants.h"
 
 namespace collabserver {

@@ -45,8 +45,8 @@ if(COLLABSERVER_SERVER_TESTS)
 
     include_directories("${PROJECT_SOURCE_DIR}/include/")
     file(GLOB_RECURSE srcFilesTests "${PROJECT_SOURCE_DIR}/tests/*.cpp")
-    file(GLOB_RECURSE srcFilesCore "${PROJECT_SOURCE_DIR}/src/core/*.cpp")
-    add_executable(${PROJECT_NAME}-tests ${srcFilesTests} ${srcFilesCore})
+    file(GLOB_RECURSE srcFilesRoom "${PROJECT_SOURCE_DIR}/src/room/*.cpp")
+    add_executable(${PROJECT_NAME}-tests ${srcFilesTests} ${srcFilesRoom})
 
     # Googletest dependency
     include_directories("${PROJECT_SOURCE_DIR}/extern/googletest/googletest/include/")

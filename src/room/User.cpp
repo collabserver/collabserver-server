@@ -1,4 +1,4 @@
-#include "collabserver/server/core/User.h"
+#include "collabserver/server/room/User.h"
 
 namespace collabserver {
 

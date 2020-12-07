@@ -1,4 +1,4 @@
-#include "collabserver/server/network/Server.h"
+#include "collabserver/server/Server.h"
 
 #include <cassert>
 #include <zmq.hpp>

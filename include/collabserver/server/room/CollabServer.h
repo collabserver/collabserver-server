@@ -13,7 +13,7 @@ namespace collabserver {
  * \brief
  * The famous collaborative server component where all rooms are located.
  *
- * This is the entry point to deal with 'core' components and features
+ * This is the entry point to deal with 'room' components and features
  * such as adding, removing user or room.
  */
 class CollabServer {

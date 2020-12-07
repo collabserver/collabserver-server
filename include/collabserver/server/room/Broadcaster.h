@@ -6,14 +6,14 @@ namespace collabserver {
 
 /**
  * \brief
- * Defines the set of callback functions the CollabServer core may call.
+ * Defines the set of callback functions the CollabServer room may call.
  *
  * This may be used by the network component for instance, to broadcast events
  * from CollabServer. (Such as operation in room etc).
  *
  * \note
  * Note about IDs:
- * ID removes coupling between broadcaster and core business components.
+ * ID removes coupling between broadcaster and room business components.
  * For instance, ID may be the user ID in business side, and a simple
  * ID linked with a socket in network side.
  */

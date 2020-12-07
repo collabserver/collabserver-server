@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "collabserver/server/core/Broadcaster.h"
-#include "collabserver/server/core/CollabServer.h"
+#include "collabserver/server/room/Broadcaster.h"
+#include "collabserver/server/room/CollabServer.h"
 
 namespace collabserver {
 
