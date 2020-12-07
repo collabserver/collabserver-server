@@ -45,7 +45,7 @@ add_custom_target(run collabserver-server)
 #    enable_testing()
 #
 #    include_directories("${PROJECT_SOURCE_DIR}/include/")
-#    file(GLOB_RECURSE srcFilesTests "${PROJECT_SOURCE_DIR}/test/*.cpp")
+#    file(GLOB_RECURSE srcFilesTests "${PROJECT_SOURCE_DIR}/tests/*.cpp")
 #    file(GLOB_RECURSE srcFilesCore "${PROJECT_SOURCE_DIR}/src/core/*.cpp")
 #    add_executable(${PROJECT_NAME}-tests ${srcFilesTests} ${srcFilesCore})
 #
