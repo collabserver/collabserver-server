@@ -6,15 +6,16 @@ Bug:
 Cleanup:
     ☐ Update all pointers with safer type (e.g., `std::unique_ptr`)
     ☐ Remove gitsubmodule `collabserver-datatypes` for it is not used
-    ✔ Renam `core` to `room` @done(20-12-08 00:17)
 Upgrade:
     ☐ Integrate elephantlogger for logs
     ☐ Update User so that he doesn't know about his room (use Room instead)
     ☐ Update rooms id to use UUID that users can easily share
+    ☐ Add a vagrant vm to easily test on any machine
 Readme:
     ☐ Update README with a custom logo
 
 Archive:
+  ✔ Renam `core` to `room` @done(20-12-08 00:17) @project(Cleanup)
   ✔ Update CMake to build googletests @done(20-12-08 00:12) @project(Cleanup)
   ✔ Update README with valid markdown @done(20-12-07 23:18) @project(Readme)
   ✔ Rename `include/collabserver` to `include/collabserver/server` @done(20-12-07 22:48) @project(Cleanup)
