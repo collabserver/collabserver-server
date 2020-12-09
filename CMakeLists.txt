@@ -28,6 +28,8 @@ include_directories("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-network/inclu
 add_subdirectory("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-datatypes")
 add_subdirectory("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-network")
 
+# TODO use zmq that is the collabserver-network, but this should be removed (and abstracted by collabserver-network)
+include_directories("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-network/extern/cppzmq-4.7.1")
 
 # Server executable
 include_directories("${PROJECT_SOURCE_DIR}/include")

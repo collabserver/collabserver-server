@@ -6,6 +6,7 @@ Bug:
 Cleanup:
     ☐ Update all pointers with safer type (e.g., `std::unique_ptr`)
     ☐ Remove gitsubmodule `collabserver-datatypes` for it is not used
+    ☐ Remove the direct dependency with ZeroMQ in client (should be in `collabserver-network`)
 Upgrade:
     ☐ Integrate elephantlogger for logs
     ☐ Update User so that he doesn't know about his room (use Room instead)
