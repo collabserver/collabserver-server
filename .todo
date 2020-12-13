@@ -12,6 +12,7 @@ Upgrade:
     ☐ Update User so that he doesn't know about his room (use Room instead)
     ☐ Update rooms id to use UUID that users can easily share
     ☐ Add a vagrant vm to easily test on any machine
+    ☐ Add method to check if a collab exists for the given collabdata ID
 Readme:
     ☐ Update README with a custom logo
 

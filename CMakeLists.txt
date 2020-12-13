@@ -31,8 +31,9 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-network")
 # TODO use zmq that is the collabserver-network, but this should be removed (and abstracted by collabserver-network)
 include_directories("${PROJECT_SOURCE_DIR}/gitmodules/collabserver-network/extern/cppzmq-4.7.1")
 
+
 # Server executable
-include_directories("${PROJECT_SOURCE_DIR}/include")
+include_directories("${PROJECT_SOURCE_DIR}/src/")
 file(GLOB_RECURSE srcFilesServer "${PROJECT_SOURCE_DIR}/src/*.cpp")
 add_executable(${PROJECT_NAME} ${srcFilesServer})
 target_link_libraries(${PROJECT_NAME} collabserver-network-lib)
@@ -45,9 +46,9 @@ if(COLLABSERVER_SERVER_TESTS)
     message(STATUS "Build tests for ${PROJECT_NAME}")
     enable_testing()
 
-    include_directories("${PROJECT_SOURCE_DIR}/include/")
+    include_directories("${PROJECT_SOURCE_DIR}/src/")
     file(GLOB_RECURSE srcFilesTests "${PROJECT_SOURCE_DIR}/tests/*.cpp")
-    file(GLOB_RECURSE srcFilesRoom "${PROJECT_SOURCE_DIR}/src/room/*.cpp")
+    file(GLOB_RECURSE srcFilesRoom "${PROJECT_SOURCE_DIR}/src/collabserver/server/room/*.cpp")
     add_executable(${PROJECT_NAME}-tests ${srcFilesTests} ${srcFilesRoom})
 
     # Googletest dependency
