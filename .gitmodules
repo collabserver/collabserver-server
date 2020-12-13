@@ -2,7 +2,3 @@
 	path = gitmodules/collabserver-network
 	url = https://github.com/CollabServer/collabserver-network
 	branch = dev
-[submodule "gitmodules/collabserver-datatypes"]
-	path = gitmodules/collabserver-datatypes
-	url = https://github.com/CollabServer/collabserver-datatypes
-	branch = dev
